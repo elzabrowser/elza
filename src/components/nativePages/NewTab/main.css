@@ -1,0 +1,19 @@
+.new-tab-container{
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-color: blueviolet;
+  background-image: url('./bg.jpg');
+}
+.new-tab-search-input{
+  width: 600px;
+  height: 60px;
+  border-radius: 30px;
+  border: 0px;
+  padding-left: 30px;
+  padding-right: 30px;
+  font-size: 1.2em;
+}
+.new-tab-search-input:focus{
+  outline: none;
+}

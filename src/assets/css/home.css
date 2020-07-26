@@ -1,0 +1,91 @@
+.etabs-tabgroup {
+  display: flex;
+  flex-direction: row;
+  background-color: #eee;
+  overflow: hidden;
+}
+
+.etabs-tabs {
+  max-width: calc(100%-50px);
+  padding: 0;
+  margin: 0;
+  display: flex;
+  overflow: hidden;
+}
+
+.etabs-tab {
+  color: #333;
+  display: flex;
+  height: 32px;
+  align-items: center;
+  padding: .5rem;
+  flex: 1;
+  overflow: hidden;
+  margin-right: 10px;
+  border-right: 1px solid #ddd;
+  border-radius: 5px 5px 0 0;
+}
+
+.etabs-tab-title {
+  width: 120px;
+  max-width: 120px;
+  display: block;
+  overflow: hidden;
+  text-overflow: clip;
+  white-space: nowrap;
+  height: 32px;
+  max-height: 32px;
+  font-size: .9rem;
+  overflow: hidden;
+  line-height: 32px;
+  padding: 0 1rem 0 1rem;
+}
+
+.etabs-tabs .active {
+  background-color: #fff;
+  -webkit-box-shadow: 0px -4px 10px -3px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px -4px 10px -3px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px -4px 10px -3px rgba(0, 0, 0, 0.75);
+}
+
+.etabs-buttons button {
+  font-size: 22px;
+  font-weight: bold;
+  color: #555;
+  border: none;
+  height: 32px;
+  margin-right: 10px;
+}
+
+.etabs-tab-buttons {
+  margin-left: auto;
+  right: 0;
+}
+
+.etabs-tab-button-close {
+  background-color: #ffffff00;
+  border: none;
+  border-radius: 50%;
+  font-weight: bold;
+}
+
+.etabs-tab-button-close:hover {
+  color: rgb(90, 90, 90);
+}
+
+.etabs-views {
+  flex: 1;
+  height: 200px;
+  overflow: hidden;
+}
+
+.etabs-view {
+  height: calc(100vh - 78px);
+}
+
+.nativeView {
+  position: absolute;
+  visibility: hidden;
+  width: 100%;
+  height: 100%;
+}
