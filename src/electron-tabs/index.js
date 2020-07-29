@@ -182,6 +182,7 @@ class Tab extends EventEmitter {
     this.closable = args.closable === false ? false : true;
     this.webviewAttributes = args.webviewAttributes || {};
     this.webviewAttributes.src = args.src;
+    this.src = args.src;
     this.tabElements = {};
     TabPrivate.initTab.bind(this)();
     if (args.isNative) {
@@ -352,13 +353,12 @@ class Tab extends EventEmitter {
     return this.tab.classList.contains(classname);
   }
 
-  removeNative(newURL){
+  removeNative(newURL) {
     this.isNative = false
     let tabGroup = this.tabGroup;
     this.webviewAttributes.src = newURL;
     tabGroup.viewContainer.removeChild(this.webview);
     TabPrivate.initWebview.bind(this)();
-
   }
 
   close(force) {
@@ -470,7 +470,6 @@ const TabPrivate = {
   initNativeView: function () {
     this.webview = document.createElement("div");
     this.webview.className = "nativeView";
-
     this.tabGroup.viewContainer.appendChild(this.webview);
   }
 };

@@ -1,8 +1,6 @@
 import React from 'react'
 import "../assets/css/home.css"
-import loadTitle from '../functions/loadTitle';
 import Controls from './partials/Controls';
-import NativePages from './NativePages';
 import NewTab from './nativePages/NewTab';
 
 
@@ -61,7 +59,7 @@ class Home extends React.Component {
         </div>
         <div className="etabs-views">
         
-          <Controls tabGroup={this.state.tabGroup} listenerReady={this.listenerReady} />
+          <Controls tabGroup={this.state.tabGroup} listenerReady={this.listenerReady} addNewNativeTab={this.addNewNativeTab}/>
           
         </div>
       </>

@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom'
 import '../../assets/css/controls.css'
 import getFavicon from '../../functions/getFavicon'
 import parseUrlInput from '../../functions/parseUrlInput'
-import NativePages from '../NativePages'
+import validateElzaProtocol from '../../functions/validateElzaProtocol'
 class Controls extends React.Component {
   constructor(props) {
     super(props)
-    this.tabGroup = null
+
     this.state = {
+      tabGroup: null,
       activeTab: 0,
       tab: null,
       canGoBack: false,
@@ -17,7 +18,9 @@ class Controls extends React.Component {
     }
   }
   componentWillReceiveProps(newProps) {
+    this.setState({ tabGroup: newProps.tabGroup })
     this.tabGroupEvents(newProps.tabGroup)
+
   }
 
   updateTab = (tab) => {
@@ -58,7 +61,9 @@ class Controls extends React.Component {
   tabGroupEvents = (tabGroup) => {
     tabGroup.on("tab-added", (tab, tabGroup) => {
       if (tab.isNative) {
-        ReactDOM.render(<tab.comp submitURL={this.submitURL}/>, tab.webview);
+        ReactDOM.render(
+          <tab.comp submitURL={this.submitURL} handleChange={this.handleChange} tabGroup={tabGroup} tab={tab} />
+          , tab.webview);
         document.getElementById('location').value = tab.webviewAttributes.src
       }
 
@@ -66,10 +71,16 @@ class Controls extends React.Component {
     });
 
     tabGroup.on("tab-active", (tab, tabGroup) => {
-      console.log(tab)
       if (tab.isNative) {
         document.getElementById('location').value = tab.webviewAttributes.src
         this.setState({ activeTab: tab.id })
+        if (tab.isNative) {
+          console.log(tab.comp)
+          ReactDOM.render(
+            <tab.comp submitURL={this.submitURL} handleChange={this.handleChange} tabGroup={tabGroup} tab={tab} />
+            , tab.webview);
+          document.getElementById('location').value = tab.webviewAttributes.src
+        }
       } else {
         this.setState({ activeTab: tab.id })
         document.getElementById('location').value = this.state.tabs[tab.id]?.url
@@ -86,20 +97,24 @@ class Controls extends React.Component {
   }
 
 
+
   submitURL = (e) => {
     e.preventDefault()
     let id = this.state.activeTab
     let sTab = this.state.tabs[id]
-    let url = parseUrlInput(sTab.inputURL)
+    let url = sTab.inputURL
+    if (url.startsWith("elza://")) {
+      validateElzaProtocol(this.state.tabGroup, sTab.tab, url)
+      return
+    }
+
+    url = parseUrlInput(sTab.inputURL)
     document.getElementById('location').value = url
     if (sTab.tab.isNative) {
       sTab.tab.removeNative(url)
       this.tabEvents(sTab.tab)
-      console.log("native")
       sTab.tab.activate()
     } else {
-      console.log(sTab.tab)
-        ;
       sTab.tab.webview.loadURL(url);
     }
   }
