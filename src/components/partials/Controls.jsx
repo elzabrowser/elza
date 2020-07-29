@@ -31,7 +31,10 @@ class Controls extends React.Component {
       inputURL: tab.webview.src,
       tab
     });
-    this.setState({ tabs }, () => this.tabEvents(tab))
+    this.setState({ tabs }, () => {
+      if (!tab.isNative)
+        this.tabEvents(tab)
+    })
   }
   tabEvents = (tab) => {
     tab.webview.addEventListener('did-start-loading', () => {
@@ -75,7 +78,6 @@ class Controls extends React.Component {
         document.getElementById('location').value = tab.webviewAttributes.src
         this.setState({ activeTab: tab.id })
         if (tab.isNative) {
-          console.log(tab.comp)
           ReactDOM.render(
             <tab.comp submitURL={this.submitURL} handleChange={this.handleChange} tabGroup={tabGroup} tab={tab} />
             , tab.webview);
@@ -83,7 +85,6 @@ class Controls extends React.Component {
         }
       } else {
         this.setState({ activeTab: tab.id })
-        document.getElementById('location').value = this.state.tabs[tab.id]?.url
       }
 
     });
@@ -110,6 +111,8 @@ class Controls extends React.Component {
 
     url = parseUrlInput(sTab.inputURL)
     document.getElementById('location').value = url
+    console.log(document.getElementById('location').value)
+
     if (sTab.tab.isNative) {
       sTab.tab.removeNative(url)
       this.tabEvents(sTab.tab)
@@ -139,7 +142,7 @@ class Controls extends React.Component {
           <button id="reload" title="Reload" onClick={this.reloadWebv}><i className="fas fa-redo" /></button>
           <form id="location-form" onSubmit={this.submitURL}>
             <div id="center-column">
-              <input id="location" type="text" onChange={this.handleChange} defaultValue={"loading"} />
+              <input id="location" type="text" spellcheck="false" onChange={this.handleChange} defaultValue={"loading"} />
             </div>
             <button id="goButton" type="submit" >{this.state.webvIsLoading ? <div className="loader"></div> : <i className="fas fa-arrow-right" />}</button>
           </form>

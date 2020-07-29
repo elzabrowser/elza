@@ -356,6 +356,7 @@ class Tab extends EventEmitter {
   removeNative(newURL) {
     this.isNative = false
     let tabGroup = this.tabGroup;
+    this.src = newURL;
     this.webviewAttributes.src = newURL;
     tabGroup.viewContainer.removeChild(this.webview);
     TabPrivate.initWebview.bind(this)();
