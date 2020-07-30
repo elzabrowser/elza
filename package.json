@@ -21,7 +21,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "package-win": "npm run build && electron-packager . Elza-hackp --overwrite --asar --platform=win32 --arch=x64 --icon='./public/logo.ico' --prune=true --out=release-builds --electron-version=9.1.1",
+    "package-linux": "npm run build && electron-packager . Elza-hackp --overwrite --asar --platform=linux --arch=x64 --icon='./public/logo.png' --prune=true --out=release-builds --electron-version=9.1.1"
   },
   "eslintConfig": {
     "extends": "react-app"

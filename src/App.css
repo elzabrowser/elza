@@ -10,3 +10,6 @@ html, body, #root{
   flex-flow:column;
   overflow: hidden;
 }
+:root {
+  --txt-priary: #555555;
+}

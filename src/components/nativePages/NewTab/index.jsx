@@ -30,12 +30,27 @@ class NewTab extends React.Component {
         </div>
 
         <div className="row">
-          <form className="ml-auto mr-auto" onSubmit={this.props.submitURL}>
-            <input className="new-tab-search-input shadow" type="text" onChange={this.props.handleChange} placeholder="Search or type in url"></input>
-          </form>
+          <div className="container p-4">
+            <form className="ml-auto mr-auto" onSubmit={this.props.submitURL}>
+              <input className="new-tab-search-input shadow" type="text" onChange={this.props.handleChange} placeholder="Search or type in url"></input>
+            </form>
+          </div>
         </div>
         <div className="row">
-          <button onClick={() => this.openInNewTab()}>File sharing</button>
+          <div className="container p-4">
+            <p><span className="new-tab-cat-header">Tools</span></p>
+            <div className="new-tab-tools">
+              <div className="new-tab-tool p-2">
+                <button className="new-tab-tool-button shadow rounded-circle" onClick={() => this.openInNewTab()}>FS</button><br />
+                <label>File sharing</label>
+              </div>
+              <div className="new-tab-tool p-2">
+                <button className="new-tab-tool-button shadow rounded-circle" onClick={() => this.openInNewTab()}>FS</button><br />
+                <label>File sharing</label>
+              </div>
+
+            </div>
+          </div>
         </div>
       </div>
     )

@@ -5,13 +5,11 @@ import { v4 as uuidv4 } from 'uuid';
 import cover from './doc_sharing.png'
 import formatBytes from '../../../functions/formatBytes'
 
-
 var remote = window.require('electron').remote;
 var fs = remote.require('fs');
 const app = remote.app
 var downloadPath = app.getPath("downloads")
 const { shell } = remote.require('electron');
-var peerOptions = { host: 'localhost', port: 9000, path: "myapp", key: "peerjs" }
 
 class Sharing extends React.Component {
   constructor(props) {
@@ -28,7 +26,46 @@ class Sharing extends React.Component {
       recvdFile: null,
       metadata: {},
     }
+    this.getICE()
   }
+
+  getICE = () => {
+    let o = {
+      format: "urls"
+    };
+    let ice = {}
+
+    let bodyString = JSON.stringify(o);
+    let https = require("https");
+    let options = {
+      host: "global.xirsys.net",
+      path: "/_turn/MyFirstApp",
+      method: "PUT",
+      headers: {
+        "Authorization": "Basic " + Buffer.from("elza:228be9ce-d1a9-11ea-a532-0242ac150003").toString("base64"),
+        "Content-Type": "application/json",
+        "Content-Length": bodyString.length
+      }
+    };
+    let httpreq = https.request(options, (httpres) => {
+      let str = "";
+      httpres.on("data", function (data) { str += data; });
+      httpres.on("error", function (e) { console.log("error: ", e); });
+      httpres.on("end", () => {
+        this.setState({ ice: JSON.parse(str) }, () => {
+          console.log(this.state.ice)
+          if (this.targetPeer) {
+            this.peerRec()
+          } else {
+            this.peerSend()
+          }
+        })
+      });
+    });
+    httpreq.on("error", function (e) { console.log("request error: ", e); });
+    httpreq.end();
+  }
+
   peerInit = (peer) => {
     peer.on('open', (id) => {
       console.log(id)
@@ -38,29 +75,50 @@ class Sharing extends React.Component {
 
   }
   peerRec = () => {
-    var peer = new Peer(uuidv4(), peerOptions)
+    var peer = new Peer(uuidv4(), {
+      host: 'elza-peer.herokuapp.com',
+      port: 443,
+      path: "myapp",
+      key: "peerjs",
+      debug: true,
+      secure: true,
+      config: this.state.ice?.v
+    })
     this.peerInit(peer)
-    var conn = peer.connect(this.targetPeer);
-    conn.on('error', (err) => {
-      console.log(err)
-    })
-    conn.on('open', () => {
-      this.setState({ status: "receiving file" })
-    })
-    conn.on('data', (data) => {
-      console.log(data)
-      if (data.type === "metadata") {
+    peer.on('open', (id) => {
+      console.log(id)
+      this.setState({ status: "connected, waiting for peer", id })
+      var conn = peer.connect(this.targetPeer);
+      conn.on('error', (err) => {
+        console.log(err)
+      })
+      conn.on('open', () => {
         this.setState({ status: "receiving file" })
-        this.setState({ metadata: data.value })
-      }
-      if (data.type === "buffer") {
-        this.setState({ recvdFile: data.value }, this.writeToFile)
-      }
-    })
+      })
+      conn.on('data', (data) => {
+        console.log(data)
+        if (data.type === "metadata") {
+          this.setState({ status: "receiving file", isRecv: true })
+          this.setState({ metadata: data.value })
+        }
+        if (data.type === "buffer") {
+          this.setState({ recvdFile: data.value }, this.writeToFile)
+        }
+      })
+    });
+
   }
 
   peerSend = () => {
-    var peer = new Peer(uuidv4(), peerOptions)
+    var peer = new Peer(uuidv4(), {
+      host: 'elza-peer.herokuapp.com',
+      port: 443,
+      path: "myapp",
+      key: "peerjs",
+      debug: true,
+      secure: true,
+      config: this.state.ice?.v
+    })
     this.peerInit(peer)
     peer.on('connection', (conn) => {
       console.log("incoming connection")
@@ -79,11 +137,7 @@ class Sharing extends React.Component {
     })
   }
   componentDidMount() {
-    if (this.targetPeer) {
-      this.peerRec()
-    } else {
-      this.peerSend()
-    }
+
   }
 
   handleChange = (e) => {
@@ -100,17 +154,19 @@ class Sharing extends React.Component {
     if (this.targetPeer) {
       return (
         <>
-          <div className="sharing-download-ctr d-flex border rounded shadow-sm p-3 m-auto">
-            {this.state.isDownloaded ? <i className="icn fa fa-file" /> : <div className="icn"><div className="spinner-border" role="status"></div></div>}
-            <div className="ml-2 sharing-txt w-100 text-left">
-              <span className="text-left">{this.state.metadata?.name || "filename"}</span>
-              <div className="d-flex w-100 text-muted small mb-3">
-                <span >{this.state.metadata.size ? formatBytes(this.state.metadata.size) : null}</span><br />
-                <span className="ml-auto mr-0">{this.state.metadata?.type || "no"}</span>
+          {this.state.isRecv ?
+            <div className="sharing-download-ctr d-flex border rounded shadow-sm p-3 m-auto" >
+              {this.state.isDownloaded ? <i className="icn fa fa-file" /> : <div className="icn"><div className="spinner-border" role="status"></div></div>}
+              <div className="ml-2 sharing-txt w-100 text-left">
+                <span className="text-left">{this.state.metadata?.name || "filename"}</span>
+                <div className="d-flex w-100 text-muted small mb-3">
+                  <span >{this.state.metadata.size ? formatBytes(this.state.metadata.size) : null}</span><br />
+                  <span className="ml-auto mr-0">{this.state.metadata?.type || "no"}</span>
+                </div>
+                {this.state.isDownloaded ? <button className="btn btn-outline-primary" onClick={() => this.openFile(this.state.metadata.name)}>Open</button> : null}
               </div>
-              {this.state.isDownloaded ? <button className="btn btn-outline-primary" onClick={() => this.openFile(this.state.metadata.name)}>Open</button> : null}
             </div>
-          </div>
+            : null}
         </>
       )
     } else {

@@ -1,4 +1,6 @@
 .new-tab-container{
+  color: beige;
+
   height: 100%;
   width: 100%;
   background-size: cover;
@@ -6,7 +8,7 @@
   background-image: url('./bg.jpg');
 }
 .new-tab-search-input{
-  width: 600px;
+  width: 100%;
   height: 60px;
   border-radius: 30px;
   border: 0px;
@@ -16,4 +18,22 @@
 }
 .new-tab-search-input:focus{
   outline: none;
+}
+.new-tab-tools{
+  display: flex;
+}
+.new-tab-tool{
+  text-align: center;
+  width: 100px;
+}
+.new-tab-tool-button{
+  outline: none;
+  border: 0px;
+  width: 60px;
+  height: 60px;
+  margin-bottom: 10px;
+}
+.new-tab-cat-header{
+  color: beige;
+  font-weight: bold;
 }
