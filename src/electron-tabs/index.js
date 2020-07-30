@@ -475,5 +475,5 @@ const TabPrivate = {
   }
 };
 
-module.exports = TabGroup;
-
+//module.exports = TabGroup;
+export default TabGroup

@@ -3,8 +3,8 @@ import "../assets/css/home.css"
 import Controls from './partials/Controls';
 import NewTab from './nativePages/NewTab';
 
-
-const TabGroup = require("../electron-tabs");
+import TabGroup from '../electron-tabs'
+//const TabGroup = require("../electron-tabs");
 
 class Home extends React.Component {
   constructor(props) {

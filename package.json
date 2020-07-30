@@ -2,6 +2,7 @@
   "name": "elza-browser",
   "version": "0.1.0",
   "private": true,
+  "homepage": "./",
   "main": "main.js",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
