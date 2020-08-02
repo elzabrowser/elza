@@ -1,3 +1,11 @@
+hr {
+  margin: 7px 1px;
+}
+.vl {
+  border-left: 1px solid rgb(0, 0, 0);
+  height: 15px;
+  display: inline;
+}
 .dropbtn {
   background-color: #4caf50;
   color: white;
@@ -23,11 +31,11 @@
   border: 1px solid;
   border-color: rgb(138, 135, 135);
   padding: 6px;
-  border-radius: 3px;
+  border-radius: 2px;
   display: none;
   position: absolute;
   text-align: center;
-  background-color: #e2dfdf;
+  background-color: #fdfdfd;
   min-width: 200px;
   overflow: auto;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);

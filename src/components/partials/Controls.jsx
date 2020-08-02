@@ -226,19 +226,27 @@ class Controls extends React.Component {
               <i className='fas fa-bars ' />
             </button>
             <div id='myDropdown' className='dropdown-content'>
-              <button id='zoomin' title='Zoom In' onClick={this.zoomInWebv}>
-                <i className='fas fa-search-plus' />
-              </button>
-              <button
-                id='resetzoom'
-                title='Reset Zoom'
-                onClick={this.resetZoom}
-              >
-                <i className='fas fa-minus-square' />
-              </button>
-              <button id='zooout' title='Zoom Out' onClick={this.zoomOutWebv}>
-                <i className='fas fa-search-minus' />
-              </button>
+              <div>
+                <button id='zoomin' title='Zoom In' onClick={this.zoomInWebv}>
+                  <i className='fas fa-search-plus' />
+                </button>
+                <div class='vl'></div>
+                <button
+                  id='resetzoom'
+                  title='Reset Zoom'
+                  onClick={this.resetZoom}
+                >
+                  <i className='fas fa-minus-square' />
+                </button>
+                <div class='vl'></div>
+                <button id='zooout' title='Zoom Out' onClick={this.zoomOutWebv}>
+                  <i className='fas fa-search-minus' />
+                </button>
+              </div>
+              <hr />
+              <div>Menu Item2</div>
+              <hr />
+              <div>Menu Item3</div>
             </div>
           </div>
         </div>
