@@ -146,6 +146,7 @@ class Controls extends React.Component {
     this.state.tabs[this.state.activeTab].tab.webview.reload()
   }
   zoomInWebv = () => {
+    if (this.state.tabs[this.state.activeTab].tab.isNative) return
     let zoomLevel = this.state.tabs[
       this.state.activeTab
     ].tab.webview.getZoomLevel()
@@ -154,6 +155,7 @@ class Controls extends React.Component {
     )
   }
   zoomOutWebv = () => {
+    if (this.state.tabs[this.state.activeTab].tab.isNative) return
     let zoomLevel = this.state.tabs[
       this.state.activeTab
     ].tab.webview.getZoomLevel()
@@ -162,6 +164,7 @@ class Controls extends React.Component {
     )
   }
   resetZoom = () => {
+    if (this.state.tabs[this.state.activeTab].tab.isNative) return
     this.state.tabs[this.state.activeTab].tab.webview.setZoomLevel(0)
   }
 
