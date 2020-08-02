@@ -4,6 +4,8 @@ import '../../assets/css/controls.css'
 import getFavicon from '../../functions/getFavicon'
 import parseUrlInput from '../../functions/parseUrlInput'
 import validateElzaProtocol from '../../functions/validateElzaProtocol'
+const contextMenu = window.require('electron-context-menu');
+
 class Controls extends React.Component {
   constructor(props) {
     super(props)
@@ -38,6 +40,11 @@ class Controls extends React.Component {
   }
   tabEvents = (tab) => {
     tab.webview.addEventListener('did-start-loading', () => {
+      contextMenu({
+        window: tab.webview,
+        showSearchWithGoogle: false,
+        showInspectElement: false,
+      });
       tab.setIcon('', 'loader')
     })
     tab.webview.addEventListener('will-navigate', () => {
