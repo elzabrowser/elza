@@ -7,10 +7,18 @@ function isValidURL(str) {
     '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
   return !!pattern.test(str);
 }
-function parseUrlInput(url){
-  if (isValidURL(url)){
-    return url
+function addhttp(url) {
+  if (!/^https?:\/\//i.test(url)) {
+    url = 'http://' + url;
   }
-  return("https://google.com/search?q="+ url)
+  return url
+}
+
+function parseUrlInput(url) {
+  console.log(url)
+  if (isValidURL(url)) {
+    return addhttp(url)
+  }
+  return ("https://google.com/search?q=" + url)
 }
 export default parseUrlInput
