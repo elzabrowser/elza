@@ -1,7 +1,6 @@
 const { app, BrowserWindow, Menu } = require('electron')
 const isDev = require('electron-is-dev')
 
-
 let mainWindow
 
 app.on('window-all-closed', function () {
@@ -13,16 +12,17 @@ Menu.setApplicationMenu(null)
 app.on('ready', function () {
   mainWindow = new BrowserWindow({
     titleBarStyle: 'hidden',
-    width: 1920,
-    height: 1080,
-    minWidth: 1366,
-    minHeight: 720,
+    width: 1000,
+    height: 600,
+    resizable: true,
+    minWidth: 800,
+    minHeight: 600,
     webPreferences: {
       webviewTag: true,
       nodeIntegration: true,
       partition: 'persist:elzawindow',
       webSecurity: false
-    },
+    }
   })
   if (isDev) {
     mainWindow.loadURL('http://localhost:3000')
