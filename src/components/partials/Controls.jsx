@@ -1,11 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import '../../assets/css/controls.css'
+import '../../assets/css/menu.css'
 import getFavicon from '../../functions/getFavicon'
 import parseUrlInput from '../../functions/parseUrlInput'
 import validateElzaProtocol from '../../functions/validateElzaProtocol'
 const contextMenu = window.require('electron-context-menu')
-
+const Mousetrap = window.require('mousetrap')
 class Controls extends React.Component {
   constructor (props) {
     super(props)
@@ -23,7 +24,13 @@ class Controls extends React.Component {
     this.setState({ tabGroup: newProps.tabGroup })
     this.tabGroupEvents(newProps.tabGroup)
   }
+  componentDidMount () {
+    Mousetrap.bind('ctrl++', () => this.zoomInWebv())
+  }
 
+  componentWillUnmount () {
+    Mousetrap.unbind('ctrl++')
+  }
   updateTab = tab => {
     let tabs = [...this.state.tabs]
     tabs.push({
@@ -167,6 +174,9 @@ class Controls extends React.Component {
     if (this.state.tabs[this.state.activeTab].tab.isNative) return
     this.state.tabs[this.state.activeTab].tab.webview.setZoomLevel(0)
   }
+  menu = () => {
+    document.getElementById('myDropdown').classList.toggle('show')
+  }
 
   render () {
     return (
@@ -210,16 +220,27 @@ class Controls extends React.Component {
               )}
             </button>
           </form>
-          <button id='zoomin' title='Zoom In' onClick={this.zoomInWebv}>
-            <i className='fas fa-search-plus' />
-          </button>
-          <button id='resetzoom' title='Reset Zoom' onClick={this.resetZoom}>
-            <i className='fas fa-minus-square' />
-          </button>
 
-          <button id='zooout' title='Zoom Out' onClick={this.zoomOutWebv}>
-            <i className='fas fa-search-minus' />
-          </button>
+          <div className='dropdown'>
+            <button id='menu' title='Menu' onClick={this.menu}>
+              <i className='fas fa-bars ' />
+            </button>
+            <div id='myDropdown' className='dropdown-content'>
+              <button id='zoomin' title='Zoom In' onClick={this.zoomInWebv}>
+                <i className='fas fa-search-plus' />
+              </button>
+              <button
+                id='resetzoom'
+                title='Reset Zoom'
+                onClick={this.resetZoom}
+              >
+                <i className='fas fa-minus-square' />
+              </button>
+              <button id='zooout' title='Zoom Out' onClick={this.zoomOutWebv}>
+                <i className='fas fa-search-minus' />
+              </button>
+            </div>
+          </div>
         </div>
       </>
     )
