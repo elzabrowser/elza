@@ -6,7 +6,6 @@ import getFavicon from '../../functions/getFavicon'
 import parseUrlInput from '../../functions/parseUrlInput'
 import validateElzaProtocol from '../../functions/validateElzaProtocol'
 const contextMenu = window.require('electron-context-menu')
-const Mousetrap = window.require('mousetrap')
 class Controls extends React.Component {
   constructor (props) {
     super(props)
@@ -23,13 +22,6 @@ class Controls extends React.Component {
   componentWillReceiveProps (newProps) {
     this.setState({ tabGroup: newProps.tabGroup })
     this.tabGroupEvents(newProps.tabGroup)
-  }
-  componentDidMount () {
-    Mousetrap.bind('ctrl++', () => this.zoomInWebv())
-  }
-
-  componentWillUnmount () {
-    Mousetrap.unbind('ctrl++')
   }
   updateTab = tab => {
     let tabs = [...this.state.tabs]
@@ -174,10 +166,12 @@ class Controls extends React.Component {
     if (this.state.tabs[this.state.activeTab].tab.isNative) return
     this.state.tabs[this.state.activeTab].tab.webview.setZoomLevel(0)
   }
-  menu = () => {
-    document.getElementById('myDropdown').classList.toggle('show')
+  toggleMenu = () => {
+    document.getElementById('menuDropdown').classList.toggle('show')
   }
-
+  removeMenu = () => {
+    document.getElementById('menuDropdown').classList.remove('show')
+  }
   render () {
     return (
       <>
@@ -221,11 +215,11 @@ class Controls extends React.Component {
             </button>
           </form>
 
-          <div className='dropdown'>
-            <button id='menu' title='Menu' onClick={this.menu}>
+          <div className='dropdown' onBlur={this.removeMenu}>
+            <button id='menu' title='Menu' onClick={this.toggleMenu}>
               <i className='fas fa-bars ' />
             </button>
-            <div id='myDropdown' className='dropdown-content'>
+            <div id='menuDropdown' className='dropdown-content'>
               <div>
                 <button id='zoomin' title='Zoom In' onClick={this.zoomInWebv}>
                   <i className='fas fa-search-plus' />

@@ -14,11 +14,9 @@
     "electron-context-menu": "^2.2.0",
     "electron-is-dev": "^1.2.0",
     "font-awesome": "^4.7.0",
-    "mousetrap": "^1.6.5",
     "peerjs": "^1.3.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-mousetrap": "^0.2.0",
     "react-scripts": "3.4.1",
     "uuid": "^8.3.0"
   },
