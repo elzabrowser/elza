@@ -1,3 +1,50 @@
+.notificationAlert {
+  max-height: 500px;
+  position: fixed;
+  width: 100%;
+  left: 0;
+  top: 600px;
+  z-index: 2;
+  text-align: center;
+  padding: 20px;
+}
+
+.notifItem {
+  margin: 10px auto;
+  width: 500px;
+  padding: 12px;
+  background-color: #fff;
+  border-radius: 3px;
+  color: #555555;
+}
+.capturing {
+  border: 5px solid #8d8c8c;
+  border-radius: 50%;
+  border-top: 5px solid blue;
+  border-bottom: 5px solid blue;
+  width: 20px;
+  height: 20px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 hr {
   margin: 7px 1px;
 }

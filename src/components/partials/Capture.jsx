@@ -400,7 +400,11 @@ class Capture extends React.Component {
             title='Capture'
             onClick={this.toggleCapturePopup}
           >
-            <i className='fas fa-camera' />
+            {this.state.isCapturing ? (
+              <div className='capturing'></div>
+            ) : (
+              <i className='fas fa-camera' />
+            )}
           </button>
           <div id='capturePopUp' className='dropdown-capture'>
             <div className='row col-md-12 '>
@@ -432,6 +436,26 @@ class Capture extends React.Component {
             </span>
           </div>
         </div>
+        {this.state.capStatus ? (
+          <div id='notificationArea' className='notificationAlert'>
+            <div className='notifItem shadow-lg'>
+              {(this.state.isCapturing || this.state.webvIsLoading) &&
+              this.state.capStatus != 'Capture Complete' ? (
+                <div
+                  className='spinner-grow spinner-grow-sm text-info mr-3'
+                  role='status'
+                ></div>
+              ) : (
+                <span className='fa fa-check-circle mr-3'></span>
+              )}
+              {this.state.capStatus}{' '}
+              <span
+                onClick={() => this.closeNotif()}
+                className='fa fa-times ml-4'
+              ></span>
+            </div>
+          </div>
+        ) : null}
       </>
     )
   }
