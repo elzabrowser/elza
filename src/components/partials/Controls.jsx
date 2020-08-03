@@ -7,7 +7,7 @@ import parseUrlInput from '../../functions/parseUrlInput'
 import validateElzaProtocol from '../../functions/validateElzaProtocol'
 const contextMenu = window.require('electron-context-menu')
 class Controls extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -19,7 +19,7 @@ class Controls extends React.Component {
       tabs: []
     }
   }
-  componentWillReceiveProps (newProps) {
+  componentWillReceiveProps(newProps) {
     this.setState({ tabGroup: newProps.tabGroup })
     this.tabGroupEvents(newProps.tabGroup)
   }
@@ -85,24 +85,20 @@ class Controls extends React.Component {
     })
 
     tabGroup.on('tab-active', (tab, tabGroup) => {
+      document.getElementById('location').value = tab.webviewAttributes.src
+      this.setState({ activeTab: tab.id })
       if (tab.isNative) {
-        document.getElementById('location').value = tab.webviewAttributes.src
-        this.setState({ activeTab: tab.id })
-        if (tab.isNative) {
-          ReactDOM.render(
-            <tab.comp
-              submitURL={this.submitURL}
-              handleChange={this.handleChange}
-              tabGroup={tabGroup}
-              tab={tab}
-            />,
-            tab.webview
-          )
-          document.getElementById('location').value = tab.webviewAttributes.src
-        }
-      } else {
-        this.setState({ activeTab: tab.id })
+        ReactDOM.render(
+          <tab.comp
+            submitURL={this.submitURL}
+            handleChange={this.handleChange}
+            tabGroup={tabGroup}
+            tab={tab}
+          />,
+          tab.webview
+        )
       }
+
     })
 
     this.props.listenerReady()
@@ -172,7 +168,7 @@ class Controls extends React.Component {
   removeMenu = () => {
     document.getElementById('menuDropdown').classList.remove('show')
   }
-  render () {
+  render() {
     return (
       <>
         <div id='controls'>
@@ -210,8 +206,8 @@ class Controls extends React.Component {
               {this.state.webvIsLoading ? (
                 <div className='loader'></div>
               ) : (
-                <i className='fas fa-arrow-right' />
-              )}
+                  <i className='fas fa-arrow-right' />
+                )}
             </button>
           </form>
 
