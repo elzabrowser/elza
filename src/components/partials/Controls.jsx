@@ -89,23 +89,18 @@ class Controls extends React.Component {
     })
 
     tabGroup.on('tab-active', (tab, tabGroup) => {
+      document.getElementById('location').value = tab.webviewAttributes.src
+      this.setState({ activeTab: tab.id })
       if (tab.isNative) {
-        document.getElementById('location').value = tab.webviewAttributes.src
-        this.setState({ activeTab: tab.id })
-        if (tab.isNative) {
-          ReactDOM.render(
-            <tab.comp
-              submitURL={this.submitURL}
-              handleChange={this.handleChange}
-              tabGroup={tabGroup}
-              tab={tab}
-            />,
-            tab.webview
-          )
-          document.getElementById('location').value = tab.webviewAttributes.src
-        }
-      } else {
-        this.setState({ activeTab: tab.id })
+        ReactDOM.render(
+          <tab.comp
+            submitURL={this.submitURL}
+            handleChange={this.handleChange}
+            tabGroup={tabGroup}
+            tab={tab}
+          />,
+          tab.webview
+        )
       }
     })
     this.props.listenerReady()
