@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import Capture from './Capture'
 import '../../assets/css/controls.css'
 import '../../assets/css/menu.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -18,7 +19,8 @@ class Controls extends React.Component {
       tab: null,
       canGoBack: false,
       canGoForward: false,
-      tabs: []
+      tabs: [],
+      currentWebView: 3
     }
   }
   componentWillReceiveProps (newProps) {
@@ -66,6 +68,7 @@ class Controls extends React.Component {
             tab.id
           ]?.url
       })
+      this.state.currentWebView = tab.webview
     })
   }
   tabGroupEvents = tabGroup => {
@@ -163,7 +166,7 @@ class Controls extends React.Component {
       zoomLevel - 1
     )
   }
-  resetZoom = () => {
+  activeWebView = () => {
     if (this.state.tabs[this.state.activeTab].tab.isNative) return
     this.state.tabs[this.state.activeTab].tab.webview.setZoomLevel(0)
   }
@@ -173,11 +176,9 @@ class Controls extends React.Component {
   removeMenu = () => {
     document.getElementById('menuDropdown').classList.remove('show')
   }
-  removeCapturePopup = () => {
-    document.getElementById('capturePopUp').classList.remove('show')
-  }
-  toggleCapturePopup = () => {
-    document.getElementById('capturePopUp').classList.toggle('show')
+  istabWebview = () => {
+    if (this.state.tabs[this.state.activeTab].tab.isNative) return 0
+    return 1
   }
 
   render () {
@@ -222,62 +223,30 @@ class Controls extends React.Component {
               )}
             </button>
           </form>
-          <div className='dropdown' onBlur={this.removeCapturePopup}>
-            <button
-              id='capture'
-              title='Capture'
-              onClick={this.toggleCapturePopup}
-            >
-              <i className='fas fa-camera' />
-            </button>
-            <div id='capturePopUp' className='dropdown-capture'>
-              <div className='row col-md-12 '>
-                <div className='col-md-4 text-center item'>
-                  <i
-                    className='fas fa-camera fa-3x'
-                    style={{ color: '#556B2F' }}
-                  />
-                  <p style={{ textAlign: 'center' }}>Capture</p>
-                </div>
-                <div className='col-md-4 text-center item'>
-                  <i
-                    className='fas fa-camera fa-3x'
-                    style={{ color: '#8B0000' }}
-                  />
-                  <p style={{ textAlign: 'center' }}>Record</p>
-                </div>
-                <div className='col-md-4 text-center item'>
-                  <i
-                    className='fas fa-th-list fa-3x'
-                    style={{ color: '#008080' }}
-                  />
-                  <p style={{ textAlign: 'center' }}>List</p>{' '}
-                </div>
-              </div>
-              <span style={{ fontSize: '12px' }}>
-                <i className='fas fa-info-circle '></i> Capture complete page
-                information
-              </span>
-            </div>
-          </div>
-          <div className='dropdown' onBlur={this.removeMenu}>
+          <Capture currentWebView={this.state.currentWebView} />
+
+          <div className='dropdown'>
             <button id='menu' title='Menu' onClick={this.toggleMainMenu}>
               <i className='fas fa-bars ' />
             </button>
-            <div id='menuDropdown' className='dropdown-content'>
+            <div
+              id='menuDropdown'
+              onBlur={this.removeMenu}
+              className='dropdown-content'
+            >
               <div>
                 <button id='zoomin' title='Zoom In' onClick={this.zoomInWebv}>
                   <i className='fas fa-search-plus' />
                 </button>
-                <div class='vl'></div>
+                <div className='vl'></div>
                 <button
                   id='resetzoom'
                   title='Reset Zoom'
-                  onClick={this.resetZoom}
+                  onClick={this.activeWebView}
                 >
                   <i className='fas fa-minus-square' />
                 </button>
-                <div class='vl'></div>
+                <div className='vl'></div>
                 <button id='zooout' title='Zoom Out' onClick={this.zoomOutWebv}>
                   <i className='fas fa-search-minus' />
                 </button>

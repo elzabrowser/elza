@@ -16,7 +16,7 @@ app.on('ready', function () {
     height: 600,
     resizable: true,
     minWidth: 1000,
-    minHeight: 600,
+    minHeight: 1000,
     webPreferences: {
       webviewTag: true,
       nodeIntegration: true,
