@@ -13,7 +13,8 @@ const remote = window.require('electron').remote
 const app = remote.app
 const PDFDocument = window.require('pdfkit')
 const blobStream = window.require('blob-stream')
-
+const { shell } = window.require('electron')
+const { desktopCapturer } = window.require('electron')
 const { Resolver } = window.require('dns').promises
 const resolver = new Resolver()
 resolver.setServers(['1.1.1.1'])
@@ -33,8 +34,22 @@ class Capture extends React.Component {
       webvIsLoading: true,
       capStatus: null,
       isCapturing: false,
-      captureButtonText: 'Capture'
+      captureButtonText: 'Capture',
+      st: '00:00:00',
+      isRecording: false,
+      isPaused: false,
+      recStatus: 'Not started',
+      captureID: null,
+      filePath: null,
+      isSaved: false
     }
+    this.recordedChunks = []
+    this.mediaRecorder = null
+    this.seconds = 0
+    this.minutes = 0
+    this.hours = 0
+    this.t = null
+
     this.imports = {
       remote: window.require('electron').remote,
       fs: window.require('electron').remote.require('fs')
@@ -47,6 +62,9 @@ class Capture extends React.Component {
   componentWillReceiveProps (newProps) {
     this.setState({ webv: newProps.currentWebView })
     console.log(newProps)
+  }
+  componentDidMount () {
+    this.startVideoStream()
   }
   removeCapturePopup = () => {
     document.getElementById('capturePopUp').classList.remove('show')
@@ -246,6 +264,140 @@ class Capture extends React.Component {
     }
     return result
   }
+  openInFolder = path => {
+    shell.showItemInFolder(path)
+  }
+  openItem = path => {
+    shell.openItem(path)
+  }
+  randID = () => {
+    var d = new Date()
+    var result = ''
+    var characters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+    var charactersLength = characters.length
+    for (var i = 0; i < 8; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength))
+    }
+    return d.toISOString().replace(/:/g, '-') + '-' + result
+  }
+
+  startVideo = () => {
+    if (this.state.isRecording) {
+      this.stopVideo()
+      return
+    }
+    this.setState({
+      isRecording: true,
+      recStatus: 'Recording...',
+      captureID: this.randID(),
+      isSaved: false,
+      isPaused: false
+    })
+    this.timer()
+    this.recordedChunks = []
+    this.mediaRecorder.ondataavailable = this.handleDataAvailable
+    this.mediaRecorder.start()
+  }
+  stopVideo = () => {
+    clearTimeout(this.t)
+    this.setState({ st: '00:00:00' })
+    this.seconds = 0
+    this.minutes = 0
+    this.hours = 0
+    this.mediaRecorder.stop()
+    this.setState({ isRecording: false, recStatus: 'Saving...' })
+  }
+  pauseVideo = () => {
+    clearTimeout(this.t)
+    this.mediaRecorder.pause()
+    this.setState({ isPaused: true, recStatus: 'Paused' })
+  }
+  resumeVideo = () => {
+    this.timer()
+    this.mediaRecorder.resume()
+    this.setState({ isPaused: false, recStatus: 'Recording...' })
+  }
+
+  handleDataAvailable = async event => {
+    if (event.data.size > 0) {
+      this.recordedChunks.push(event.data)
+      console.log(this.recordedChunks)
+      var data = new Buffer(await this.recordedChunks[0].arrayBuffer())
+      var filePath = this.defaltDirs.out + '/' + this.state.captureID + '.webm'
+      this.imports.fs.writeFile(filePath, data, err => {
+        if (err) console.log(err)
+        else {
+          this.setState({ recStatus: 'Saved', filePath, isSaved: true })
+        }
+      })
+    } else {
+      // ...
+    }
+  }
+
+  handleError = e => {
+    console.log(e)
+  }
+
+  add = () => {
+    this.seconds++
+    if (this.seconds >= 60) {
+      this.seconds = 0
+      this.minutes++
+      if (this.minutes >= 60) {
+        this.minutes = 0
+        this.hours++
+      }
+    }
+
+    let st =
+      (this.hours ? (this.hours > 9 ? this.hours : '0' + this.hours) : '00') +
+      ':' +
+      (this.minutes
+        ? this.minutes > 9
+          ? this.minutes
+          : '0' + this.minutes
+        : '00') +
+      ':' +
+      (this.seconds > 9 ? this.seconds : '0' + this.seconds)
+    this.setState({ st })
+    this.timer()
+  }
+  timer = () => {
+    this.t = setTimeout(this.add, 1000)
+  }
+  startVideoStream = () => {
+    desktopCapturer
+      .getSources({ types: ['window', 'screen'] })
+      .then(async sources => {
+        for (const source of sources) {
+          if (source.name === 'Entire Screen') {
+            try {
+              const stream = await navigator.mediaDevices.getUserMedia({
+                audio: false,
+                video: {
+                  mandatory: {
+                    chromeMediaSource: 'desktop',
+                    chromeMediaSourceId: source.id,
+                    minWidth: 1920,
+                    maxWidth: 1920,
+                    minHeight: 1080,
+                    maxHeight: 1080
+                  }
+                }
+              })
+              var options = { mimeType: 'video/webm; codecs=vp9' }
+
+              this.mediaRecorder = new MediaRecorder(stream, options)
+            } catch (e) {
+              this.handleError(e)
+            }
+            return
+          }
+        }
+      })
+  }
   capture = async () => {
     /*  this.state.webv.openDevTools()
      */
@@ -415,7 +567,10 @@ class Capture extends React.Component {
                 />
                 <p style={{ textAlign: 'center' }}>Capture</p>
               </div>
-              <div className='col-md-4 text-center item'>
+              <div
+                onClick={() => this.startVideo()}
+                className='col-md-4 text-center item'
+              >
                 <i
                   className='fas fa-camera fa-3x'
                   style={{ color: '#8B0000' }}
@@ -427,7 +582,7 @@ class Capture extends React.Component {
                   className='fas fa-th-list fa-3x'
                   style={{ color: '#008080' }}
                 />
-                <p style={{ textAlign: 'center' }}>List</p>{' '}
+                <p style={{ textAlign: 'center' }}>Records</p>
               </div>
             </div>
             <span style={{ fontSize: '12px' }}>
