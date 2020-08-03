@@ -2,9 +2,11 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import '../../assets/css/controls.css'
 import '../../assets/css/menu.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import getFavicon from '../../functions/getFavicon'
 import parseUrlInput from '../../functions/parseUrlInput'
 import validateElzaProtocol from '../../functions/validateElzaProtocol'
+import { size } from 'custom-electron-titlebar/lib/common/dom'
 const contextMenu = window.require('electron-context-menu')
 class Controls extends React.Component {
   constructor (props) {
@@ -80,7 +82,6 @@ class Controls extends React.Component {
         )
         document.getElementById('location').value = tab.webviewAttributes.src
       }
-
       this.updateTab(tab)
     })
 
@@ -104,9 +105,9 @@ class Controls extends React.Component {
         this.setState({ activeTab: tab.id })
       }
     })
-
     this.props.listenerReady()
   }
+
   handleChange = event => {
     let tabs = [...this.state.tabs]
     tabs[this.state.activeTab].inputURL = event.target.value
@@ -166,12 +167,19 @@ class Controls extends React.Component {
     if (this.state.tabs[this.state.activeTab].tab.isNative) return
     this.state.tabs[this.state.activeTab].tab.webview.setZoomLevel(0)
   }
-  toggleMenu = () => {
+  toggleMainMenu = () => {
     document.getElementById('menuDropdown').classList.toggle('show')
   }
   removeMenu = () => {
     document.getElementById('menuDropdown').classList.remove('show')
   }
+  removeCapturePopup = () => {
+    document.getElementById('capturePopUp').classList.remove('show')
+  }
+  toggleCapturePopup = () => {
+    document.getElementById('capturePopUp').classList.toggle('show')
+  }
+
   render () {
     return (
       <>
@@ -214,9 +222,46 @@ class Controls extends React.Component {
               )}
             </button>
           </form>
-
+          <div className='dropdown' onBlur={this.removeCapturePopup}>
+            <button
+              id='capture'
+              title='Capture'
+              onClick={this.toggleCapturePopup}
+            >
+              <i className='fas fa-camera' />
+            </button>
+            <div id='capturePopUp' className='dropdown-capture'>
+              <div className='row col-md-12 '>
+                <div className='col-md-4 text-center item'>
+                  <i
+                    className='fas fa-camera fa-3x'
+                    style={{ color: '#556B2F' }}
+                  />
+                  <p style={{ textAlign: 'center' }}>Capture</p>
+                </div>
+                <div className='col-md-4 text-center item'>
+                  <i
+                    className='fas fa-camera fa-3x'
+                    style={{ color: '#8B0000' }}
+                  />
+                  <p style={{ textAlign: 'center' }}>Record</p>
+                </div>
+                <div className='col-md-4 text-center item'>
+                  <i
+                    className='fas fa-th-list fa-3x'
+                    style={{ color: '#008080' }}
+                  />
+                  <p style={{ textAlign: 'center' }}>List</p>{' '}
+                </div>
+              </div>
+              <span style={{ fontSize: '12px' }}>
+                <i className='fas fa-info-circle '></i> Capture complete page
+                information
+              </span>
+            </div>
+          </div>
           <div className='dropdown' onBlur={this.removeMenu}>
-            <button id='menu' title='Menu' onClick={this.toggleMenu}>
+            <button id='menu' title='Menu' onClick={this.toggleMainMenu}>
               <i className='fas fa-bars ' />
             </button>
             <div id='menuDropdown' className='dropdown-content'>

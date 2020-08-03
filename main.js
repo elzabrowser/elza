@@ -12,10 +12,10 @@ Menu.setApplicationMenu(null)
 app.on('ready', function () {
   mainWindow = new BrowserWindow({
     titleBarStyle: 'hidden',
-    width: 1000,
+    width: 1200,
     height: 600,
     resizable: true,
-    minWidth: 800,
+    minWidth: 1000,
     minHeight: 600,
     webPreferences: {
       webviewTag: true,
