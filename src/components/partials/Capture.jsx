@@ -9,6 +9,8 @@ import url from 'url'
 import createSec65 from '../../functions/filegenerators/createSec65.js'
 import initDir from '../../functions/filegenerators/initDirectories'
 import { saveCapture } from '../../functions/capturedb.js'
+import ScreenRecorder from '../nativePages/ScreenRecorder'
+import Captures from '../nativePages/Captures'
 const remote = window.require('electron').remote
 const app = remote.app
 const PDFDocument = window.require('pdfkit')
@@ -41,7 +43,8 @@ class Capture extends React.Component {
       recStatus: 'Not started',
       captureID: null,
       filePath: null,
-      isSaved: false
+      isSaved: false,
+      infoText: 'Capture complete page information'
     }
     this.recordedChunks = []
     this.mediaRecorder = null
@@ -282,6 +285,17 @@ class Capture extends React.Component {
     return d.toISOString().replace(/:/g, '-') + '-' + result
   }
 
+  openInNewTab = (title, src, comp, icon) => {
+    let tab = this.props.tabGroup.addTab({
+      title: title || 'File Sharing',
+      src: src || 'elza://share',
+      icon: 'fa fa-grip-horizontal' || icon,
+      isNative: true,
+      comp: comp
+    })
+    //this.props.tab.close()
+    tab.activate()
+  }
   startVideo = () => {
     if (this.state.isRecording) {
       this.stopVideo()
@@ -568,7 +582,14 @@ class Capture extends React.Component {
                 <p style={{ textAlign: 'center' }}>Capture</p>
               </div>
               <div
-                onClick={() => this.startVideo()}
+                onClick={() =>
+                  this.openInNewTab(
+                    'file Sharing',
+                    'https://google.com',
+                    ScreenRecorder,
+                    'fa fa-share-alt'
+                  )
+                }
                 className='col-md-4 text-center item'
               >
                 <i
@@ -586,8 +607,7 @@ class Capture extends React.Component {
               </div>
             </div>
             <span style={{ fontSize: '12px' }}>
-              <i className='fas fa-info-circle '></i> Capture complete page
-              information
+              <i className='fas fa-info-circle '></i> {this.state.infoText}
             </span>
           </div>
         </div>

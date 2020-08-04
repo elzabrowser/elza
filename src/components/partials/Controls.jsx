@@ -218,7 +218,10 @@ class Controls extends React.Component {
               )}
             </button>
           </form>
-          <Capture currentWebView={this.state.currentWebView} />
+          <Capture
+            currentWebView={this.state.currentWebView}
+            tabGroup={this.state.tabGroup}
+          />
 
           <div className='dropdown'>
             <button id='menu' title='Menu' onClick={this.toggleMainMenu}>
