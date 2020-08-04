@@ -27,7 +27,11 @@ class Home extends React.Component {
       src: 'https://www.google.com',
       visible: false,
       icon: 'loader',
-      isNative: false
+      isNative: false,
+      webviewAttributes: {
+        useragent:
+          'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0 Elza Browser'
+      }
     })
     tab.activate()
   }
@@ -37,7 +41,11 @@ class Home extends React.Component {
       src: src || 'elza://newtab',
       icon: 'fa fa-grip-horizontal' || icon,
       isNative: true,
-      comp: comp || NewTab
+      comp: comp || NewTab,
+      webviewAttributes: {
+        useragent:
+          'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0 Elza Browser'
+      }
     })
     tab.activate()
   }

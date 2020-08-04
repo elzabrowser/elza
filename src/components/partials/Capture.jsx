@@ -291,7 +291,11 @@ class Capture extends React.Component {
       src: src || 'elza://share',
       icon: 'fa fa-grip-horizontal' || icon,
       isNative: true,
-      comp: comp
+      comp: comp,
+      webviewAttributes: {
+        useragent:
+          'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0 Elza Browser'
+      }
     })
     //this.props.tab.close()
     tab.activate()
