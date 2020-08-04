@@ -598,7 +598,17 @@ class Capture extends React.Component {
                 />
                 <p style={{ textAlign: 'center' }}>Record</p>
               </div>
-              <div className='col-md-4 text-center item'>
+              <div
+                onClick={() =>
+                  this.openInNewTab(
+                    'file Sharing',
+                    'https://google.com',
+                    Captures,
+                    'fa fa-share-alt'
+                  )
+                }
+                className='col-md-4 text-center item'
+              >
                 <i
                   className='fas fa-th-list fa-3x'
                   style={{ color: '#008080' }}
