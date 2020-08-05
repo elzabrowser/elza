@@ -261,6 +261,9 @@ class Controls extends React.Component {
                 id='location'
                 type='text'
                 spellCheck='false'
+                ref={input => (this.inputField = input)}
+                onFocus={() => (this.inputField.value = '')}
+                placeholder='Search or type in url'
                 onChange={this.handleChange}
                 defaultValue={'loading'}
               />
