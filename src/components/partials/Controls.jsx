@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Capture from './Capture'
+import DownloadPopup from './DownloadPopup'
 import '../../assets/css/controls.css'
 import '../../assets/css/menu.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -11,14 +12,17 @@ import { size } from 'custom-electron-titlebar/lib/common/dom'
 const contextMenu = window.require('electron-context-menu')
 const remote = window.require('electron').remote
 const session = remote.session
-/* session.defaultSession.on('will-download', (event, item, webContents) => {
+session.defaultSession.on('will-download', (event, item, webContents) => {
   event.preventDefault()
-  alert('ghn')
-}) */
+  console.log(item)
+  console.log(event)
+  //alert('ghn')
+})
 class Controls extends React.Component {
   constructor (props) {
     super(props)
-
+    this.handleClick = this.handleClick.bind(this)
+    this.handleOutsideClick = this.handleOutsideClick.bind(this)
     this.state = {
       tabGroup: null,
       activeTab: 0,
@@ -26,14 +30,35 @@ class Controls extends React.Component {
       canGoBack: false,
       canGoForward: false,
       tabs: [],
-      currentWebView: 3
+      currentWebView: 3,
+      popupVisible: false
     }
   }
+
   componentWillReceiveProps (newProps) {
     this.setState({ tabGroup: newProps.tabGroup })
     this.tabGroupEvents(newProps.tabGroup)
   }
+  handleOutsideClick (e) {
+    // ignore clicks on the component itself
+    if (this.node.contains(e.target)) {
+      return
+    }
 
+    this.handleClick()
+  }
+  handleClick () {
+    if (!this.state.popupVisible) {
+      // attach/remove event handler
+      document.addEventListener('click', this.handleOutsideClick, false)
+    } else {
+      document.removeEventListener('click', this.handleOutsideClick, false)
+    }
+
+    this.setState(prevState => ({
+      popupVisible: !prevState.popupVisible
+    }))
+  }
   updateTab = tab => {
     let tabs = [...this.state.tabs]
     tabs.push({
@@ -80,8 +105,10 @@ class Controls extends React.Component {
       /* tab.webview
         .getWebContents()
         .session.on('will-download', (event, item, webContents) => {
+          event.preventDefault()
+          //console.log(item.getFilename)
           //item.setSavePath('/tmp/downloaded.zip')
-          alert('Download!!')
+          //alert('Download!!')
         }) */
     })
     tab.webview.addEventListener('new-window', e => {
@@ -90,7 +117,7 @@ class Controls extends React.Component {
         src: url,
         isNative: false,
         webviewAttributes: {
-          partition: 'persist:elza',
+          partition: 'persist:elzawindow',
           useragent:
             'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0 Elza Browser'
         }
@@ -194,7 +221,7 @@ class Controls extends React.Component {
     this.state.tabs[this.state.activeTab].tab.webview.setZoomLevel(0)
   }
   toggleMainMenu = () => {
-    document.getElementById('menuDropdown').classList.toggle('show')
+    //document.getElementById('menuDropdown').classList.toggle('show')
   }
   removeMenu = () => {
     document.getElementById('menuDropdown').classList.remove('show')
@@ -250,38 +277,46 @@ class Controls extends React.Component {
             currentWebView={this.state.currentWebView}
             tabGroup={this.state.tabGroup}
           />
+          <DownloadPopup />
 
-          <div className='dropdown'>
-            <button id='menu' title='Menu' onClick={this.toggleMainMenu}>
+          <div
+            className='dropdown'
+            ref={node => {
+              this.node = node
+            }}
+          >
+            <button id='menu' title='Menu' onClick={this.handleClick}>
               <i className='fas fa-bars ' />
             </button>
-            <div
-              id='menuDropdown'
-              onBlur={this.removeMenu}
-              className='dropdown-content'
-            >
-              <div>
-                <button id='zoomin' title='Zoom In' onClick={this.zoomInWebv}>
-                  <i className='fas fa-search-plus' />
-                </button>
-                <div className='vl'></div>
-                <button
-                  id='resetzoom'
-                  title='Reset Zoom'
-                  onClick={this.activeWebView}
-                >
-                  <i className='fas fa-minus-square' />
-                </button>
-                <div className='vl'></div>
-                <button id='zooout' title='Zoom Out' onClick={this.zoomOutWebv}>
-                  <i className='fas fa-search-minus' />
-                </button>
+            {this.state.popupVisible && (
+              <div id='menuDropdown' className='dropdown-content'>
+                <div>
+                  <button id='zoomin' title='Zoom In' onClick={this.zoomInWebv}>
+                    <i className='fas fa-search-plus' />
+                  </button>
+                  <div className='vl'></div>
+                  <button
+                    id='resetzoom'
+                    title='Reset Zoom'
+                    onClick={this.activeWebView}
+                  >
+                    <i className='fas fa-minus-square' />
+                  </button>
+                  <div className='vl'></div>
+                  <button
+                    id='zooout'
+                    title='Zoom Out'
+                    onClick={this.zoomOutWebv}
+                  >
+                    <i className='fas fa-search-minus' />
+                  </button>
+                </div>
+                <hr />
+                <div>Downloads</div>
+                <hr />
+                <div>History</div>
               </div>
-              <hr />
-              <div>Menu Item2</div>
-              <hr />
-              <div>Menu Item3</div>
-            </div>
+            )}
           </div>
         </div>
       </>

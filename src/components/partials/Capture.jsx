@@ -27,6 +27,8 @@ initDir()
 class Capture extends React.Component {
   constructor (props) {
     super(props)
+    this.handleClick = this.handleClick.bind(this)
+    this.handleOutsideClick = this.handleOutsideClick.bind(this)
     this.state = {
       webv: null,
       inputURL: 'https://www.google.com',
@@ -44,7 +46,8 @@ class Capture extends React.Component {
       captureID: null,
       filePath: null,
       isSaved: false,
-      infoText: 'Capture complete page information'
+      infoText: 'Capture complete page information',
+      popupVisible: false
     }
     this.recordedChunks = []
     this.mediaRecorder = null
@@ -68,6 +71,26 @@ class Capture extends React.Component {
   }
   componentDidMount () {
     this.startVideoStream()
+  }
+  handleOutsideClick (e) {
+    // ignore clicks on the component itself
+    if (this.node.contains(e.target)) {
+      return
+    }
+
+    this.handleClick()
+  }
+  handleClick () {
+    if (!this.state.popupVisible) {
+      // attach/remove event handler
+      document.addEventListener('click', this.handleOutsideClick, false)
+    } else {
+      document.removeEventListener('click', this.handleOutsideClick, false)
+    }
+
+    this.setState(prevState => ({
+      popupVisible: !prevState.popupVisible
+    }))
   }
   removeCapturePopup = () => {
     document.getElementById('capturePopUp').classList.remove('show')
@@ -419,6 +442,7 @@ class Capture extends React.Component {
   capture = async () => {
     /*  this.state.webv.openDevTools()
      */
+    this.handleClick()
     this.setState({
       captureButtonText: 'Page Loading...',
       capStatus: 'Waiting for page to load...'
@@ -564,66 +588,74 @@ class Capture extends React.Component {
   render () {
     return (
       <>
-        <div className='dropdown'>
-          <button
-            id='capture'
-            title='Capture'
-            onClick={this.toggleCapturePopup}
-          >
+        <div
+          className='dropdown'
+          ref={node => {
+            this.node = node
+          }}
+        >
+          <button id='capture' title='Capture' onClick={this.handleClick}>
             {this.state.isCapturing ? (
               <div className='capturing'></div>
             ) : (
               <i className='fas fa-camera' />
             )}
           </button>
-          <div id='capturePopUp' className='dropdown-capture'>
-            <div className='row col-md-12 '>
-              <div onClick={this.capture} className='col-md-4 text-center item'>
-                <i
-                  className='fas fa-camera fa-3x'
-                  style={{ color: '#556B2F' }}
-                />
-                <p style={{ textAlign: 'center' }}>Capture</p>
+          {this.state.popupVisible && (
+            <div id='capturePopUp' className='dropdown-capture'>
+              <div className='row col-md-12 '>
+                <div
+                  onClick={this.capture}
+                  className='col-md-4 text-center item'
+                >
+                  <i
+                    className='fas fa-camera fa-3x'
+                    style={{ color: '#556B2F' }}
+                  />
+                  <p style={{ textAlign: 'center' }}>Capture</p>
+                </div>
+                <div
+                  onClick={() => {
+                    this.openInNewTab(
+                      'ScreenRecorder',
+                      'elza://recorder',
+                      ScreenRecorder,
+                      'fa fa-share-alt'
+                    )
+                    this.handleClick()
+                  }}
+                  className='col-md-4 text-center item'
+                >
+                  <i
+                    className='fas fa-video fa-3x'
+                    style={{ color: '#8B0000' }}
+                  />
+                  <p style={{ textAlign: 'center' }}>Record</p>
+                </div>
+                <div
+                  onClick={() => {
+                    this.openInNewTab(
+                      'Captures',
+                      'elza://captures',
+                      Captures,
+                      'fa fa-share-alt'
+                    )
+                    this.handleClick()
+                  }}
+                  className='col-md-4 text-center item'
+                >
+                  <i
+                    className='fas fa-list-ul fa-3x'
+                    style={{ color: '#008080' }}
+                  />
+                  <p style={{ textAlign: 'center' }}>Captures</p>
+                </div>
               </div>
-              <div
-                onClick={() =>
-                  this.openInNewTab(
-                    'file Sharing',
-                    'https://google.com',
-                    ScreenRecorder,
-                    'fa fa-share-alt'
-                  )
-                }
-                className='col-md-4 text-center item'
-              >
-                <i
-                  className='fas fa-camera fa-3x'
-                  style={{ color: '#8B0000' }}
-                />
-                <p style={{ textAlign: 'center' }}>Record</p>
-              </div>
-              <div
-                onClick={() =>
-                  this.openInNewTab(
-                    'file Sharing',
-                    'https://google.com',
-                    Captures,
-                    'fa fa-share-alt'
-                  )
-                }
-                className='col-md-4 text-center item'
-              >
-                <i
-                  className='fas fa-th-list fa-3x'
-                  style={{ color: '#008080' }}
-                />
-                <p style={{ textAlign: 'center' }}>Records</p>
-              </div>
+              <span style={{ fontSize: '12px' }}>
+                <i className='fas fa-info-circle '></i> {this.state.infoText}
+              </span>
             </div>
-            <span style={{ fontSize: '12px' }}>
-              <i className='fas fa-info-circle '></i> {this.state.infoText}
-            </span>
-          </div>
+          )}
         </div>
         {this.state.capStatus ? (
           <div id='notificationArea' className='notificationAlert'>
