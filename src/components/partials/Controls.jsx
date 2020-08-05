@@ -76,7 +76,7 @@ class Controls extends React.Component {
   }
   tabEvents = tab => {
     tab.webview.addEventListener('did-start-loading', () => {
-      this.state.currentWebView = null
+      this.setState({ currentWebView: null })
       contextMenu({
         window: tab.webview,
         showSaveImage: true,

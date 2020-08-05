@@ -193,7 +193,7 @@ class Capture extends React.Component {
           if (!write) {
             resolve(img.toDataURL())
           } else {
-            let filepath = app.getPath('documents') + id + '.jpg'
+            let filepath = app.getPath('documents') + '/' + id + '.jpg'
             this.imports.fs.writeFile(filepath, img.toJPEG(100), err => {
               if (err) {
                 reject()
