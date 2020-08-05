@@ -27,9 +27,9 @@ class NewTab extends React.Component {
     return (
       <div className='new-tab-container container-fluid'>
         <div className='row p-3'>
-          <div className='ml-auto text-white'>
+          {/* <div className='ml-auto text-white'>
             <i className='fa fa-cog' />
-          </div>
+          </div> */}
         </div>
 
         <div className='row'>

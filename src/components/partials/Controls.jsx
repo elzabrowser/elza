@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Capture from './Capture'
 import DownloadPopup from './DownloadPopup'
+import BlankTab from '../nativePages/BlankTab'
 import '../../assets/css/controls.css'
 import '../../assets/css/menu.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -158,6 +159,37 @@ class Controls extends React.Component {
         )
       }
     })
+    tabGroup.on('tab-removed', (tab, tabGroup) => {
+      document.getElementById('location').value = tab.webviewAttributes.src
+      this.setState({ activeTab: tab.id })
+      if (tab.isNative) {
+        ReactDOM.render(
+          <tab.comp
+            submitURL={this.submitURL}
+            handleChange={this.handleChange}
+            tabGroup={tabGroup}
+            tab={tab}
+          />,
+          tab.webview
+        )
+      }
+      let tabCount = tabGroup.getTabs()
+      if (tabCount == 0) {
+        let newtab = tabGroup.addTab({
+          src: '',
+          title: 'Home',
+          isNative: true,
+          comp: BlankTab,
+          webviewAttributes: {
+            partition: 'persist:elzawindow',
+            useragent:
+              'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0 Elza Browser'
+          }
+        })
+        //this.props.tab.close()
+        newtab.activate()
+      }
+    })
     this.props.listenerReady()
   }
 
@@ -276,51 +308,59 @@ class Controls extends React.Component {
               )}
             </button>
           </form>
-          <Capture
-            currentWebView={this.state.currentWebView}
-            tabGroup={this.state.tabGroup}
-          />
-          <DownloadPopup />
+          {false && (
+            <Capture
+              currentWebView={this.state.currentWebView}
+              tabGroup={this.state.tabGroup}
+            />
+          )}
+          {false && <DownloadPopup />}
 
-          <div
-            className='dropdown'
-            ref={node => {
-              this.node = node
-            }}
-          >
-            <button id='menu' title='Menu' onClick={this.handleClick}>
-              <i className='fas fa-bars ' />
-            </button>
-            {this.state.popupVisible && (
-              <div id='menuDropdown' className='dropdown-content'>
-                <div>
-                  <button id='zoomin' title='Zoom In' onClick={this.zoomInWebv}>
-                    <i className='fas fa-search-plus' />
-                  </button>
-                  <div className='vl'></div>
-                  <button
-                    id='resetzoom'
-                    title='Reset Zoom'
-                    onClick={this.activeWebView}
-                  >
-                    <i className='fas fa-minus-square' />
-                  </button>
-                  <div className='vl'></div>
-                  <button
-                    id='zooout'
-                    title='Zoom Out'
-                    onClick={this.zoomOutWebv}
-                  >
-                    <i className='fas fa-search-minus' />
-                  </button>
+          {false && (
+            <div
+              className='dropdown'
+              ref={node => {
+                this.node = node
+              }}
+            >
+              <button id='menu' title='Menu' onClick={this.handleClick}>
+                <i className='fas fa-bars ' />
+              </button>
+              {this.state.popupVisible && (
+                <div id='menuDropdown' className='dropdown-content'>
+                  <div>
+                    <button
+                      id='zoomin'
+                      title='Zoom In'
+                      onClick={this.zoomInWebv}
+                    >
+                      <i className='fas fa-search-plus' />
+                    </button>
+                    <div className='vl'></div>
+                    <button
+                      id='resetzoom'
+                      title='Reset Zoom'
+                      onClick={this.activeWebView}
+                    >
+                      <i className='fas fa-minus-square' />
+                    </button>
+                    <div className='vl'></div>
+                    <button
+                      id='zooout'
+                      title='Zoom Out'
+                      onClick={this.zoomOutWebv}
+                    >
+                      <i className='fas fa-search-minus' />
+                    </button>
+                  </div>
+                  <hr />
+                  <div>Downloads</div>
+                  <hr />
+                  <div>History</div>
                 </div>
-                <hr />
-                <div>Downloads</div>
-                <hr />
-                <div>History</div>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          )}
         </div>
       </>
     )
