@@ -30,7 +30,7 @@ class Controls extends React.Component {
       canGoBack: false,
       canGoForward: false,
       tabs: [],
-      currentWebView: 3,
+      currentWebView: null,
       popupVisible: false
     }
   }

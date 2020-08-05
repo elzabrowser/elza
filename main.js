@@ -11,13 +11,15 @@ app.on('window-all-closed', function () {
 Menu.setApplicationMenu(null)
 
 app.on('ready', function () {
+  const { screen } = require('electron')
+  const electronScreen = screen
+  var mainScreen = electronScreen.getPrimaryDisplay()
+  var dimensions = mainScreen.size
   mainWindow = new BrowserWindow({
     titleBarStyle: 'hidden',
-    width: 1200,
-    height: 600,
     resizable: true,
-    minWidth: 1000,
-    minHeight: 700,
+    minWidth: dimensions.width,
+    minHeight: dimensions.height,
     webPreferences: {
       webviewTag: true,
       nodeIntegration: true,

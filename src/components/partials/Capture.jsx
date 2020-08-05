@@ -31,6 +31,7 @@ class Capture extends React.Component {
     this.handleOutsideClick = this.handleOutsideClick.bind(this)
     this.state = {
       webv: null,
+      isNative: true,
       inputURL: 'https://www.google.com',
       webHistory: [],
       canGoBack: true,
@@ -66,7 +67,10 @@ class Capture extends React.Component {
     }
   }
   componentWillReceiveProps (newProps) {
-    this.setState({ webv: newProps.currentWebView })
+    this.setState({
+      webv: newProps.currentWebView,
+      isNative: newProps.isNative
+    })
     console.log(newProps)
   }
   componentDidMount () {
@@ -442,6 +446,7 @@ class Capture extends React.Component {
   capture = async () => {
     /*  this.state.webv.openDevTools()
      */
+    if (this.state.webv == null) return
     this.handleClick()
     this.setState({
       captureButtonText: 'Page Loading...',
