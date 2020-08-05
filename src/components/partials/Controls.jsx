@@ -76,6 +76,7 @@ class Controls extends React.Component {
   }
   tabEvents = tab => {
     tab.webview.addEventListener('did-start-loading', () => {
+      this.state.currentWebView = null
       contextMenu({
         window: tab.webview,
         showSaveImage: true,
@@ -104,7 +105,8 @@ class Controls extends React.Component {
             tab.id
           ]?.url
       })
-      this.state.currentWebView = tab.webview
+      console.log(tab.webview)
+      this.setState({ currentWebView: tab.webview })
       /* tab.webview
         .getWebContents()
         .session.on('will-download', (event, item, webContents) => {
