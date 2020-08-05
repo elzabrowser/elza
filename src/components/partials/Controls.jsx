@@ -9,6 +9,12 @@ import parseUrlInput from '../../functions/parseUrlInput'
 import validateElzaProtocol from '../../functions/validateElzaProtocol'
 import { size } from 'custom-electron-titlebar/lib/common/dom'
 const contextMenu = window.require('electron-context-menu')
+const remote = window.require('electron').remote
+const session = remote.session
+/* session.defaultSession.on('will-download', (event, item, webContents) => {
+  event.preventDefault()
+  alert('ghn')
+}) */
 class Controls extends React.Component {
   constructor (props) {
     super(props)
@@ -27,6 +33,7 @@ class Controls extends React.Component {
     this.setState({ tabGroup: newProps.tabGroup })
     this.tabGroupEvents(newProps.tabGroup)
   }
+
   updateTab = tab => {
     let tabs = [...this.state.tabs]
     tabs.push({
@@ -43,6 +50,7 @@ class Controls extends React.Component {
     tab.webview.addEventListener('did-start-loading', () => {
       contextMenu({
         window: tab.webview,
+        showSaveImage: true,
         showSearchWithGoogle: false,
         showInspectElement: false
       })
@@ -69,6 +77,26 @@ class Controls extends React.Component {
           ]?.url
       })
       this.state.currentWebView = tab.webview
+      /* tab.webview
+        .getWebContents()
+        .session.on('will-download', (event, item, webContents) => {
+          //item.setSavePath('/tmp/downloaded.zip')
+          alert('Download!!')
+        }) */
+    })
+    tab.webview.addEventListener('new-window', e => {
+      const url = e.url
+      let newtab = this.props.tabGroup.addTab({
+        src: url,
+        isNative: false,
+        webviewAttributes: {
+          partition: 'persist:elza',
+          useragent:
+            'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0 Elza Browser'
+        }
+      })
+      //this.props.tab.close()
+      newtab.activate()
     })
   }
   tabGroupEvents = tabGroup => {
