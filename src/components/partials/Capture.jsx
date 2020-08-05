@@ -193,7 +193,7 @@ class Capture extends React.Component {
           if (!write) {
             resolve(img.toDataURL())
           } else {
-            let filepath = '/tmp/' + id + '.jpg'
+            let filepath = app.getPath('documents') + id + '.jpg'
             this.imports.fs.writeFile(filepath, img.toJPEG(100), err => {
               if (err) {
                 reject()
@@ -475,15 +475,20 @@ class Capture extends React.Component {
     const captureID = this.randID()
     var userIP = await publicIp.v4()
     var filename = targetDomain + '-' + captureID
-    this.setState({ capStatus: 'Generating MHTML,PDF' })
+    this.setState({ capStatus: 'Generating Image' })
     var [mhtmlData, imageUrl, sec65file] = await Promise.all([
       this.createMHTML(this.randID(), false),
-      this.createImage(this.randID(), false),
+      this.createImage(this.randID(), true),
       createSec65()
     ])
     win.setSize(dimensions.width, dimensions.height, false)
     //window.resizeTo(800, 800)
-    this.setState({ capStatus: 'Splitting Image' })
+    this.setState({
+      capStatus: 'Capture Complete',
+      isCapturing: false,
+      captureButtonText: 'Capture'
+    })
+    return
     let imageSplits = await this.splitImage(
       imageUrl,
       dimensions.width,
@@ -599,14 +604,14 @@ class Capture extends React.Component {
             this.node = node
           }}
         >
-          <button id='capture' title='Capture' onClick={this.handleClick}>
+          <button id='capture' title='Capture Image' onClick={this.capture}>
             {this.state.isCapturing ? (
               <div className='capturing'></div>
             ) : (
               <i className='fas fa-camera' />
             )}
           </button>
-          {this.state.popupVisible && (
+          {false && (
             <div id='capturePopUp' className='dropdown-capture'>
               <div className='row col-md-12 '>
                 <div

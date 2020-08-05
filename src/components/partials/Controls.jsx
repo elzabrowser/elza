@@ -4,6 +4,7 @@ import Capture from './Capture'
 import DownloadPopup from './DownloadPopup'
 import BlankTab from '../nativePages/BlankTab'
 import Sharing from '../nativePages/Sharing'
+import ScreenRecorder from '../nativePages/ScreenRecorder'
 import '../../assets/css/controls.css'
 import '../../assets/css/menu.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -329,12 +330,32 @@ class Controls extends React.Component {
           >
             <i className='fas fa-share-alt' />
           </button>
-          {false && (
+          {true && (
             <Capture
               currentWebView={this.state.currentWebView}
               tabGroup={this.state.tabGroup}
             />
           )}
+          <button
+            id='sharefile'
+            title='Share File'
+            onClick={() => {
+              let newtab = this.state.tabGroup.addTab({
+                title: 'ScreenRecorder',
+                src: 'elza://recorder',
+                icon: 'fa fa-grip-horizontal',
+                isNative: true,
+                comp: ScreenRecorder,
+                webviewAttributes: {
+                  useragent:
+                    'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0 Elza Browser'
+                }
+              })
+              newtab.activate()
+            }}
+          >
+            <i className='fas fa-video' />
+          </button>
           {false && <DownloadPopup />}
 
           {false && (

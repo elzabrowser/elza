@@ -50,23 +50,25 @@ class NewTab extends React.Component {
               <span className='new-tab-cat-header'>Tools</span>
             </p>
             <div className='new-tab-tools'>
-              <div className='new-tab-tool p-2'>
-                <button
-                  className='new-tab-tool-button shadow rounded-circle'
-                  onClick={() =>
-                    this.openInNewTab(
-                      'file Sharing',
-                      'elza://share',
-                      Sharing,
-                      'fa fa-share-alt'
-                    )
-                  }
-                >
-                  FS
-                </button>
-                <br />
-                <label>File sharing</label>
-              </div>
+              {false && (
+                <div className='new-tab-tool p-2'>
+                  <button
+                    className='new-tab-tool-button shadow rounded-circle'
+                    onClick={() =>
+                      this.openInNewTab(
+                        'file Sharing',
+                        'elza://share',
+                        Sharing,
+                        'fa fa-share-alt'
+                      )
+                    }
+                  >
+                    FS
+                  </button>
+                  <br />
+                  <label>File sharing</label>
+                </div>
+              )}
               <div className='new-tab-tool p-2'>
                 <button
                   className='new-tab-tool-button shadow rounded-circle'
