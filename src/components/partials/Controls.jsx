@@ -34,7 +34,8 @@ class Controls extends React.Component {
       canGoForward: false,
       tabs: [],
       currentWebView: null,
-      popupVisible: false
+      popupVisible: false,
+      searchEngine: 'google.com'
     }
   }
 
@@ -138,6 +139,7 @@ class Controls extends React.Component {
           <tab.comp
             submitURL={this.submitURL}
             handleChange={this.handleChange}
+            handleSearchEngineChange={this.handleSearchEngineChange}
             tabGroup={tabGroup}
             tab={tab}
           />,
@@ -156,6 +158,7 @@ class Controls extends React.Component {
           <tab.comp
             submitURL={this.submitURL}
             handleChange={this.handleChange}
+            handleSearchEngineChange={this.handleSearchEngineChange}
             tabGroup={tabGroup}
             tab={tab}
           />,
@@ -171,6 +174,7 @@ class Controls extends React.Component {
           <tab.comp
             submitURL={this.submitURL}
             handleChange={this.handleChange}
+            handleSearchEngineChange={this.handleSearchEngineChange}
             tabGroup={tabGroup}
             tab={tab}
           />,
@@ -202,6 +206,9 @@ class Controls extends React.Component {
     tabs[this.state.activeTab].inputURL = event.target.value
     this.setState({ tabs })
   }
+  handleSearchEngineChange = searchEngine => {
+    this.setState({ searchEngine: searchEngine })
+  }
 
   submitURL = e => {
     e.preventDefault()
@@ -213,7 +220,7 @@ class Controls extends React.Component {
       return
     }
 
-    url = parseUrlInput(sTab.inputURL)
+    url = parseUrlInput(sTab.inputURL, this.state.searchEngine)
     document.getElementById('location').value = url
     console.log(document.getElementById('location').value)
 

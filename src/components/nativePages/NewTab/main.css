@@ -1,4 +1,4 @@
-.new-tab-container{
+.new-tab-container {
   color: beige;
 
   height: 100%;
@@ -7,33 +7,52 @@
   background-color: blueviolet;
   background-image: url('./bg.jpg');
 }
-.new-tab-search-input{
+.new-tab-search-input {
   width: 100%;
   height: 60px;
-  border-radius: 30px;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
   border: 0px;
   padding-left: 30px;
   padding-right: 30px;
   font-size: 1.2em;
 }
-.new-tab-search-input:focus{
+.new-tab-search-input:focus {
   outline: none;
 }
-.new-tab-tools{
+.new-tab-tools {
   display: flex;
 }
-.new-tab-tool{
+.new-tab-tool {
   text-align: center;
   width: 100px;
 }
-.new-tab-tool-button{
+.new-tab-tool-button {
   outline: none;
   border: 0px;
   width: 60px;
   height: 60px;
   margin-bottom: 10px;
 }
-.new-tab-cat-header{
+.new-tab-cat-header {
   color: beige;
   font-weight: bold;
+}
+
+.dropmenu {
+  min-width: 73px;
+  text-align: center;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+.dropitem {
+  margin-bottom: 8px;
+  text-align: center;
+  padding: 0;
+}
+.dropitem:active {
+  background-color: transparent;
+}
+.dropdown-toggle:after {
+  display: none;
 }

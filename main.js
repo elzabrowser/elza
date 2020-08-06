@@ -29,7 +29,7 @@ app.on('ready', function () {
   })
   if (isDev) {
     mainWindow.loadURL('http://localhost:3000')
-    mainWindow.openDevTools()
+    mainWindow.openDevTools({ mode: 'detach' })
   } else {
     mainWindow.loadFile('./build/index.html')
     //mainWindow.openDevTools()
