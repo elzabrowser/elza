@@ -7,7 +7,7 @@ class BlankTab extends React.Component {
     var dt = new Date()
     var h = dt.getHours(),
       m = dt.getMinutes()
-    var _time = h > 12 ? h - 12 + ':' + m + '' : '0' + h + ':' + m + ''
+    var _time = h > 12 ? h - 12 + ':' + m + '' : +h + ':' + m + ''
     return _time
   }
   render () {
