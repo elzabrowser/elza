@@ -240,6 +240,7 @@ class Controls extends React.Component {
     this.state.tabs[this.state.activeTab].tab.webview.goBack()
   }
   reloadWebv = () => {
+    if (this.state.currentWebView == null) return
     this.state.tabs[this.state.activeTab].tab.webview.reload()
   }
   zoomInWebv = () => {
@@ -324,6 +325,7 @@ class Controls extends React.Component {
             id='sharefile'
             title='Share File'
             onClick={() => {
+              this.state.currentWebView = null
               let newtab = this.state.tabGroup.addTab({
                 title: 'File Sharing',
                 src: 'elza://share',
