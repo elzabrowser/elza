@@ -349,8 +349,8 @@ class Controls extends React.Component {
             />
           )}
           <button
-            id='sharefile'
-            title='Share File'
+            id='recorder'
+            title='Screen Recorder'
             onClick={() => {
               let newtab = this.state.tabGroup.addTab({
                 title: 'ScreenRecorder',

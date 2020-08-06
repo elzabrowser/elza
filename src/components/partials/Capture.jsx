@@ -609,7 +609,7 @@ class Capture extends React.Component {
             this.node = node
           }}
         >
-          <button id='capture' title='Capture Image' onClick={this.capture}>
+          <button id='capture' title='Screenshot' onClick={this.capture}>
             {this.state.isCapturing ? (
               <div className='capturing'></div>
             ) : (

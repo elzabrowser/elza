@@ -146,9 +146,6 @@ class NewTab extends React.Component {
         </div>
         <div className='row'>
           <div className='container p-4'>
-            <p>
-              <span className='new-tab-cat-header'>Tools</span>
-            </p>
             <div className='new-tab-tools'>
               {false && (
                 <div className='new-tab-tool p-2'>
@@ -169,23 +166,6 @@ class NewTab extends React.Component {
                   <label>File sharing</label>
                 </div>
               )}
-              <div className='new-tab-tool p-2'>
-                <button
-                  className='new-tab-tool-button shadow rounded-circle'
-                  onClick={() =>
-                    this.openInNewTab(
-                      'OSINT',
-                      'elza://osint',
-                      Osint,
-                      'fa fa-share-alt'
-                    )
-                  }
-                >
-                  OS
-                </button>
-                <br />
-                <label>OSINT</label>
-              </div>
             </div>
           </div>
         </div>
