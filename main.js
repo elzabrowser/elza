@@ -16,12 +16,14 @@ app.on('ready', function () {
   var mainScreen = electronScreen.getPrimaryDisplay()
   var dimensions = mainScreen.size
   mainWindow = new BrowserWindow({
+    title: 'Elza Browser',
     titleBarStyle: 'hidden',
     resizable: true,
-    width: dimensions.width,
-    height: dimensions.height,
+    width: 1200,
+    height: 700,
     minWidth: 1200,
-    minHeight: 800,
+    minHeight: 700,
+    icon: __dirname + '/src/logo.png',
     webPreferences: {
       webviewTag: true,
       nodeIntegration: true,

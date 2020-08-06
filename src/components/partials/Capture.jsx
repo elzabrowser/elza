@@ -191,6 +191,10 @@ class Capture extends React.Component {
         { x: 0, y: 0, width: wv.clientWidth, height: wv.clientHeight },
         img => {
           if (!write) {
+            var a = document.createElement('a')
+            a.href = img.toDataURL()
+            a.setAttribute('download', id + '.png')
+            a.click()
             resolve(img.toDataURL())
           } else {
             let filepath = app.getPath('documents') + '/' + id + '.jpg'
@@ -478,7 +482,7 @@ class Capture extends React.Component {
     this.setState({ capStatus: 'Generating Image' })
     var [mhtmlData, imageUrl, sec65file] = await Promise.all([
       this.createMHTML(this.randID(), false),
-      this.createImage(this.randID(), true),
+      this.createImage(this.randID(), false),
       createSec65()
     ])
     win.setSize(dimensions.width, dimensions.height, false)
@@ -488,6 +492,7 @@ class Capture extends React.Component {
       isCapturing: false,
       captureButtonText: 'Capture'
     })
+
     return
     let imageSplits = await this.splitImage(
       imageUrl,

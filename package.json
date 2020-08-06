@@ -39,18 +39,14 @@
     "test": "react-scripts test",
     "electron": "electron .",
     "eject": "react-scripts eject",
-    "package-win": "npm run build && electron-packager . Elza-hackp --overwrite --asar --platform=win32 --arch=x64 --icon='./public/logo.ico' --prune=true --out=release-builds --electron-version=6.1.12",
-    "package-linux": "npm run build && electron-packager . Elza-hackp --overwrite --asar --platform=linux --arch=x64 --icon='./public/logo.png' --prune=true --out=release-builds --electron-version=6.1.12"
+    "package-win": "npm run build && electron-packager . ElzaBrowser --overwrite --asar --platform=win32 --arch=x64 --icon='./src/assets/logo.ico' --prune=true --out=release-builds --electron-version=6.1.12",
+    "package-linux": "npm run build && electron-packager . ElzaBrowser --overwrite --asar --platform=linux --arch=x64 --icon='./src/assets/logo.png' --prune=true --out=release-builds --electron-version=6.1.12"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
+    "production": [">0.2%", "not dead", "not op_mini all"],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
