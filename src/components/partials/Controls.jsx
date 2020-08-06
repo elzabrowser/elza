@@ -87,6 +87,7 @@ class Controls extends React.Component {
       tab.setIcon('', 'loader')
     })
     tab.webview.addEventListener('will-navigate', () => {
+      this.setState({ currentWebView: null })
       tab.setIcon('', 'loader-rev')
     })
     tab.webview.addEventListener('page-title-updated', () => {
@@ -167,7 +168,7 @@ class Controls extends React.Component {
       }
     })
     tabGroup.on('tab-removed', (tab, tabGroup) => {
-      document.getElementById('location').value = tab.webviewAttributes.src
+      /* document.getElementById('location').value = tab.webviewAttributes.src
       this.setState({ activeTab: tab.id })
       if (tab.isNative) {
         ReactDOM.render(
@@ -180,7 +181,7 @@ class Controls extends React.Component {
           />,
           tab.webview
         )
-      }
+      } */
       let tabCount = tabGroup.getTabs()
       if (tabCount == 0) {
         let newtab = tabGroup.addTab({

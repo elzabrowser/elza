@@ -18,8 +18,10 @@ app.on('ready', function () {
   mainWindow = new BrowserWindow({
     titleBarStyle: 'hidden',
     resizable: true,
-    minWidth: dimensions.width,
-    minHeight: dimensions.height,
+    width: dimensions.width,
+    height: dimensions.height,
+    minWidth: 1200,
+    minHeight: 800,
     webPreferences: {
       webviewTag: true,
       nodeIntegration: true,
@@ -29,7 +31,7 @@ app.on('ready', function () {
   })
   if (isDev) {
     mainWindow.loadURL('http://localhost:3000')
-    mainWindow.openDevTools({ mode: 'detach' })
+    mainWindow.openDevTools()
   } else {
     mainWindow.loadFile('./build/index.html')
     //mainWindow.openDevTools()

@@ -39,7 +39,7 @@ class Home extends React.Component {
   addNewNativeTab = (title, src, comp, icon) => {
     let tab = this.tabGroup.addTab({
       title: title || 'New Tab',
-      src: src || 'elza://newtab',
+      src: src || '',
       icon: 'fa fa-grip-horizontal' || icon,
       isNative: true,
       comp: comp || NewTab,
