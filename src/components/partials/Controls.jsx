@@ -11,15 +11,12 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import getFavicon from '../../functions/getFavicon'
 import parseUrlInput from '../../functions/parseUrlInput'
 import validateElzaProtocol from '../../functions/validateElzaProtocol'
-import { size } from 'custom-electron-titlebar/lib/common/dom'
 const contextMenu = window.require('electron-context-menu')
 const remote = window.require('electron').remote
 const session = remote.session
 session.defaultSession.on('will-download', (event, item, webContents) => {
   event.preventDefault()
   console.log(item)
-  console.log(event)
-  //alert('ghn')
 })
 class Controls extends React.Component {
   constructor (props) {
@@ -44,21 +41,17 @@ class Controls extends React.Component {
     this.tabGroupEvents(newProps.tabGroup)
   }
   handleOutsideClick (e) {
-    // ignore clicks on the component itself
     if (this.node.contains(e.target)) {
       return
     }
-
     this.handleClick()
   }
   handleClick () {
     if (!this.state.popupVisible) {
-      // attach/remove event handler
       document.addEventListener('click', this.handleOutsideClick, false)
     } else {
       document.removeEventListener('click', this.handleOutsideClick, false)
     }
-
     this.setState(prevState => ({
       popupVisible: !prevState.popupVisible
     }))
@@ -129,7 +122,6 @@ class Controls extends React.Component {
             'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0 Elza Browser'
         }
       })
-      //this.props.tab.close()
       newtab.activate()
     })
   }
@@ -195,13 +187,11 @@ class Controls extends React.Component {
               'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0 Elza Browser'
           }
         })
-        //this.props.tab.close()
         newtab.activate()
       }
     })
     this.props.listenerReady()
   }
-
   handleChange = event => {
     let tabs = [...this.state.tabs]
     tabs[this.state.activeTab].inputURL = event.target.value
@@ -210,7 +200,6 @@ class Controls extends React.Component {
   handleSearchEngineChange = searchEngine => {
     this.setState({ searchEngine: searchEngine })
   }
-
   submitURL = e => {
     e.preventDefault()
     let id = this.state.activeTab
@@ -220,11 +209,9 @@ class Controls extends React.Component {
       validateElzaProtocol(this.state.tabGroup, sTab.tab, url)
       return
     }
-
     url = parseUrlInput(sTab.inputURL, this.state.searchEngine)
     document.getElementById('location').value = url
     console.log(document.getElementById('location').value)
-
     if (sTab.tab.isNative) {
       sTab.tab.removeNative(url)
       this.tabEvents(sTab.tab)

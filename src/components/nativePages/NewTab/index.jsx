@@ -4,7 +4,6 @@ import binglogo from './bing.png'
 import googlelogo from './google.png'
 import ducklogo from './duck.png'
 import Sharing from '../Sharing'
-import Osint from '../Osint'
 import { Dropdown } from 'react-bootstrap'
 class NewTab extends React.Component {
   constructor (props) {
@@ -43,15 +42,8 @@ class NewTab extends React.Component {
             <i className='fa fa-cog' />
           </div> */}
         </div>
-        <div
-          className='row'
-          style={{
-            paddingLeft: '100px',
-            paddingRight: '100px',
-            marginTop: '50px'
-          }}
-        >
-          <div className=' col-md-11' style={{ paddingRight: '0px' }}>
+        <div className='searchbar row'>
+          <div className='col-md-11 pr-0'>
             <form className='ml-auto mr-auto' onSubmit={this.props.submitURL}>
               <input
                 className='new-tab-search-input shadow'
@@ -59,22 +51,13 @@ class NewTab extends React.Component {
                 onChange={this.props.handleChange}
                 placeholder='Search or type in url'
               ></input>
-              <input
-                type='hidden'
-                id='searchengine'
-                name='searchengine'
-                value={this.searchEngine}
-              ></input>
             </form>
           </div>
           <div
             style={{
-              background:
-                'linear-gradient(to right, white 50%, transparent 50%)',
-              borderTopRightRadius: '30px',
               borderBottomRightRadius: this.state.borderBottomRightRadius
             }}
-            className='col-md-1'
+            className='dropdownwrapper col-md-1'
           >
             <Dropdown
               onToggle={isopen => {
@@ -84,10 +67,8 @@ class NewTab extends React.Component {
               }}
             >
               <Dropdown.Toggle
+                className='dropdowntoggle'
                 style={{
-                  backgroundColor: 'white',
-                  border: '0px',
-                  borderTopRightRadius: '30px',
                   borderBottomRightRadius: this.state.borderBottomRightRadius
                 }}
                 id='dropdown-toggle'
@@ -142,31 +123,6 @@ class NewTab extends React.Component {
                 )}
               </Dropdown.Menu>
             </Dropdown>
-          </div>
-        </div>
-        <div className='row'>
-          <div className='container p-4'>
-            <div className='new-tab-tools'>
-              {false && (
-                <div className='new-tab-tool p-2'>
-                  <button
-                    className='new-tab-tool-button shadow rounded-circle'
-                    onClick={() =>
-                      this.openInNewTab(
-                        'file Sharing',
-                        'elza://share',
-                        Sharing,
-                        'fa fa-share-alt'
-                      )
-                    }
-                  >
-                    FS
-                  </button>
-                  <br />
-                  <label>File sharing</label>
-                </div>
-              )}
-            </div>
           </div>
         </div>
       </div>

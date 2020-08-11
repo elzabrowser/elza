@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import '../../assets/css/controls.css'
 import '../../assets/css/menu.css'
 import 'bootstrap/dist/css/bootstrap.min.css'

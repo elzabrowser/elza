@@ -38,7 +38,20 @@
   color: beige;
   font-weight: bold;
 }
-
+.searchbar {
+  padding-left: 100px !important;
+  padding-right: 100px !important;
+  margin-top: 50px !important;
+}
+.dropdownwrapper {
+  background: 'linear-gradient(to right, white 50%, transparent 50%)';
+  border-top-right-radius: '30px';
+}
+.dropdowntoggle {
+  background-color: white !important;
+  border: 0px !important;
+  border-top-right-radius: 30px !important;
+}
 .dropmenu {
   min-width: 73px;
   text-align: center;
