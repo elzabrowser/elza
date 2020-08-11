@@ -1,15 +1,10 @@
 import React from 'react'
-import '../../assets/css/controls.css'
-import '../../assets/css/menu.css'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import sha256 from 'sha256'
-import createMetadata from '../../functions/filegenerators/createMetadata.js'
 import url from 'url'
 import createSec65 from '../../functions/filegenerators/createSec65.js'
 import initDir from '../../functions/filegenerators/initDirectories'
-import { saveCapture } from '../../functions/capturedb.js'
-import ScreenRecorder from '../nativePages/ScreenRecorder'
-import Captures from '../nativePages/Captures'
+import '../../assets/css/controls.css'
+import '../../assets/css/menu.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
 const remote = window.require('electron').remote
 const app = remote.app
 const PDFDocument = window.require('pdfkit')
@@ -26,8 +21,6 @@ initDir()
 class Capture extends React.Component {
   constructor (props) {
     super(props)
-    this.handleClick = this.handleClick.bind(this)
-    this.handleOutsideClick = this.handleOutsideClick.bind(this)
     this.state = {
       webv: null,
       isNative: true,
@@ -72,117 +65,7 @@ class Capture extends React.Component {
     })
     console.log(newProps)
   }
-  componentDidMount () {
-    this.startVideoStream()
-  }
-  handleOutsideClick (e) {
-    // ignore clicks on the component itself
-    if (this.node.contains(e.target)) {
-      return
-    }
 
-    this.handleClick()
-  }
-  handleClick () {
-    if (!this.state.popupVisible) {
-      // attach/remove event handler
-      document.addEventListener('click', this.handleOutsideClick, false)
-    } else {
-      document.removeEventListener('click', this.handleOutsideClick, false)
-    }
-
-    this.setState(prevState => ({
-      popupVisible: !prevState.popupVisible
-    }))
-  }
-  removeCapturePopup = () => {
-    document.getElementById('capturePopUp').classList.remove('show')
-  }
-  toggleCapturePopup = () => {
-    document.getElementById('capturePopUp').classList.toggle('show')
-  }
-  startLoading = () => {
-    this.setState({ webvIsLoading: true })
-  }
-  failLoadHandler = e => {
-    console.log(e)
-  }
-  updateURL = () => {
-    var webv = this.state.webv
-    document.getElementById('location').value = webv.src
-    this.setState({ inputURL: webv.src })
-    //this.state.webHistory.push(webv.src)
-    this.setState({
-      canGoBack: !webv.canGoBack(),
-      canGoForward: !webv.canGoForward(),
-      webvIsLoading: false
-    })
-  }
-
-  getUserData = () => {
-    fetch('https://app.expertevidence.org/api/getuserdata')
-      .then(response => response.json())
-      .then(data => {
-        if (data) {
-          this.setState({ userName: data.name, userID: data.id })
-        } else {
-          console.log('error fetching data')
-        }
-      })
-  }
-  createPDF = (id, write) => {
-    return new Promise((resolve, reject) => {
-      this.state.webv
-        .printToPDF({
-          marginsType: 1,
-          printBackground: true,
-          pageSize: 'A4'
-        })
-        .then(data => {
-          resolve(data)
-        })
-        .catch(error => {
-          console.log(error)
-          reject(error)
-        })
-    })
-  }
-  createMHTML = (id, write) => {
-    return new Promise((resolve, reject) => {
-      var filePath = `${this.defaltDirs.tmp}/${id}.mhtml`
-      var webcontent = remote.webContents.fromId(
-        this.state.webv.getWebContentsId()
-      )
-      webcontent
-        .savePage(filePath, 'MHTML')
-        .then(() => {
-          if (!write) {
-            var filecontents = this.imports.fs.readFileSync(filePath)
-            resolve(filecontents)
-          }
-          resolve()
-        })
-        .catch(err => {
-          reject(err)
-        })
-    })
-  }
-  createHTML = () => {
-    return new Promise((resolve, reject) => {
-      var webcontent = remote.webContents.fromId(
-        this.state.webv.getWebContentsId()
-      )
-      webcontent
-        .savePage('test.html', 'HTMLOnly')
-        .then(() => {
-          console.log('HTML generated')
-          resolve()
-        })
-        .catch(err => {
-          reject(err)
-        })
-    })
-  }
   createImage = (id, write) => {
     return new Promise((resolve, reject) => {
       var wv = this.state.webv
@@ -209,84 +92,6 @@ class Capture extends React.Component {
       )
     })
   }
-  imageToPDF = (filepath, contentHeight, contentWidth, filename, timestamp) => {
-    return new Promise((resolve, reject) => {
-      const doc = new PDFDocument({
-        size: [595, 842],
-        layout: 'landscape',
-        autoFirstPage: false,
-        margins: {
-          top: 0,
-          bottom: 0,
-          left: 0,
-          right: 0
-        }
-      })
-      const stream = doc.pipe(blobStream())
-      doc.fontSize(10)
-      for (var k = 0; k < filepath.length; k++) {
-        doc.addPage()
-        doc.image(filepath[k], {
-          width: 848,
-          align: 'center',
-          valign: 'center'
-        })
-        doc.moveDown(0.4)
-        let footerText =
-          ' ' + filename + ' ' + timestamp + ' Captured by ExpertEvidence.Org'
-        doc.font('Times-Roman').text(footerText, {
-          align: 'left'
-        })
-      }
-      doc.end()
-      stream.on('finish', function () {
-        const blob = stream.toBlob('application/pdf')
-        const fs = window.require('fs')
-        var reader = new FileReader()
-        reader.onload = function () {
-          var buffer = new Buffer(reader.result)
-          var filepath = '/tmp/file.pdf'
-          resolve(buffer)
-          /* fs.writeFile(filepath, buffer, {}, (err, res) => {
-            if (err) {
-              console.error(err)
-              reject()
-            }
-          }) */
-        }
-        reader.readAsArrayBuffer(blob)
-      })
-    })
-  }
-  splitImage = (imageURL, contentWidth, contentHeight) => {
-    return new Promise((resolve, reject) => {
-      var image = new Image()
-      image.onload = () => {
-        let heightOfOnePiece = (210 / 297) * contentWidth - 60
-        var imagePieces = []
-        for (var x = 0; x < contentHeight / heightOfOnePiece; x++) {
-          var canvas = document.createElement('canvas')
-          canvas.width = contentWidth
-          canvas.height = heightOfOnePiece
-          var context = canvas.getContext('2d')
-          context.drawImage(
-            image,
-            0,
-            x * heightOfOnePiece,
-            contentWidth,
-            heightOfOnePiece,
-            0,
-            0,
-            contentWidth,
-            heightOfOnePiece
-          )
-          imagePieces.push(canvas.toDataURL('image/png'))
-        }
-        resolve(imagePieces)
-      }
-      image.src = imageURL
-    })
-  }
   randID = () => {
     var result = ''
     var characters =
@@ -297,12 +102,7 @@ class Capture extends React.Component {
     }
     return result
   }
-  openInFolder = path => {
-    shell.showItemInFolder(path)
-  }
-  openItem = path => {
-    shell.openItem(path)
-  }
+
   randID = () => {
     var d = new Date()
     var result = ''
@@ -315,142 +115,10 @@ class Capture extends React.Component {
     return d.toISOString().replace(/:/g, '-') + '-' + result
   }
 
-  openInNewTab = (title, src, comp, icon) => {
-    let tab = this.props.tabGroup.addTab({
-      title: title || 'File Sharing',
-      src: src || 'elza://share',
-      icon: 'fa fa-grip-horizontal' || icon,
-      isNative: true,
-      comp: comp,
-      webviewAttributes: {
-        useragent:
-          'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0 Elza Browser'
-      }
-    })
-    //this.props.tab.close()
-    tab.activate()
-  }
-  startVideo = () => {
-    if (this.state.isRecording) {
-      this.stopVideo()
-      return
-    }
-    this.setState({
-      isRecording: true,
-      recStatus: 'Recording...',
-      captureID: this.randID(),
-      isSaved: false,
-      isPaused: false
-    })
-    this.timer()
-    this.recordedChunks = []
-    this.mediaRecorder.ondataavailable = this.handleDataAvailable
-    this.mediaRecorder.start()
-  }
-  stopVideo = () => {
-    clearTimeout(this.t)
-    this.setState({ st: '00:00:00' })
-    this.seconds = 0
-    this.minutes = 0
-    this.hours = 0
-    this.mediaRecorder.stop()
-    this.setState({ isRecording: false, recStatus: 'Saving...' })
-  }
-  pauseVideo = () => {
-    clearTimeout(this.t)
-    this.mediaRecorder.pause()
-    this.setState({ isPaused: true, recStatus: 'Paused' })
-  }
-  resumeVideo = () => {
-    this.timer()
-    this.mediaRecorder.resume()
-    this.setState({ isPaused: false, recStatus: 'Recording...' })
-  }
-
-  handleDataAvailable = async event => {
-    if (event.data.size > 0) {
-      this.recordedChunks.push(event.data)
-      console.log(this.recordedChunks)
-      var data = new Buffer(await this.recordedChunks[0].arrayBuffer())
-      var filePath = this.defaltDirs.out + '/' + this.state.captureID + '.webm'
-      this.imports.fs.writeFile(filePath, data, err => {
-        if (err) console.log(err)
-        else {
-          this.setState({ recStatus: 'Saved', filePath, isSaved: true })
-        }
-      })
-    } else {
-      // ...
-    }
-  }
-
-  handleError = e => {
-    console.log(e)
-  }
-
-  add = () => {
-    this.seconds++
-    if (this.seconds >= 60) {
-      this.seconds = 0
-      this.minutes++
-      if (this.minutes >= 60) {
-        this.minutes = 0
-        this.hours++
-      }
-    }
-
-    let st =
-      (this.hours ? (this.hours > 9 ? this.hours : '0' + this.hours) : '00') +
-      ':' +
-      (this.minutes
-        ? this.minutes > 9
-          ? this.minutes
-          : '0' + this.minutes
-        : '00') +
-      ':' +
-      (this.seconds > 9 ? this.seconds : '0' + this.seconds)
-    this.setState({ st })
-    this.timer()
-  }
-  timer = () => {
-    this.t = setTimeout(this.add, 1000)
-  }
-  startVideoStream = () => {
-    desktopCapturer
-      .getSources({ types: ['window', 'screen'] })
-      .then(async sources => {
-        for (const source of sources) {
-          if (source.name === 'Entire Screen') {
-            try {
-              const stream = await navigator.mediaDevices.getUserMedia({
-                audio: false,
-                video: {
-                  mandatory: {
-                    chromeMediaSource: 'desktop',
-                    chromeMediaSourceId: source.id,
-                    minWidth: 1920,
-                    maxWidth: 1920,
-                    minHeight: 1080,
-                    maxHeight: 1080
-                  }
-                }
-              })
-              var options = { mimeType: 'video/webm; codecs=vp9' }
-
-              this.mediaRecorder = new MediaRecorder(stream, options)
-            } catch (e) {
-              this.handleError(e)
-            }
-            return
-          }
-        }
-      })
-  }
   capture = async () => {
     /*  this.state.webv.openDevTools()
      */
     if (this.state.webv == null) return
-    this.handleClick()
     this.setState({
       captureButtonText: 'Page Loading...',
       capStatus: 'Waiting for page to load...'
@@ -479,11 +147,7 @@ class Capture extends React.Component {
     var userIP = await publicIp.v4()
     var filename = targetDomain + '-' + captureID
     this.setState({ capStatus: 'Generating Image' })
-    var [mhtmlData, imageUrl, sec65file] = await Promise.all([
-      this.createMHTML(this.randID(), false),
-      this.createImage(this.randID(), false),
-      createSec65()
-    ])
+    var [imageUrl] = await Promise.all([this.createImage(this.randID(), false)])
     win.setSize(dimensions.width, dimensions.height, false)
     //window.resizeTo(800, 800)
     this.setState({
@@ -493,69 +157,6 @@ class Capture extends React.Component {
     })
 
     return
-    let imageSplits = await this.splitImage(
-      imageUrl,
-      dimensions.width,
-      contentHeight
-    )
-    console.log(imageSplits)
-    this.setState({ capStatus: 'Generating Metadata' })
-
-    let pdfFile = await this.imageToPDF(
-      imageSplits,
-      contentHeight,
-      dimensions.width,
-      targetDomain + ' ' + captureID,
-      timeStamp
-    )
-    var metadataObj = {
-      Url: targetURL,
-      Timestamp: timeStamp,
-      Host: targetDomain,
-      HostIP: targetIP,
-      CaptureID: captureID,
-      Username: this.state.userName,
-      userID: this.state.userID,
-      userIP: userIP,
-      Browser: 'Chrome',
-      Capturemode: 'private',
-      ContentType: 'Web archive',
-      CapturedBy: 'expertevidence.org',
-      ShasumMHTML: sha256(mhtmlData),
-      ShasumPDF: sha256(pdfFile)
-    }
-    var [metadataFile, metadataJson] = await Promise.all([
-      createMetadata(metadataObj),
-      JSON.stringify(metadataObj)
-    ])
-    this.setState({ capStatus: 'Compressing Files' })
-    var zip = new JSZip()
-    zip.file(filename + '-archive.mhtml', mhtmlData)
-    zip.file(filename + '-metadata.json', metadataJson)
-    zip.file(filename + '-metadata.pdf', metadataFile)
-    zip.file(filename + '-sec65.pdf', sec65file)
-    zip.file(filename + '-screenshot.pdf', pdfFile)
-    //   zip.file(filename + '-image.png', imageData)
-    var zipBuffer = await zip.generateAsync({
-      type: 'nodebuffer'
-    })
-    var savePath = this.defaltDirs.out + '/' + filename + '.zip'
-    this.imports.fs.writeFile(savePath, zipBuffer, err => {
-      this.setState({
-        capStatus: 'Capture Complete',
-        isCapturing: false,
-        captureButtonText: 'Capture'
-      })
-      saveCapture({ filePath: savePath, timeStamp, filename: filename })
-      // 	var formData = new FormData();
-      // 	formData.append('zipfile', this.imports.fs.createReadStream(savePath));
-      // 	console.log(formData)
-      // 	axios.post('http://localhost:3001/api/zipupload/', formData, {
-      // 	headers: {
-      // 		 'Content-Type': 'multipart/form-data'
-      // 		}
-      //  });
-    })
   }
   setHttp (link) {
     if (link.search(/^http[s]?:\/\//) === -1) {
@@ -615,61 +216,6 @@ class Capture extends React.Component {
               <i className='fas fa-camera' />
             )}
           </button>
-          {false && (
-            <div id='capturePopUp' className='dropdown-capture'>
-              <div className='row col-md-12 '>
-                <div
-                  onClick={this.capture}
-                  className='col-md-4 text-center item'
-                >
-                  <i
-                    className='fas fa-camera fa-3x'
-                    style={{ color: '#556B2F' }}
-                  />
-                  <p style={{ textAlign: 'center' }}>Capture</p>
-                </div>
-                <div
-                  onClick={() => {
-                    this.openInNewTab(
-                      'ScreenRecorder',
-                      'elza://recorder',
-                      ScreenRecorder,
-                      'fa fa-share-alt'
-                    )
-                    this.handleClick()
-                  }}
-                  className='col-md-4 text-center item'
-                >
-                  <i
-                    className='fas fa-video fa-3x'
-                    style={{ color: '#8B0000' }}
-                  />
-                  <p style={{ textAlign: 'center' }}>Record</p>
-                </div>
-                <div
-                  onClick={() => {
-                    this.openInNewTab(
-                      'Captures',
-                      'elza://captures',
-                      Captures,
-                      'fa fa-share-alt'
-                    )
-                    this.handleClick()
-                  }}
-                  className='col-md-4 text-center item'
-                >
-                  <i
-                    className='fas fa-list-ul fa-3x'
-                    style={{ color: '#008080' }}
-                  />
-                  <p style={{ textAlign: 'center' }}>Captures</p>
-                </div>
-              </div>
-              <span style={{ fontSize: '12px' }}>
-                <i className='fas fa-info-circle '></i> {this.state.infoText}
-              </span>
-            </div>
-          )}
         </div>
         {this.state.capStatus ? (
           <div id='notificationArea' className='notificationAlert'>
