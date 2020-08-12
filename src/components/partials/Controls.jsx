@@ -19,7 +19,7 @@ session.defaultSession.on('will-download', (event, item, webContents) => {
   console.log(item)
 })
 class Controls extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
     this.handleOutsideClick = this.handleOutsideClick.bind(this)
@@ -36,17 +36,17 @@ class Controls extends React.Component {
     }
   }
 
-  componentWillReceiveProps (newProps) {
+  componentWillReceiveProps(newProps) {
     this.setState({ tabGroup: newProps.tabGroup })
     this.tabGroupEvents(newProps.tabGroup)
   }
-  handleOutsideClick (e) {
+  handleOutsideClick(e) {
     if (this.node.contains(e.target)) {
       return
     }
     this.handleClick()
   }
-  handleClick () {
+  handleClick() {
     if (!this.state.popupVisible) {
       document.addEventListener('click', this.handleOutsideClick, false)
     } else {
@@ -144,7 +144,8 @@ class Controls extends React.Component {
     })
 
     tabGroup.on('tab-active', (tab, tabGroup) => {
-      document.getElementById('location').value = tab.webviewAttributes.src
+      console.log(tab)
+      document.getElementById('location').value = this.state.tabs[tab.id]?.url || tab.webviewAttributes.src
       this.setState({ activeTab: tab.id })
       if (tab.isNative) {
         ReactDOM.render(
@@ -211,7 +212,6 @@ class Controls extends React.Component {
     }
     url = parseUrlInput(sTab.inputURL, this.state.searchEngine)
     document.getElementById('location').value = url
-    console.log(document.getElementById('location').value)
     if (sTab.tab.isNative) {
       sTab.tab.removeNative(url)
       this.tabEvents(sTab.tab)
@@ -263,7 +263,7 @@ class Controls extends React.Component {
     return 1
   }
 
-  render () {
+  render() {
     return (
       <>
         <div id='controls'>
@@ -304,8 +304,8 @@ class Controls extends React.Component {
               {this.state.webvIsLoading ? (
                 <div className='loader'></div>
               ) : (
-                <i className='fas fa-arrow-right' />
-              )}
+                  <i className='fas fa-arrow-right' />
+                )}
             </button>
           </form>
           <button
