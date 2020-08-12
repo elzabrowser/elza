@@ -16,7 +16,6 @@ const remote = window.require('electron').remote
 const session = remote.session
 session.defaultSession.on('will-download', (event, item, webContents) => {
   event.preventDefault()
-  console.log(item)
 })
 class Controls extends React.Component {
   constructor(props) {
@@ -100,7 +99,6 @@ class Controls extends React.Component {
             tab.id
           ]?.url
       })
-      console.log(tab.webview)
       this.setState({ currentWebView: tab.webview })
       /* tab.webview
         .getWebContents()
@@ -144,7 +142,7 @@ class Controls extends React.Component {
     })
 
     tabGroup.on('tab-active', (tab, tabGroup) => {
-      console.log(tab)
+      if (tab.src === "") this.inputField.focus();
       document.getElementById('location').value = this.state.tabs[tab.id]?.url || tab.webviewAttributes.src
       this.setState({ activeTab: tab.id })
       if (tab.isNative) {
@@ -294,7 +292,7 @@ class Controls extends React.Component {
                 type='text'
                 spellCheck='false'
                 ref={input => (this.inputField = input)}
-                onFocus={() => (this.inputField.value = '')}
+                // onFocus={() => (this.inputField.value = '')}
                 placeholder='Search or type in url'
                 onChange={this.handleChange}
                 defaultValue={'loading'}

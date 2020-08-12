@@ -19,7 +19,7 @@ const JSZip = window.require('jszip')
 
 initDir()
 class Capture extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       webv: null,
@@ -58,12 +58,11 @@ class Capture extends React.Component {
       out: app.getPath('documents') + '/Expert-Evidence'
     }
   }
-  componentWillReceiveProps (newProps) {
+  componentWillReceiveProps(newProps) {
     this.setState({
       webv: newProps.currentWebView,
       isNative: newProps.isNative
     })
-    console.log(newProps)
   }
 
   createImage = (id, write) => {
@@ -158,7 +157,7 @@ class Capture extends React.Component {
 
     return
   }
-  setHttp (link) {
+  setHttp(link) {
     if (link.search(/^http[s]?:\/\//) === -1) {
       link = 'http://' + link
     }
@@ -200,7 +199,7 @@ class Capture extends React.Component {
   sleep = ms => {
     return new Promise(resolve => setTimeout(resolve, ms))
   }
-  render () {
+  render() {
     return (
       <>
         <div
@@ -213,22 +212,22 @@ class Capture extends React.Component {
             {this.state.isCapturing ? (
               <div className='capturing'></div>
             ) : (
-              <i className='fas fa-camera' />
-            )}
+                <i className='fas fa-camera' />
+              )}
           </button>
         </div>
         {this.state.capStatus ? (
           <div id='notificationArea' className='notificationAlert'>
             <div className='notifItem shadow-lg'>
               {(this.state.isCapturing || this.state.webvIsLoading) &&
-              this.state.capStatus != 'Capture Complete' ? (
-                <div
-                  className='spinner-grow spinner-grow-sm text-info mr-3'
-                  role='status'
-                ></div>
-              ) : (
-                <span className='fa fa-check-circle mr-3'></span>
-              )}
+                this.state.capStatus != 'Capture Complete' ? (
+                  <div
+                    className='spinner-grow spinner-grow-sm text-info mr-3'
+                    role='status'
+                  ></div>
+                ) : (
+                  <span className='fa fa-check-circle mr-3'></span>
+                )}
               {this.state.capStatus}{' '}
               <span
                 onClick={() => this.closeNotif()}
