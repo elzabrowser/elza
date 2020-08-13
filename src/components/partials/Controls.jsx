@@ -94,10 +94,12 @@ class Controls extends React.Component {
       tabs[tab.id].canGoForward = tab.webview.canGoForward()
       tab.setIcon(getFavicon(tab.webview.src), '')
       this.setState({ tabs }, () => {
-        if (tab.id === this.state.activeTab)
+        if (tab.id === this.state.activeTab) {
           document.getElementById('location').value = this.state.tabs[
             tab.id
           ]?.url
+          this.secureSiteCheck()
+        }
       })
       this.setState({ currentWebView: tab.webview })
       /* tab.webview
@@ -144,6 +146,7 @@ class Controls extends React.Component {
     tabGroup.on('tab-active', (tab, tabGroup) => {
       if (tab.src === "") this.inputField.focus();
       document.getElementById('location').value = this.state.tabs[tab.id]?.url || tab.webviewAttributes.src
+      this.secureSiteCheck()
       this.setState({ activeTab: tab.id })
       if (tab.isNative) {
         ReactDOM.render(
@@ -260,6 +263,14 @@ class Controls extends React.Component {
     if (this.state.tabs[this.state.activeTab].tab.isNative) return 0
     return 1
   }
+  secureSiteCheck = () => {
+    var url = document.getElementById('location').value
+    if (url && url.startsWith("https://")) {
+      this.setState({ isSiteSecure: true })
+    } else {
+      this.setState({ isSiteSecure: false })
+    }
+  }
 
   render() {
     return (
@@ -284,6 +295,28 @@ class Controls extends React.Component {
           {/* <button id="home" onClick={this.goHome} title="Go Home"><i className="fas fa-home" /></button> */}
           <button id='reload' title='Reload' onClick={this.reloadWebv}>
             <i className='fas fa-redo' />
+          </button>
+          <button id='urlInfo'>
+            {this.state.isSiteSecure ? <i className="fa fa-lock secure-site" /> : <i className='fa fa-globe' />}
+            <div className="urlInfoCtr rounded shadow p-3">
+              {this.state.isSiteSecure ?
+                <div>
+                  <b className="secure-site">Connection is secure</b>
+                  <p>
+                    Connection to this site is TLS encrypted.
+                    your information (for example passwords or credit cards numbers) is private when it is sent to this site
+                  </p>
+                </div>
+                :
+                <div>
+                  <b className="insecure-site">Insecure connection !</b>
+                  <p>
+                    Connection to this site is not encrypted.
+                    You should not enter any sensitive information to this site, because it could be stolen by attackers.
+                  </p>
+                </div>
+              }
+            </div>
           </button>
           <form id='location-form' onSubmit={this.submitURL}>
             <div id='center-column'>
