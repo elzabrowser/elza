@@ -265,7 +265,7 @@ class Controls extends React.Component {
   }
   secureSiteCheck = () => {
     var url = document.getElementById('location').value
-    if (url && url.startsWith("https://")) {
+    if (url && (url.startsWith("https://") || url.startsWith("elza://") )) {
       this.setState({ isSiteSecure: true })
     } else {
       this.setState({ isSiteSecure: false })
