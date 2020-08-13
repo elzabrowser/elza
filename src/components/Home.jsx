@@ -5,16 +5,17 @@ import NewTab from './nativePages/NewTab'
 
 import TabGroup from '../electron-tabs'
 //const TabGroup = require("../electron-tabs");
+import USER_AGENT from '../functions/getUserAgent'
 
 class Home extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.tabGroup = null
     this.state = {
       tabGroup: null
     }
   }
-  componentDidMount () {
+  componentDidMount() {
     this.tabGroup = new TabGroup()
     this.setState({ tabGroup: this.tabGroup })
   }
@@ -45,7 +46,7 @@ class Home extends React.Component {
       comp: comp || NewTab,
       webviewAttributes: {
         useragent:
-          'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0 Elza Browser'
+          USER_AGENT
       }
     })
     tab.activate()
@@ -55,7 +56,7 @@ class Home extends React.Component {
     this.loadStartingPage()
   }
 
-  render () {
+  render() {
     return (
       <>
         <div className='etabs-tabgroup'>
