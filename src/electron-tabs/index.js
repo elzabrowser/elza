@@ -9,9 +9,9 @@ try {
   if (fs.existsSync(configFilePath)) {
     let cfile = window.require(configFilePath)
     console.log(cfile)
-    if (cfile.privateMode){
+    if (cfile.privateMode) {
       PARTITION = null
-    }else{
+    } else {
       PARTITION = "persist:elzawindow"
     }
   }
@@ -201,9 +201,12 @@ class Tab extends EventEmitter {
     this.closable = args.closable === false ? false : true;
     this.webviewAttributes = args.webviewAttributes || {};
     this.webviewAttributes.src = args.src;
-    console.log(PARTITION)
-    if (PARTITION)
-      this.webviewAttributes.partition = PARTITION
+    this.webviewAttributes.partition = "pvt"
+
+    // console.log(PARTITION)
+    // if (PARTITION)
+    //   this.webviewAttributes.partition = PARTITION
+    // console.log(this.webviewAttributes)
     this.src = args.src;
     this.tabElements = {};
     TabPrivate.initTab.bind(this)();

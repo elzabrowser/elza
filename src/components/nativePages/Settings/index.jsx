@@ -57,15 +57,6 @@ class BlankTab extends React.Component {
 
           </div>
           <div className="col-lg-10 p-4 ">
-            <h3>General settings</h3><br />
-            <div className="p-3 col-lg-8 settings-itm">
-              <span>Private mode (Always incognito, history not will be saved)</span>
-              {this.toggleCheck ?
-                <><input className="ml-auto mr-0" type="checkbox" defaultChecked id="switch" onChange={this.privateToggleChange} /><label htmlFor="switch">Toggle</label></>
-                :
-                <><input className="ml-auto mr-0" type="checkbox" id="switch" onChange={this.privateToggleChange} /><label htmlFor="switch">Toggle</label></>
-              }
-            </div>
             <div className="p-3 col-lg-8 ">
               <span>Default search engine</span>
               <div className="dropdown">
