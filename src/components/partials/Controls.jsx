@@ -11,6 +11,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import getFavicon from '../../functions/getFavicon'
 import parseUrlInput from '../../functions/parseUrlInput'
 import validateElzaProtocol from '../../functions/validateElzaProtocol'
+import Settings from '../nativePages/Settings'
 const contextMenu = window.require('electron-context-menu')
 const remote = window.require('electron').remote
 const session = remote.session
@@ -117,7 +118,6 @@ class Controls extends React.Component {
         src: url,
         isNative: false,
         webviewAttributes: {
-          partition: 'persist:elzawindow',
           useragent:
             'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0 Elza Browser'
         }
@@ -184,7 +184,6 @@ class Controls extends React.Component {
           isNative: true,
           comp: BlankTab,
           webviewAttributes: {
-            partition: 'persist:elzawindow',
             useragent:
               'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0 Elza Browser'
           }
@@ -265,7 +264,7 @@ class Controls extends React.Component {
   }
   secureSiteCheck = () => {
     var url = document.getElementById('location').value
-    if (url && (url.startsWith("https://") || url.startsWith("elza://") )) {
+    if (url && (url.startsWith("https://") || url.startsWith("elza://"))) {
       this.setState({ isSiteSecure: true })
     } else {
       this.setState({ isSiteSecure: false })
@@ -388,7 +387,7 @@ class Controls extends React.Component {
           </button>
           {false && <DownloadPopup />}
 
-          {false && (
+          {true && (
             <div
               className='dropdown'
               ref={node => {
@@ -426,9 +425,25 @@ class Controls extends React.Component {
                     </button>
                   </div>
                   <hr />
-                  <div>Downloads</div>
-                  <hr />
                   <div>History</div>
+                  <hr />
+                  <div
+                    id='sharefile'
+                    title='Share File'
+                    onClick={() => {
+                      this.state.currentWebView = null
+                      let newtab = this.state.tabGroup.addTab({
+                        title: 'Settings',
+                        src: 'elza://settings',
+                        icon: 'fa fa-cog',
+                        isNative: true,
+                        comp: Settings,
+                      })
+                      newtab.activate()
+                    }}
+                  >
+                    <i className='fas fa-cog' /> Settings
+                  </div>
                 </div>
               )}
             </div>

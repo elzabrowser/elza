@@ -1,4 +1,23 @@
 const EventEmitter = require("events");
+const remote = window.require('electron').remote;
+const app = remote.app;
+const configFilePath = app.getPath('userData') + "/preferences.json"
+const fs = window.require('fs')
+
+var PARTITION = null;
+try {
+  if (fs.existsSync(configFilePath)) {
+    let cfile = window.require(configFilePath)
+    console.log(cfile)
+    if (cfile.privateMode){
+      PARTITION = null
+    }else{
+      PARTITION = "persist:elzawindow"
+    }
+  }
+} catch (err) {
+  console.error(err)
+}
 
 if (!document) {
   throw Error("electron-tabs module must be called in renderer process");
@@ -182,6 +201,9 @@ class Tab extends EventEmitter {
     this.closable = args.closable === false ? false : true;
     this.webviewAttributes = args.webviewAttributes || {};
     this.webviewAttributes.src = args.src;
+    console.log(PARTITION)
+    if (PARTITION)
+      this.webviewAttributes.partition = PARTITION
     this.src = args.src;
     this.tabElements = {};
     TabPrivate.initTab.bind(this)();

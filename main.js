@@ -23,11 +23,10 @@ app.on('ready', function () {
     height: 700,
     minWidth: 1200,
     minHeight: 700,
-    icon: __dirname + '/src/logo.png',
+    // icon: __dirname + '/src/logo.png',
     webPreferences: {
       webviewTag: true,
       nodeIntegration: true,
-      partition: 'persist:elzawindow',
       webSecurity: false
     }
   })
