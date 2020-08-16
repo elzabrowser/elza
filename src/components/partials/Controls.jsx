@@ -32,7 +32,7 @@ class Controls extends React.Component {
       tabs: [],
       currentWebView: null,
       popupVisible: false,
-      searchEngine: 'google.com'
+      searchEngine: null
     }
   }
 

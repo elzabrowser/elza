@@ -12,7 +12,7 @@ class BlankTab extends React.Component {
     this.state = {
       pref: {
         privateMode: false,
-        searchEngine: "google"
+        searchEngine: "www.google.com"
       }
     }
   }
@@ -46,6 +46,8 @@ class BlankTab extends React.Component {
       if (err) throw err;
       console.log('Saved!', this.state.pref);
     });
+    this.props.handleSearchEngineChange(this.state.pref.searchEngine)
+
   }
 
 
@@ -61,8 +63,9 @@ class BlankTab extends React.Component {
               <span>Default search engine</span>
               <div className="dropdown">
                 <select onChange={this.searchEngineSelector}>
-                  <option value="google" selected={this.state.pref.searchEngine === "google"}>Google</option>
-                  <option value="ddg" selected={this.state.pref.searchEngine === "ddg"}>DuckDuckGo</option>
+                  <option value="www.google.com" selected={this.state.pref.searchEngine === "www.google.com"}>Google</option>
+                  <option value="www.duckduckgo.com" selected={this.state.pref.searchEngine === "www.duckduckgo.com"}>DuckDuckGo</option>
+                  <option value="www.ecosia.org" selected={this.state.pref.searchEngine === "www.ecosia.org"}>Ecosia</option>
                 </select>
               </div>
             </div>

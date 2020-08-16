@@ -32,7 +32,7 @@ class NewTab extends React.Component {
   componentDidMount () {
     this.setState({ searchEngine: 'google.com' })
     this.searchEngine = 'google.com'
-    this.props.handleSearchEngineChange('google.com')
+    //this.props.handleSearchEngineChange('google.com')
   }
   render () {
     return (
