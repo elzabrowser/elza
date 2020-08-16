@@ -1,7 +1,7 @@
 .etabs-tabgroup {
   display: flex;
   flex-direction: row;
-  background-color: #eee;
+  background-color: var(--background-color-secondary);
   overflow: hidden;
 }
 
@@ -14,7 +14,7 @@
 }
 
 .etabs-tab {
-  color: #333;
+  color: var(--font-color-primary);
   display: flex;
   height: 32px;
   align-items: center;
@@ -22,8 +22,12 @@
   flex: 1;
   overflow: hidden;
   margin-right: 10px;
-  border-right: 1px solid #ddd;
+  border-right: 1px solid var(--border-color-primary);
   border-radius: 5px 5px 0 0;
+}
+.etabs-tab-icon{
+  width: 18px;
+  padding-left: 5px;
 }
 
 .etabs-tab-title {
@@ -35,26 +39,27 @@
   white-space: nowrap;
   height: 32px;
   max-height: 32px;
-  font-size: .9rem;
+  font-size: .8rem;
   overflow: hidden;
   line-height: 32px;
   padding: 0 1rem 0 1rem;
 }
 
 .etabs-tabs .active {
-  background-color: #fff;
+  background-color: var(--background-color-primary);
   -webkit-box-shadow: 0px -4px 10px -3px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0px -4px 10px -3px rgba(0, 0, 0, 0.75);
   box-shadow: 0px -4px 10px -3px rgba(0, 0, 0, 0.75);
 }
 
 .etabs-buttons button {
-  font-size: 22px;
-  font-weight: bold;
-  color: #555;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--font-color-secondary);
   border: none;
   height: 32px;
   margin-right: 10px;
+  background-color: rgba(221, 221, 221, 0);
 }
 
 .etabs-tab-buttons {
@@ -67,6 +72,7 @@
   border: none;
   border-radius: 50%;
   font-weight: bold;
+  color: var(--font-color-secondary);
 }
 
 .etabs-tab-button-close:hover {

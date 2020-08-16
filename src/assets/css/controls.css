@@ -1,23 +1,24 @@
 #controls {
 	display: flex;
 	padding: 8px;
-	border-bottom: 1px solid rgb(201, 201, 201);
+	border-bottom: 1px solid var(--border-color-primary);
 	/* grid-template-columns: 35px 35px 35px 35px auto 35px 100px;
-  grid-column-gap: 10px; */
+	grid-column-gap: 10px; */
+	background-color: var(--background-color-primary);
 }
 
 #controls button, #controls button:focus {
 	width: 27px;
 	height: 27px;
 	margin: 0 5px;
-	background-color: #fff;
+	background-color: var(--background-color-primary);
 	border: none;
 	user-select: none;
 	border-radius: 50%;
 	outline: none;
 	background-position: center;
 	transition: background 0.4s;
-	color: #474747;
+	color: var(--font-color-secondary);
 }
 
 #controls button:hover {
@@ -42,7 +43,7 @@
 	height: 26px;
 	width: 26px;
 	font-size: 12px;
-	color: #6e6e6e;
+	color: var(--font-color-secondary);
 	line-height: 26px;
 }
 
@@ -56,8 +57,8 @@
 	left: 0;
 	top: 0;
 	font-size: 14px;
-	color: #474747;
-	background: #fff;
+	color: var(--font-color-secondary);
+	background-color: var(--background-color-secondary);
 	width: 340px;
 	text-align: left;
 }
@@ -78,27 +79,27 @@
 }
 
 #location {
-	background-color: rgb(238, 238, 238);
+	background-color: var(--background-color-secondary);
 	width: 100%;
 	font-weight: 400;
 	padding: 0 10px 0 30px;
 	height: 27px;
-	color: #3f3f3f;
+	color: var(--font-color-secondary);
 	font-size: .9em;
 	border-radius: 13px;
-	border: 1px solid rgb(238, 238, 238);
+	border: 1.3px solid var(--background-color-secondary);
 }
 
 #location:focus {
-	background-color: rgb(250, 250, 250);
-	color: #383838;
+	color: var(--font-color-primary);
+	background-color: var(--background-color-urlbar);
 	outline: none;
 }
 
 #goButton {
 	position: relative;
 	left: -33px;
-	background-color: rgb(238, 238, 238) !important;
+	background-color: var(--background-color-secondary) !important;
 	border: none;
 	height: 23px !important;
 	margin-top: 2px !important;
@@ -106,7 +107,7 @@
 }
 
 #goButton:focus, #goButton:hover, #goButton:active {
-	background-color: #fff !important;
+	background-color: var(--background-color-primary) !important;
 	color: inherit !important;
 }
 
@@ -120,8 +121,8 @@
 	/* loader size and color */
 	width: 1rem;
 	height: 1rem;
-	border-top-color: #444;
-	border-left-color: #444;
+	border-top-color: var(--font-color-secondary);
+	border-left-color: var(--font-color-secondary);
 	/* Additional loader styles */
 	animation: loader 400ms linear infinite;
 	border-bottom-color: transparent;
@@ -138,8 +139,8 @@
 	/* loader size and color */
 	width: 1rem;
 	height: 1rem;
-	border-top-color: #444;
-	border-left-color: #444;
+	border-top-color: var(--font-color-secondary);
+	border-left-color: var(--font-color-secondary);
 	/* Additional loader styles */
 	animation: loader-rev 400ms linear infinite;
 	border-bottom-color: transparent;

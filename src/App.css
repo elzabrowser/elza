@@ -1,15 +1,34 @@
-html, body, #root{
+html, body, #root {
   height: 100%;
   overflow: hidden;
-
 }
+
 .App {
   height: 100%;
-  width:100%;
+  width: 100%;
   display: flex;
-  flex-flow:column;
+  flex-flow: column;
   overflow: hidden;
 }
-:root {
-  --txt-priary: #555555;
+
+.light-theme {
+  --font-color-primary: #292929;
+  --font-color-secondary: rgb(85, 85, 85);
+  --background-color-primary: #fff;
+  --background-color-secondary: #eee;
+  --border-color-primary:#ddd;
+  --background-color-urlbar:#dddddd;
+}
+
+.dark-theme {
+  --font-color-primary: #f3f3f3;
+  --font-color-secondary: rgb(196, 196, 196);
+  --background-color-primary: rgb(54, 54, 54);
+  --background-color-secondary: rgb(22, 22, 22);
+  --border-color-primary:#252525;
+  --background-color-urlbar:#2c2c2c;
+
+}
+button:focus{
+  outline: none !important;
 }

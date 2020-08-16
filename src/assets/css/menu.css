@@ -15,8 +15,9 @@
   padding: 12px;
   background-color: #fff;
   border-radius: 3px;
-  color: #555555;
+  color: var(--font-color-primary);
 }
+
 .capturing {
   border: 5px solid #8d8c8c;
   border-radius: 50%;
@@ -45,14 +46,17 @@
     transform: rotate(360deg);
   }
 }
+
 hr {
   margin: 7px 1px;
 }
+
 .vl {
   border-left: 1px solid rgb(0, 0, 0);
   height: 15px;
   display: inline;
 }
+
 .dropbtn {
   background-color: #4caf50;
   color: white;
@@ -62,8 +66,7 @@ hr {
   cursor: pointer;
 }
 
-.dropbtn:hover,
-.dropbtn:focus {
+.dropbtn:hover, .dropbtn:focus {
   background-color: #3e8e41;
 }
 
@@ -88,6 +91,7 @@ hr {
   right: 0;
   z-index: 1;
 }
+
 .dropdown-capture {
   margin-top: 6px;
   border: 1px solid;
@@ -104,9 +108,11 @@ hr {
   right: 0;
   z-index: 1;
 }
+
 .show {
   display: block;
 }
+
 .buttonclass {
   text-align: center;
 }
@@ -115,6 +121,7 @@ hr {
   cursor: pointer;
   background-color: rgb(187, 187, 181);
 }
+
 p {
   font-size: 13px;
 }
