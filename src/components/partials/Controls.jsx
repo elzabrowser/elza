@@ -12,14 +12,16 @@ import getFavicon from '../../functions/getFavicon'
 import parseUrlInput from '../../functions/parseUrlInput'
 import validateElzaProtocol from '../../functions/validateElzaProtocol'
 import Settings from '../nativePages/Settings'
+const { ipcRenderer } = window.require('electron')
 const contextMenu = window.require('electron-context-menu')
+const fs = window.require('fs')
 const remote = window.require('electron').remote
-const session = remote.session
+/* const session = remote.session
 session.defaultSession.on('will-download', (event, item, webContents) => {
   event.preventDefault()
-})
+}) */
 class Controls extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
     this.handleOutsideClick = this.handleOutsideClick.bind(this)
@@ -36,17 +38,18 @@ class Controls extends React.Component {
     }
   }
 
-  componentWillReceiveProps(newProps) {
+  componentWillReceiveProps (newProps) {
     this.setState({ tabGroup: newProps.tabGroup })
     this.tabGroupEvents(newProps.tabGroup)
   }
-  handleOutsideClick(e) {
+  componentDidMount () {}
+  handleOutsideClick (e) {
     if (this.node.contains(e.target)) {
       return
     }
     this.handleClick()
   }
-  handleClick() {
+  handleClick () {
     if (!this.state.popupVisible) {
       document.addEventListener('click', this.handleOutsideClick, false)
     } else {
@@ -144,8 +147,9 @@ class Controls extends React.Component {
     })
 
     tabGroup.on('tab-active', (tab, tabGroup) => {
-      if (tab.src === "") this.inputField.focus();
-      document.getElementById('location').value = this.state.tabs[tab.id]?.url || tab.webviewAttributes.src
+      if (tab.src === '') this.inputField.focus()
+      document.getElementById('location').value =
+        this.state.tabs[tab.id]?.url || tab.webviewAttributes.src
       this.secureSiteCheck()
       this.setState({ activeTab: tab.id })
       if (tab.isNative) {
@@ -264,14 +268,14 @@ class Controls extends React.Component {
   }
   secureSiteCheck = () => {
     var url = document.getElementById('location').value
-    if (url && (url.startsWith("https://") || url.startsWith("elza://"))) {
+    if (url && (url.startsWith('https://') || url.startsWith('elza://'))) {
       this.setState({ isSiteSecure: true })
     } else {
       this.setState({ isSiteSecure: false })
     }
   }
 
-  render() {
+  render () {
     return (
       <>
         <div id='controls'>
@@ -296,25 +300,31 @@ class Controls extends React.Component {
             <i className='fas fa-redo' />
           </button>
           <button id='urlInfo'>
-            {this.state.isSiteSecure ? <i className="fa fa-lock secure-site" /> : <i className='fa fa-globe' />}
-            <div className="urlInfoCtr rounded shadow p-3">
-              {this.state.isSiteSecure ?
+            {this.state.isSiteSecure ? (
+              <i className='fa fa-lock secure-site' />
+            ) : (
+              <i className='fa fa-globe' />
+            )}
+            <div className='urlInfoCtr rounded shadow p-3'>
+              {this.state.isSiteSecure ? (
                 <div>
-                  <b className="secure-site">Connection is secure</b>
+                  <b className='secure-site'>Connection is secure</b>
                   <p>
-                    Connection to this site is TLS encrypted.
-                    your information (for example passwords or credit cards numbers) is private when it is sent to this site
+                    Connection to this site is TLS encrypted. your information
+                    (for example passwords or credit cards numbers) is private
+                    when it is sent to this site
                   </p>
                 </div>
-                :
+              ) : (
                 <div>
-                  <b className="insecure-site">Insecure connection !</b>
+                  <b className='insecure-site'>Insecure connection !</b>
                   <p>
-                    Connection to this site is not encrypted.
-                    You should not enter any sensitive information to this site, because it could be stolen by attackers.
+                    Connection to this site is not encrypted. You should not
+                    enter any sensitive information to this site, because it
+                    could be stolen by attackers.
                   </p>
                 </div>
-              }
+              )}
             </div>
           </button>
           <form id='location-form' onSubmit={this.submitURL}>
@@ -334,8 +344,8 @@ class Controls extends React.Component {
               {this.state.webvIsLoading ? (
                 <div className='loader'></div>
               ) : (
-                  <i className='fas fa-arrow-right' />
-                )}
+                <i className='fas fa-arrow-right' />
+              )}
             </button>
           </form>
           <button
@@ -385,7 +395,7 @@ class Controls extends React.Component {
           >
             <i className='fas fa-video' />
           </button>
-          {false && <DownloadPopup />}
+          {true && <DownloadPopup />}
 
           {true && (
             <div
@@ -437,7 +447,7 @@ class Controls extends React.Component {
                         src: 'elza://settings',
                         icon: 'fa fa-cog',
                         isNative: true,
-                        comp: Settings,
+                        comp: Settings
                       })
                       newtab.activate()
                     }}

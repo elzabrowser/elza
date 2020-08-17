@@ -1,73 +1,107 @@
 import React from 'react'
-const { ipcRenderer } = window.require('electron')
+import '../../assets/css/w3.css'
+const { shell } = window.require('electron')
+const remote = window.require('electron').remote
+const fs = window.require('fs')
+const downloadInfoFile = remote.app.getPath('userData') + '/downloads.json'
 class DownloadPopup extends React.Component {
   constructor (props) {
     super(props)
+    this.handleClick = this.handleClick.bind(this)
+    this.handleOutsideClick = this.handleOutsideClick.bind(this)
     this.state = {
       downloadIconStyle: { color: 'green' },
-      downloads: [{ title: 'ghjn' }, { title: 'vf' }],
-      downloadProgress: null
+      downloads: {},
+      isVisible: false
     }
   }
 
   componentDidMount () {
-    ipcRenderer.on('downloadprogress', function (event, args) {
-      console.log(args)
-    })
-    ipcRenderer.on('started', function (event, args) {
-      console.log(args)
+    try {
+      this.setState({
+        downloads: JSON.parse(fs.readFileSync(downloadInfoFile, 'utf8'))
+      })
+    } catch {}
+    console.log(this.state.downloads)
+    fs.watch(downloadInfoFile, (curr, prev) => {
+      try {
+        this.setState({
+          downloads: JSON.parse(fs.readFileSync(downloadInfoFile, 'utf8'))
+        })
+        //console.log(this.state.downloads)
+      } catch {}
     })
   }
-  updateProgress = progress => {
-    this.state.downloadProgress = progress
+  getProgress = (receivedBytes, totalBytes) => {
+    if (totalBytes == 0) return 0
+    else {
+      return ((receivedBytes / totalBytes) * 100).toFixed(2) + '%'
+    }
   }
-  downloadStarted = item => {
-    this.state.downloads.push(item)
-    console.log(item)
+  openItem = path => {
+    shell.openItem(path)
   }
   toggleDownloadPopup = () => {
     document.getElementById('downloadPopUp').classList.toggle('show')
   }
+  handleOutsideClick (e) {}
+  handleClick () {
+    if (!this.state.popupVisible) {
+      document.addEventListener('click', this.handleOutsideClick, false)
+    } else {
+      document.removeEventListener('click', this.handleOutsideClick, false)
+    }
+    this.setState(prevState => ({
+      isVisible: !prevState.isVisible
+    }))
+  }
   render () {
     return (
       <>
-        <div className='dropdown'>
+        <div className='dropdown' onClick={this.handleClick}>
           <button id='capture' title='Downloads'>
             <i
               className='fas fa-arrow-circle-down'
               style={this.downloadIconStyle}
             />
           </button>
-          {false && (
+          {this.state.isVisible && (
             <div id='downloadPopUp' className='dropdown-capture'>
-              <div className='row col-md-12 '></div>
-              {this.state.downloads.length
-                ? this.state.downloads.map((item, index) => (
-                    <div
-                      key={index}
-                      className='capListItem border rounded m-2 shadow-sm'
-                    >
-                      <div className='pt-4 pb-4 pl-4'>
-                        <b>{item.filename}.zip</b>
-                        <p className='small text-muted'>
-                          {item.title.toString()}
-                        </p>
-                        <button
-                          className='openItem'
-                          onClick={() => this.openItem(item.filePath)}
-                        >
-                          Open
-                        </button>
-                        <button
-                          className='openItem'
-                          onClick={() => this.openInFolder(item.filePath)}
-                        >
-                          Show in folder
-                        </button>
+              {Object.keys(this.state.downloads).map(key => (
+                <div key={key} className='border rounded m-2 shadow-sm'>
+                  <div className='pt-1 pb-1 pl-1 pr-1'>
+                    <b>{this.state.downloads[key].name}</b>
+                    {this.state.downloads[key].status == 'done' && (
+                      <button
+                        className='openDownloadItem'
+                        onClick={() =>
+                          this.openItem(this.state.downloads[key].path)
+                        }
+                      >
+                        Open
+                      </button>
+                    )}
+
+                    {this.state.downloads[key].status != 'done' && (
+                      <div
+                        className='w3-grey w3-round-xlarge'
+                        style={{ marginTop: '5px' }}
+                      >
+                        <div
+                          className='w3-container w3-blue w3-round-xlarge'
+                          style={{
+                            width: this.getProgress(
+                              this.state.downloads[key].receivedBytes,
+                              this.state.downloads[key].totalBytes
+                            ),
+                            height: '5px'
+                          }}
+                        ></div>
                       </div>
-                    </div>
-                  ))
-                : null}
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
           )}
         </div>

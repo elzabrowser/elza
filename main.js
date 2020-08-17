@@ -1,15 +1,29 @@
-const { app, BrowserWindow, Menu, session } = require('electron')
+const { app, BrowserWindow, Menu, session, DownloadItem } = require('electron')
+const fs = require('fs')
 const isDev = require('electron-is-dev')
-//const electronDl = require('electron-dl')
-
-let mainWindow
-
+const electronDl = require('electron-dl')
+const downloadInfoFile = app.getPath('userData') + '/downloads.json'
+console.log(downloadInfoFile)
+let downloads
+fs.writeFile(downloadInfoFile, '{}', { flag: 'wx' }, function (err) {
+  if (err) throw err
+})
+try {
+  downloads = JSON.parse(fs.readFileSync(downloadInfoFile, 'utf8'))
+} catch {
+  downloads = {}
+}
 app.on('window-all-closed', function () {
   app.quit()
 })
 
 Menu.setApplicationMenu(null)
-
+updateDownload = () => {
+  fs.writeFile(downloadInfoFile, JSON.stringify(downloads), err => {
+    if (err) throw err
+  })
+}
+let mainWindow
 app.on('ready', function () {
   const { screen } = require('electron')
   const electronScreen = screen
@@ -37,18 +51,48 @@ app.on('ready', function () {
     mainWindow.loadFile('./build/index.html')
     //mainWindow.openDevTools()
   }
-  /*  session.defaultSession.on('will-download', (event, item, webContents) => {
+  /* session.defaultSession.on('will-download', (event, item, webContents) => {
     event.preventDefault()
     console.log('ghn')
   }) */
-  /* electronDl({
-    saveAs: true,
+
+  electronDl({
+    saveAs: false,
+    showBadge: true,
     onStarted: function (item) {
-      mainWindow.webContents.send('started', item)
-      console.log(item)
-    },
-    onProgress: function (progress) {
-      mainWindow.webContents.send('downloadprogress', progress)
+      //mainWindow.webContents.send('started', item)
+      var downloadItem = new Object()
+      downloadItem.name = item.getFilename()
+      downloadItem.totalBytes = item.getTotalBytes()
+      downloadItem.receivedBytes = 0
+      var d = new Date()
+      var downloadID = d.getTime()
+      downloadItem.status = 'started'
+      downloadItem.path = item.getSavePath()
+      downloads[downloadID] = downloadItem
+      console.log(downloads)
+      updateDownload()
+      item.once('done', (event, state) => {
+        if (state === 'completed') {
+          downloads[downloadID].status = 'done'
+          console.log(downloads)
+          updateDownload()
+        } else {
+          console.log(`Download failed: ${state}`)
+        }
+      })
+      item.on('updated', (event, state) => {
+        if (state === 'interrupted') {
+          console.log('Download is interrupted but can be resumed')
+        } else if (state === 'progressing') {
+          if (item.isPaused()) {
+            console.log('Download is paused')
+          } else {
+            updateDownload()
+            downloads[downloadID].receivedBytes = item.getReceivedBytes()
+          }
+        }
+      })
     }
-  }) */
+  })
 })
