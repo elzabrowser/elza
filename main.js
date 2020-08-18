@@ -82,7 +82,8 @@ app.on('ready', function () {
             downloads[downloadID].receivedBytes = item.getReceivedBytes()
             if (
               downloads[downloadID].totalBytes ==
-              downloads[downloadID].receivedBytes
+                downloads[downloadID].receivedBytes &&
+              downloads[downloadID].totalBytes != 0
             ) {
               downloads[downloadID].status = 'done'
             }
