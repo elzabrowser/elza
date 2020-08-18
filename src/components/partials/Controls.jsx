@@ -12,6 +12,7 @@ import getFavicon from '../../functions/getFavicon'
 import parseUrlInput from '../../functions/parseUrlInput'
 import validateElzaProtocol from '../../functions/validateElzaProtocol'
 import Settings from '../nativePages/Settings'
+import Downloads from '../nativePages/Downloads'
 const { ipcRenderer } = window.require('electron')
 const contextMenu = window.require('electron-context-menu')
 const fs = window.require('fs')
@@ -274,6 +275,16 @@ class Controls extends React.Component {
       this.setState({ isSiteSecure: false })
     }
   }
+  openDownloadsPage () {
+    console.log(this.state)
+    /*let newtab = this.state.tabGroup.addTab({
+      src: '',
+      title: 'Downloads',
+      isNative: true,
+      comp: Downloads
+    })
+    newtab.activate()*/
+  }
 
   render () {
     return (
@@ -395,7 +406,7 @@ class Controls extends React.Component {
           >
             <i className='fas fa-video' />
           </button>
-          {true && <DownloadPopup />}
+          {true && <DownloadPopup openDownloadsPage={this.openDownloadsPage} />}
 
           {true && (
             <div

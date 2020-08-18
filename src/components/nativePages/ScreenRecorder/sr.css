@@ -58,14 +58,6 @@ button[disabled] {
   color: #343fd8 !important;
   background-color: #ffffff00 !important;
 }
-.openDownloadItem {
-  float: right;
-  width: auto !important;
-  font-size: 16px !important;
-  border: none !important;
-  color: #343fd8 !important;
-  background-color: #ffffff00 !important;
-}
 
 .capListItem {
   display: flex;

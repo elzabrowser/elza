@@ -1,5 +1,6 @@
 import React from 'react'
 import '../../assets/css/w3.css'
+import '../../assets/css/downloadpopup.css'
 const { shell } = window.require('electron')
 const remote = window.require('electron').remote
 const fs = window.require('fs')
@@ -60,7 +61,7 @@ class DownloadPopup extends React.Component {
     return (
       <>
         <div className='dropdown' onClick={this.handleClick}>
-          <button id='capture' title='Downloads'>
+          <button title='Downloads'>
             <i
               className='fas fa-arrow-circle-down'
               style={this.downloadIconStyle}
@@ -68,7 +69,7 @@ class DownloadPopup extends React.Component {
           </button>
           {this.state.isVisible &&
             Object.keys(this.state.downloads).length > 0 && (
-              <div id='downloadPopUp' className='dropdown-capture'>
+              <div id='downloadPopUp' className='dropdown-downloads'>
                 {Object.keys(this.state.downloads).map(key => (
                   <div key={key} className='border rounded m-2 shadow-sm'>
                     <div className='pt-1 pb-1 pl-1 pr-1'>
@@ -111,6 +112,15 @@ class DownloadPopup extends React.Component {
                     </div>
                   </div>
                 ))}
+                <hr />
+                <div
+                  onClick={() => {
+                    this.props.openDownloadsPage()
+                  }}
+                  className='alldownloads'
+                >
+                  All Downloads
+                </div>
               </div>
             )}
         </div>

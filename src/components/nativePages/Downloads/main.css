@@ -1,0 +1,13 @@
+.downloadBox {
+  margin: 15px 70px 5px 70px;
+}
+.topbar {
+  vertical-align: middle;
+  padding-left: 30px;
+  background-color: #343a40;
+  height: 70px;
+  color: white;
+  font-size: xx-large;
+  margin: auto;
+  padding: 10px;
+}
