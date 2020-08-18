@@ -73,10 +73,12 @@ class DownloadPopup extends React.Component {
                   <div key={key} className='border rounded m-2 shadow-sm'>
                     <div className='pt-1 pb-1 pl-1 pr-1'>
                       <b>
-                        {this.state.downloads[key].name
-                          .split(' ')
-                          .splice(0, 10)
-                          .join(' ')}
+                        {this.state.downloads[key].name.length < 12
+                          ? this.state.downloads[key].name
+                          : this.state.downloads[key].name
+                              .split('')
+                              .splice(0, 12)
+                              .join('') + '...'}
                       </b>
                       {this.state.downloads[key].status == 'done' && (
                         <button

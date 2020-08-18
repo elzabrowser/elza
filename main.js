@@ -3,16 +3,15 @@ const fs = require('fs')
 const isDev = require('electron-is-dev')
 const electronDl = require('electron-dl')
 const downloadInfoFile = app.getPath('userData') + '/downloads.json'
-console.log(downloadInfoFile)
 let downloads
 fs.writeFile(downloadInfoFile, '{}', { flag: 'wx' }, function (err) {
   if (err) throw err
 })
 downloads = {}
+
 app.on('window-all-closed', function () {
   app.quit()
 })
-
 Menu.setApplicationMenu(null)
 updateDownload = () => {
   fs.writeFile(downloadInfoFile, JSON.stringify(downloads), err => {
@@ -47,11 +46,6 @@ app.on('ready', function () {
     mainWindow.loadFile('./build/index.html')
     //mainWindow.openDevTools()
   }
-  /* session.defaultSession.on('will-download', (event, item, webContents) => {
-    event.preventDefault()
-    console.log('ghn')
-  }) */
-
   electronDl({
     saveAs: false,
     showBadge: true,
