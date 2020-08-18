@@ -60,70 +60,72 @@ class DownloadPopup extends React.Component {
   render () {
     return (
       <>
-        <div className='dropdown' onClick={this.handleClick}>
-          <button title='Downloads'>
-            <i
-              className='fas fa-arrow-circle-down'
-              style={this.downloadIconStyle}
-            />
-          </button>
-          {this.state.isVisible &&
-            Object.keys(this.state.downloads).length > 0 && (
-              <div id='downloadPopUp' className='dropdown-downloads'>
-                {Object.keys(this.state.downloads).map(key => (
-                  <div key={key} className='border rounded m-2 shadow-sm'>
-                    <div className='pt-1 pb-1 pl-1 pr-1'>
-                      <b>
-                        {this.state.downloads[key].name.length < 12
-                          ? this.state.downloads[key].name
-                          : this.state.downloads[key].name
-                              .split('')
-                              .splice(0, 12)
-                              .join('') + '...'}
-                      </b>
-                      {this.state.downloads[key].status == 'done' && (
-                        <button
-                          className='openDownloadItem'
-                          onClick={() =>
-                            this.openItem(this.state.downloads[key].path)
-                          }
-                        >
-                          Open
-                        </button>
-                      )}
+        {Object.keys(this.state.downloads).length > 0 && (
+          <div className='dropdown' onClick={this.handleClick}>
+            <button title='Downloads'>
+              <i
+                className='fas fa-arrow-circle-down'
+                style={this.downloadIconStyle}
+              />
+            </button>
+            {this.state.isVisible &&
+              Object.keys(this.state.downloads).length > 0 && (
+                <div id='downloadPopUp' className='dropdown-downloads'>
+                  {Object.keys(this.state.downloads).map(key => (
+                    <div key={key} className='border rounded m-2 shadow-sm'>
+                      <div className='pt-1 pb-1 pl-1 pr-1'>
+                        <b>
+                          {this.state.downloads[key].name.length < 12
+                            ? this.state.downloads[key].name
+                            : this.state.downloads[key].name
+                                .split('')
+                                .splice(0, 12)
+                                .join('') + '...'}
+                        </b>
+                        {this.state.downloads[key].status == 'done' && (
+                          <button
+                            className='openDownloadItem'
+                            onClick={() =>
+                              this.openItem(this.state.downloads[key].path)
+                            }
+                          >
+                            Open
+                          </button>
+                        )}
 
-                      {this.state.downloads[key].status != 'done' && (
-                        <div
-                          className='w3-grey w3-round-xlarge'
-                          style={{ marginTop: '5px' }}
-                        >
+                        {this.state.downloads[key].status != 'done' && (
                           <div
-                            className='w3-container w3-blue w3-round-xlarge'
-                            style={{
-                              width: this.getProgress(
-                                this.state.downloads[key].receivedBytes,
-                                this.state.downloads[key].totalBytes
-                              ),
-                              height: '5px'
-                            }}
-                          ></div>
-                        </div>
-                      )}
+                            className='w3-grey w3-round-xlarge'
+                            style={{ marginTop: '5px' }}
+                          >
+                            <div
+                              className='w3-container w3-blue w3-round-xlarge'
+                              style={{
+                                width: this.getProgress(
+                                  this.state.downloads[key].receivedBytes,
+                                  this.state.downloads[key].totalBytes
+                                ),
+                                height: '5px'
+                              }}
+                            ></div>
+                          </div>
+                        )}
+                      </div>
                     </div>
+                  ))}
+                  <hr />
+                  <div
+                    onClick={() => {
+                      this.props.openDownloadsPage()
+                    }}
+                    className='alldownloads'
+                  >
+                    All Downloads
                   </div>
-                ))}
-                <hr />
-                <div
-                  onClick={() => {
-                    this.props.openDownloadsPage()
-                  }}
-                  className='alldownloads'
-                >
-                  All Downloads
                 </div>
-              </div>
-            )}
-        </div>
+              )}
+          </div>
+        )}
       </>
     )
   }

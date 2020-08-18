@@ -4,7 +4,7 @@ const isDev = require('electron-is-dev')
 const electronDl = require('electron-dl')
 const downloadInfoFile = app.getPath('userData') + '/downloads.json'
 let downloads
-fs.writeFile(downloadInfoFile, '{}', { flag: 'wx' }, function (err) {
+fs.writeFile(downloadInfoFile, '{}', function (err) {
   if (err) throw err
 })
 downloads = {}
