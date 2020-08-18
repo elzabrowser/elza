@@ -24,6 +24,7 @@ session.defaultSession.on('will-download', (event, item, webContents) => {
 class Controls extends React.Component {
   constructor (props) {
     super(props)
+    this.openDownloadsPage = this.openDownloadsPage.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.handleOutsideClick = this.handleOutsideClick.bind(this)
     this.state = {
@@ -277,13 +278,13 @@ class Controls extends React.Component {
   }
   openDownloadsPage () {
     console.log(this.state)
-    /*let newtab = this.state.tabGroup.addTab({
+    let newtab = this.state.tabGroup.addTab({
       src: '',
       title: 'Downloads',
       isNative: true,
       comp: Downloads
     })
-    newtab.activate()*/
+    newtab.activate()
   }
 
   render () {
