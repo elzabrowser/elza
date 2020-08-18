@@ -1,0 +1,10 @@
+.downloadButton:focus > .dropdown {
+  visibility: visible;
+}
+
+.dropdown {
+  visibility: hidden;
+  position: relative;
+  left: 0;
+  top: 0;
+}

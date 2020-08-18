@@ -8,11 +8,7 @@ let downloads
 fs.writeFile(downloadInfoFile, '{}', { flag: 'wx' }, function (err) {
   if (err) throw err
 })
-try {
-  downloads = JSON.parse(fs.readFileSync(downloadInfoFile, 'utf8'))
-} catch {
-  downloads = {}
-}
+downloads = {}
 app.on('window-all-closed', function () {
   app.quit()
 })
@@ -90,6 +86,12 @@ app.on('ready', function () {
           } else {
             updateDownload()
             downloads[downloadID].receivedBytes = item.getReceivedBytes()
+            if (
+              downloads[downloadID].totalBytes ==
+              downloads[downloadID].receivedBytes
+            ) {
+              downloads[downloadID].status = 'done'
+            }
           }
         }
       })

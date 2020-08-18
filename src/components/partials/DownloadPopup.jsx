@@ -55,6 +55,7 @@ class DownloadPopup extends React.Component {
       isVisible: !prevState.isVisible
     }))
   }
+
   render () {
     return (
       <>
@@ -65,45 +66,51 @@ class DownloadPopup extends React.Component {
               style={this.downloadIconStyle}
             />
           </button>
-          {this.state.isVisible && (
-            <div id='downloadPopUp' className='dropdown-capture'>
-              {Object.keys(this.state.downloads).map(key => (
-                <div key={key} className='border rounded m-2 shadow-sm'>
-                  <div className='pt-1 pb-1 pl-1 pr-1'>
-                    <b>{this.state.downloads[key].name}</b>
-                    {this.state.downloads[key].status == 'done' && (
-                      <button
-                        className='openDownloadItem'
-                        onClick={() =>
-                          this.openItem(this.state.downloads[key].path)
-                        }
-                      >
-                        Open
-                      </button>
-                    )}
+          {this.state.isVisible &&
+            Object.keys(this.state.downloads).length > 0 && (
+              <div id='downloadPopUp' className='dropdown-capture'>
+                {Object.keys(this.state.downloads).map(key => (
+                  <div key={key} className='border rounded m-2 shadow-sm'>
+                    <div className='pt-1 pb-1 pl-1 pr-1'>
+                      <b>
+                        {this.state.downloads[key].name
+                          .split(' ')
+                          .splice(0, 10)
+                          .join(' ')}
+                      </b>
+                      {this.state.downloads[key].status == 'done' && (
+                        <button
+                          className='openDownloadItem'
+                          onClick={() =>
+                            this.openItem(this.state.downloads[key].path)
+                          }
+                        >
+                          Open
+                        </button>
+                      )}
 
-                    {this.state.downloads[key].status != 'done' && (
-                      <div
-                        className='w3-grey w3-round-xlarge'
-                        style={{ marginTop: '5px' }}
-                      >
+                      {this.state.downloads[key].status != 'done' && (
                         <div
-                          className='w3-container w3-blue w3-round-xlarge'
-                          style={{
-                            width: this.getProgress(
-                              this.state.downloads[key].receivedBytes,
-                              this.state.downloads[key].totalBytes
-                            ),
-                            height: '5px'
-                          }}
-                        ></div>
-                      </div>
-                    )}
+                          className='w3-grey w3-round-xlarge'
+                          style={{ marginTop: '5px' }}
+                        >
+                          <div
+                            className='w3-container w3-blue w3-round-xlarge'
+                            style={{
+                              width: this.getProgress(
+                                this.state.downloads[key].receivedBytes,
+                                this.state.downloads[key].totalBytes
+                              ),
+                              height: '5px'
+                            }}
+                          ></div>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          )}
+                ))}
+              </div>
+            )}
         </div>
       </>
     )
