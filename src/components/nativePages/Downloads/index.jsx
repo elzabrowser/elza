@@ -70,10 +70,7 @@ class Downloads extends React.Component {
                     <b>
                       {this.state.downloads[key].name.length < 12
                         ? this.state.downloads[key].name
-                        : this.state.downloads[key].name
-                            .split('')
-                            .splice(0, 12)
-                            .join('') + '...'}
+                        : this.state.downloads[key].name}
                     </b>
                     {this.state.downloads[key].status == 'done' && (
                       <button

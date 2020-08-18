@@ -360,116 +360,124 @@ class Controls extends React.Component {
               )}
             </button>
           </form>
-          <button
-            id='sharefile'
-            title='Share File'
-            onClick={() => {
-              this.state.currentWebView = null
-              let newtab = this.state.tabGroup.addTab({
-                title: 'File Sharing',
-                src: 'elza://share',
-                icon: 'fa fa-grip-horizontal',
-                isNative: true,
-                comp: Sharing,
-                webviewAttributes: {
-                  useragent:
-                    'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0 Elza Browser'
-                }
-              })
-              newtab.activate()
-            }}
-          >
-            <i className='fas fa-share-alt' />
-          </button>
-          {true && (
-            <Capture
-              currentWebView={this.state.currentWebView}
-              tabGroup={this.state.tabGroup}
-            />
-          )}
-          <button
-            id='recorder'
-            title='Screen Recorder'
-            onClick={() => {
-              let newtab = this.state.tabGroup.addTab({
-                title: 'ScreenRecorder',
-                src: 'elza://recorder',
-                icon: 'fa fa-grip-horizontal',
-                isNative: true,
-                comp: ScreenRecorder,
-                webviewAttributes: {
-                  useragent:
-                    'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0 Elza Browser'
-                }
-              })
-              newtab.activate()
-            }}
-          >
-            <i className='fas fa-video' />
-          </button>
-          {true && <DownloadPopup openDownloadsPage={this.openDownloadsPage} />}
+          <Capture
+            currentWebView={this.state.currentWebView}
+            tabGroup={this.state.tabGroup}
+          />
+          <DownloadPopup openDownloadsPage={this.openDownloadsPage} />
 
-          {true && (
-            <div
-              className='dropdown'
-              ref={node => {
-                this.node = node
-              }}
-            >
-              <button id='menu' title='Menu' onClick={this.handleClick}>
-                <i className='fas fa-bars ' />
-              </button>
-              {this.state.popupVisible && (
-                <div id='menuDropdown' className='dropdown-content'>
-                  <div>
-                    <button
-                      id='zoomin'
-                      title='Zoom In'
-                      onClick={this.zoomInWebv}
-                    >
-                      <i className='fas fa-search-plus' />
-                    </button>
-                    <div className='vl'></div>
-                    <button
-                      id='resetzoom'
-                      title='Reset Zoom'
-                      onClick={this.activeWebView}
-                    >
-                      <i className='fas fa-minus-square' />
-                    </button>
-                    <div className='vl'></div>
-                    <button
-                      id='zooout'
-                      title='Zoom Out'
-                      onClick={this.zoomOutWebv}
-                    >
-                      <i className='fas fa-search-minus' />
-                    </button>
-                  </div>
-                  <hr />
-                  <div>History</div>
-                  <hr />
-                  <div
-                    id='sharefile'
-                    title='Share File'
+          <div
+            className='dropdown'
+            ref={node => {
+              this.node = node
+            }}
+          >
+            <button id='menu' title='Menu' onClick={this.handleClick}>
+              <i className='fas fa-bars ' />
+            </button>
+            {this.state.popupVisible && (
+              <div id='menuDropdown' className='dropdown-content'>
+                <div>
+                  <button id='zoomin' title='Zoom In' onClick={this.zoomInWebv}>
+                    <i className='fas fa-search-plus' />
+                  </button>
+                  <div className='vl'></div>
+                  <button
+                    id='resetzoom'
+                    title='Reset Zoom'
+                    onClick={this.activeWebView}
+                  >
+                    <i className='fas fa-minus-square' />
+                  </button>
+                  <div className='vl'></div>
+                  <button
+                    id='zooout'
+                    title='Zoom Out'
+                    onClick={this.zoomOutWebv}
+                  >
+                    <i className='fas fa-search-minus' />
+                  </button>
+                </div>
+                <hr />
+                <div>
+                  <button
+                    id='recorder'
+                    title='Screen Recorder'
                     onClick={() => {
-                      this.state.currentWebView = null
                       let newtab = this.state.tabGroup.addTab({
-                        title: 'Settings',
-                        src: 'elza://settings',
-                        icon: 'fa fa-cog',
+                        title: 'ScreenRecorder',
+                        src: 'elza://recorder',
+                        icon: 'fa fa-grip-horizontal',
                         isNative: true,
-                        comp: Settings
+                        comp: ScreenRecorder,
+                        webviewAttributes: {
+                          useragent:
+                            'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0 Elza Browser'
+                        }
                       })
                       newtab.activate()
                     }}
                   >
-                    <i className='fas fa-cog' /> Settings
-                  </div>
+                    <i className='fas fa-video' />
+                  </button>
+                  <div className='vl'></div>
+                  <button
+                    onClick={() => {
+                      this.state.currentWebView = null
+                      let newtab = this.state.tabGroup.addTab({
+                        title: 'File Sharing',
+                        src: 'elza://share',
+                        icon: 'fa fa-grip-horizontal',
+                        isNative: true,
+                        comp: Sharing,
+                        webviewAttributes: {
+                          useragent:
+                            'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0 Elza Browser'
+                        }
+                      })
+                      newtab.activate()
+                    }}
+                  >
+                    <i className='fas fa-share-alt' />
+                  </button>
                 </div>
-              )}
-            </div>
-          )}
+                <hr />
+                <div
+                  className='menuitem'
+                  onClick={() => {
+                    this.state.currentWebView = null
+                    let newtab = this.state.tabGroup.addTab({
+                      title: 'Downloads',
+                      src: 'elza://downloads',
+                      icon: 'fa fa-arrow-circle-down',
+                      isNative: true,
+                      comp: Downloads
+                    })
+                    newtab.activate()
+                  }}
+                >
+                  Downloads
+                </div>
+                <hr />
+                <div
+                  className='menuitem'
+                  onClick={() => {
+                    this.state.currentWebView = null
+                    let newtab = this.state.tabGroup.addTab({
+                      title: 'Settings',
+                      src: 'elza://settings',
+                      icon: 'fa fa-cog',
+                      isNative: true,
+                      comp: Settings
+                    })
+                    newtab.activate()
+                  }}
+                >
+                  <i className='fas fa-cog' /> Settings
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </>
     )
