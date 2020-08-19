@@ -8,14 +8,15 @@ import TabGroup from '../electron-tabs'
 import USER_AGENT from '../functions/getUserAgent'
 
 class Home extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.tabGroup = null
     this.state = {
-      tabGroup: null
+      tabGroup: null,
+      theme: 'light-theme'
     }
   }
-  componentDidMount() {
+  componentDidMount () {
     this.tabGroup = new TabGroup()
     this.setState({ tabGroup: this.tabGroup })
   }
@@ -44,32 +45,39 @@ class Home extends React.Component {
       isNative: true,
       comp: comp || NewTab,
       webviewAttributes: {
-        useragent:
-          USER_AGENT
+        useragent: USER_AGENT
       }
     })
     tab.activate()
+  }
+  changeTheme = theme => {
+    if (this.state.theme == 'dark-theme')
+      this.setState({ theme: 'light-theme' })
+    else this.setState({ theme: 'dark-theme' })
   }
 
   listenerReady = () => {
     this.loadStartingPage()
   }
 
-  render() {
+  render () {
     return (
       <>
-        <div className='etabs-tabgroup'>
-          <div className='etabs-tabs'></div>
-          <div className='etabs-buttons'>
-            <button onClick={() => this.addNewNativeTab()}>+</button>
+        <div className={this.state.theme}>
+          <div className='etabs-tabgroup'>
+            <div className='etabs-tabs'></div>
+            <div className='etabs-buttons'>
+              <button onClick={() => this.addNewNativeTab()}>+</button>
+            </div>
           </div>
-        </div>
-        <div className='etabs-views'>
-          <Controls
-            tabGroup={this.state.tabGroup}
-            listenerReady={this.listenerReady}
-            addNewNativeTab={this.addNewNativeTab}
-          />
+          <div className='etabs-views'>
+            <Controls
+              tabGroup={this.state.tabGroup}
+              listenerReady={this.listenerReady}
+              addNewNativeTab={this.addNewNativeTab}
+              changeTheme={this.changeTheme}
+            />
+          </div>
         </div>
       </>
     )

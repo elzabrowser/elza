@@ -11,16 +11,15 @@ hr {
 .dropdown-downloads {
   margin-top: 6px;
   padding: 6px;
-  /*   display: none;
-   */
+  border: 1px solid;
   border-radius: 2px;
   position: absolute;
   background-color: var(--background-color-primary);
+  color: var(--font-color-secondary);
   min-width: 300px;
   overflow: auto;
   right: 0;
   z-index: 1;
-  color: var(--font-color-primary)
 }
 .openDownloadItem {
   float: right;

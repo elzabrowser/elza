@@ -459,6 +459,16 @@ class Controls extends React.Component {
                   Downloads
                 </div>
                 <hr />
+                <div>
+                  <label className='switch'>
+                    <input
+                      type='checkbox'
+                      onChange={() => this.props.changeTheme()}
+                    />
+                    <span className='slider round'></span>
+                  </label>
+                </div>
+                <hr />
                 <div
                   className='menuitem'
                   onClick={() => {

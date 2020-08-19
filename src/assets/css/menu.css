@@ -57,8 +57,7 @@ hr {
 }
 
 .dropbtn {
-  background-color: #4caf50;
-  color: white;
+  background-position: center;
   padding: 16px;
   font-size: 16px;
   border: none;
@@ -77,14 +76,14 @@ hr {
 }
 
 .dropdown-content {
+  background-color: var(--background-color-primary);
+  color: var(--font-color-secondary);
   margin-top: 6px;
   border: 1px solid;
-  border-color: rgb(138, 135, 135);
   padding: 6px;
   border-radius: 2px;
   position: absolute;
   text-align: center;
-  background-color: #fdfdfd;
   min-width: 200px;
   overflow: auto;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);

@@ -1,15 +1,15 @@
-import React from 'react';
-import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React from 'react'
+import './App.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import './assets/fontawesome-free-5.12.1-web/css/all.css'
-import Home from './components/Home';
+import Home from './components/Home'
 
-function App() {
+function App () {
   return (
-    <div className="App light-theme">
-        <Home />
+    <div className='App '>
+      <Home />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
