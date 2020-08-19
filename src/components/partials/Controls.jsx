@@ -17,10 +17,6 @@ const { ipcRenderer } = window.require('electron')
 const contextMenu = window.require('electron-context-menu')
 const fs = window.require('fs')
 const remote = window.require('electron').remote
-/* const session = remote.session
-session.defaultSession.on('will-download', (event, item, webContents) => {
-  event.preventDefault()
-}) */
 class Controls extends React.Component {
   constructor (props) {
     super(props)
@@ -377,11 +373,10 @@ class Controls extends React.Component {
             </button>
             {this.state.popupVisible && (
               <div id='menuDropdown' className='dropdown-content'>
-                <div>
+                <div style={{ textAlign: 'center' }}>
                   <button id='zoomin' title='Zoom In' onClick={this.zoomInWebv}>
                     <i className='fas fa-search-plus' />
                   </button>
-                  <div className='vl'></div>
                   <button
                     id='resetzoom'
                     title='Reset Zoom'
@@ -389,7 +384,6 @@ class Controls extends React.Component {
                   >
                     <i className='fas fa-minus-square' />
                   </button>
-                  <div className='vl'></div>
                   <button
                     id='zooout'
                     title='Zoom Out'
@@ -398,8 +392,13 @@ class Controls extends React.Component {
                     <i className='fas fa-search-minus' />
                   </button>
                 </div>
-                <hr />
-                <div>
+                <div
+                  style={{
+                    textAlign: 'center',
+                    borderTop: '1px solid',
+                    borderColor: '#B0B0B0'
+                  }}
+                >
                   <button
                     id='recorder'
                     title='Screen Recorder'
@@ -420,7 +419,6 @@ class Controls extends React.Component {
                   >
                     <i className='fas fa-video' />
                   </button>
-                  <div className='vl'></div>
                   <button
                     onClick={() => {
                       this.state.currentWebView = null
@@ -441,9 +439,26 @@ class Controls extends React.Component {
                     <i className='fas fa-share-alt' />
                   </button>
                 </div>
-                <hr />
                 <div
-                  className='menuitem'
+                  style={{
+                    height: '40px',
+                    padding: '5px 0px',
+                    borderTop: '1px solid',
+                    borderColor: '#B0B0B0'
+                  }}
+                >
+                  <i class='fas fa-adjust'></i>
+                  &nbsp;Theme
+                  <label className='switch'>
+                    <input
+                      type='checkbox'
+                      onChange={() => this.props.changeTheme()}
+                    />
+                    <span className='slider round'></span>
+                  </label>
+                </div>
+                <div
+                  className='menuitem align-middle '
                   onClick={() => {
                     this.state.currentWebView = null
                     let newtab = this.state.tabGroup.addTab({
@@ -456,19 +471,9 @@ class Controls extends React.Component {
                     newtab.activate()
                   }}
                 >
-                  Downloads
+                  <i className='fas fa-arrow-down' /> Downloads
                 </div>
-                <hr />
-                <div>
-                  <label className='switch'>
-                    <input
-                      type='checkbox'
-                      onChange={() => this.props.changeTheme()}
-                    />
-                    <span className='slider round'></span>
-                  </label>
-                </div>
-                <hr />
+
                 <div
                   className='menuitem'
                   onClick={() => {
