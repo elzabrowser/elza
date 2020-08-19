@@ -6,7 +6,7 @@ const remote = window.require('electron').remote
 const fs = window.require('fs')
 const downloadInfoFile = remote.app.getPath('userData') + '/downloads.json'
 class DownloadPopup extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
     this.handleOutsideClick = this.handleOutsideClick.bind(this)
@@ -17,12 +17,12 @@ class DownloadPopup extends React.Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     try {
       this.setState({
         downloads: JSON.parse(fs.readFileSync(downloadInfoFile, 'utf8'))
       })
-    } catch {}
+    } catch { }
     console.log(this.state.downloads)
     fs.watch(downloadInfoFile, (curr, prev) => {
       try {
@@ -30,7 +30,7 @@ class DownloadPopup extends React.Component {
           downloads: JSON.parse(fs.readFileSync(downloadInfoFile, 'utf8'))
         })
         //console.log(this.state.downloads)
-      } catch {}
+      } catch { }
     })
   }
   getProgress = (receivedBytes, totalBytes) => {
@@ -45,8 +45,8 @@ class DownloadPopup extends React.Component {
   toggleDownloadPopup = () => {
     document.getElementById('downloadPopUp').classList.toggle('show')
   }
-  handleOutsideClick (e) {}
-  handleClick () {
+  handleOutsideClick(e) { }
+  handleClick() {
     if (!this.state.popupVisible) {
       document.addEventListener('click', this.handleOutsideClick, false)
     } else {
@@ -57,7 +57,7 @@ class DownloadPopup extends React.Component {
     }))
   }
 
-  render () {
+  render() {
     return (
       <>
         {Object.keys(this.state.downloads).length > 0 && (
@@ -70,17 +70,17 @@ class DownloadPopup extends React.Component {
             </button>
             {this.state.isVisible &&
               Object.keys(this.state.downloads).length > 0 && (
-                <div id='downloadPopUp' className='dropdown-downloads'>
+                <div id='downloadPopUp' className='dropdown-downloads shadow'>
                   {Object.keys(this.state.downloads).map(key => (
-                    <div key={key} className='border rounded m-2 shadow-sm'>
-                      <div className='pt-1 pb-1 pl-1 pr-1'>
+                    <div key={key} className='border-bottom m-2 shadow-sm'>
+                      <div className='p-3'>
                         <b>
                           {this.state.downloads[key].name.length < 12
                             ? this.state.downloads[key].name
                             : this.state.downloads[key].name
-                                .split('')
-                                .splice(0, 12)
-                                .join('') + '...'}
+                              .split('')
+                              .splice(0, 12)
+                              .join('') + '...'}
                         </b>
                         {this.state.downloads[key].status == 'done' && (
                           <button
@@ -113,7 +113,6 @@ class DownloadPopup extends React.Component {
                       </div>
                     </div>
                   ))}
-                  <hr />
                   <div
                     onClick={() => {
                       this.props.openDownloadsPage()
