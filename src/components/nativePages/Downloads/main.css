@@ -1,13 +1,23 @@
+.download-container {
+  background-color: var(--background-color-secondary);
+  height: 100%;
+}
+
 .downloadBox {
   margin: 15px 70px 5px 70px;
 }
+
 .topbar {
   vertical-align: middle;
   padding-left: 30px;
-  background-color: #343a40;
   height: 70px;
-  color: white;
+  color: var(--font-color-secondary);
   font-size: xx-large;
   margin: auto;
   padding: 10px;
+}
+
+.download-item {
+  background-color: var(--background-color-primary);
+  color: var(--font-color-primary);
 }

@@ -61,12 +61,12 @@ class Downloads extends React.Component {
     return (
       <>
         {Object.keys(this.state.downloads).length > 0 && (
-          <div>
-            <div className='topbar'>Downloads</div>
+          <div className="download-container">
+            <div className='topbar p-5'>Downloads</div>
             <div className='downloadBox'>
               {Object.keys(this.state.downloads).map(key => (
-                <div key={key} className='border rounded shadow-sm m-2'>
-                  <div className='pt-3 pb-3 pl-3 pr-3'>
+                <div key={key} className=' '>
+                  <div className='p-3 download-item rounded shadow-sm m-2'>
                     <b>
                       {this.state.downloads[key].name.length < 12
                         ? this.state.downloads[key].name
