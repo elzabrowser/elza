@@ -42,7 +42,7 @@ class NewTab extends React.Component {
             <i className='fa fa-cog' />
           </div> */}
         </div>
-        <div className='searchbar row'>
+        <div className='searchbar row' hidden>
           <div className='col-md-11 pr-0'>
             <form className='ml-auto mr-auto' onSubmit={this.props.submitURL}>
               <input
