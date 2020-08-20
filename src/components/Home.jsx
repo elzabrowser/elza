@@ -66,55 +66,34 @@ class Home extends React.Component {
         <div className={this.state.theme}>
           <div
             //to drag the frameless window
-            style={{
-              '-webkit-app-region': 'drag',
-              '-webkit-user-select': 'none'
-            }}
             className='etabs-tabgroup'
           >
-            <div
-              className='etabs-tabs'
-              style={{ '-webkit-app-region': 'no-drag' }}
-            ></div>
-            <div
-              className='etabs-buttons'
-              style={{ '-webkit-app-region': 'no-drag' }}
-            >
+            <div className='etabs-tabs'></div>
+            <div className='etabs-buttons'>
               <button onClick={() => this.addNewNativeTab()}>+</button>
             </div>
-            <div
-              className='etabs-buttons'
-              style={{
-                '-webkit-app-region': 'no-drag',
-                position: 'absolute',
-                right: '0px'
-              }}
-            >
+            <div className='windowactions etabs-buttons'>
               <button
-                style={{ marginRight: '5px' }}
+                className='mr-1'
                 onClick={() =>
                   remote.BrowserWindow.getFocusedWindow().minimize()
                 }
               >
-                <i
-                  class='fas fa-window-minimize'
-                  style={{ fontSize: '16px' }}
-                ></i>
+                <i class='fas fa-window-minimize'></i>
               </button>
               <button
-                style={{ marginRight: '5px' }}
+                className='mr-1'
                 onClick={() => {
                   var window = remote.BrowserWindow.getFocusedWindow()
-                  window.isMaximized() ? window.unmaximize() : window.maximize()
+                  remote.BrowserWindow.getFocusedWindow().isMaximized()
+                    ? window.unmaximize()
+                    : window.maximize()
                 }}
               >
-                <i
-                  class='far fa-window-maximize'
-                  style={{ fontSize: '16px' }}
-                ></i>
+                <i class='far fa-window-maximize'></i>
               </button>
               <button
-                style={{ marginRight: '5px' }}
+                className='mr-1'
                 onClick={() => remote.BrowserWindow.getFocusedWindow().close()}
               >
                 X

@@ -1,4 +1,6 @@
 .etabs-tabgroup {
+  -webkit-app-region: drag;
+  -webkit-user-select: none;
   display: flex;
   flex-direction: row;
   background-color: var(--background-color-secondary);
@@ -6,7 +8,7 @@
 }
 
 .etabs-tabs {
-  max-width: calc(100%-50px);
+  max-width: calc(85%);
   padding: 0;
   margin: 0;
   display: flex;
@@ -53,6 +55,7 @@
 }
 
 .etabs-buttons button {
+  -webkit-app-region: no-drag;
   font-size: 20px;
   font-weight: 400;
   color: var(--font-color-secondary);
@@ -63,6 +66,7 @@
 }
 
 .etabs-tab-buttons {
+  -webkit-app-region: no-drag;
   margin-left: auto;
   right: 0;
 }
@@ -94,4 +98,12 @@
   visibility: hidden;
   width: 100%;
   height: 100%;
+}
+.windowactions {
+  -webkit-app-region: no-drag;
+  position: absolute;
+  right: 0;
+}
+.windowactions button i {
+  font-size: 16px;
 }
