@@ -18,7 +18,7 @@ const contextMenu = window.require('electron-context-menu')
 const fs = window.require('fs')
 const remote = window.require('electron').remote
 class Controls extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.openDownloadsPage = this.openDownloadsPage.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -36,18 +36,18 @@ class Controls extends React.Component {
     }
   }
 
-  componentWillReceiveProps(newProps) {
+  componentWillReceiveProps (newProps) {
     this.setState({ tabGroup: newProps.tabGroup })
     this.tabGroupEvents(newProps.tabGroup)
   }
-  componentDidMount() { }
-  handleOutsideClick(e) {
+  componentDidMount () {}
+  handleOutsideClick (e) {
     if (this.node.contains(e.target)) {
       return
     }
     this.handleClick()
   }
-  handleClick() {
+  handleClick () {
     if (!this.state.popupVisible) {
       document.addEventListener('click', this.handleOutsideClick, false)
     } else {
@@ -272,7 +272,7 @@ class Controls extends React.Component {
       this.setState({ isSiteSecure: false })
     }
   }
-  openDownloadsPage() {
+  openDownloadsPage () {
     console.log(this.state)
     let newtab = this.state.tabGroup.addTab({
       src: '',
@@ -283,7 +283,7 @@ class Controls extends React.Component {
     newtab.activate()
   }
 
-  render() {
+  render () {
     return (
       <>
         <div id='controls'>
@@ -311,8 +311,8 @@ class Controls extends React.Component {
             {this.state.isSiteSecure ? (
               <i className='fa fa-lock secure-site' />
             ) : (
-                <i className='fa fa-globe' />
-              )}
+              <i className='fa fa-globe' />
+            )}
             <div className='urlInfoCtr rounded shadow p-3'>
               {this.state.isSiteSecure ? (
                 <div>
@@ -324,15 +324,15 @@ class Controls extends React.Component {
                   </p>
                 </div>
               ) : (
-                  <div>
-                    <b className='insecure-site'>Insecure connection !</b>
-                    <p>
-                      Connection to this site is not encrypted. You should not
-                      enter any sensitive information to this site, because it
-                      could be stolen by attackers.
+                <div>
+                  <b className='insecure-site'>Insecure connection !</b>
+                  <p>
+                    Connection to this site is not encrypted. You should not
+                    enter any sensitive information to this site, because it
+                    could be stolen by attackers.
                   </p>
-                  </div>
-                )}
+                </div>
+              )}
             </div>
           </button>
           <form id='location-form' onSubmit={this.submitURL}>
@@ -352,14 +352,16 @@ class Controls extends React.Component {
               {this.state.webvIsLoading ? (
                 <div className='loader'></div>
               ) : (
-                  <i className='fas fa-arrow-right' />
-                )}
+                <i className='fas fa-arrow-right' />
+              )}
             </button>
           </form>
-          <Capture
-            currentWebView={this.state.currentWebView}
-            tabGroup={this.state.tabGroup}
-          />
+          {false && (
+            <Capture
+              currentWebView={this.state.currentWebView}
+              tabGroup={this.state.tabGroup}
+            />
+          )}
           <DownloadPopup openDownloadsPage={this.openDownloadsPage} />
 
           <div
@@ -373,11 +375,9 @@ class Controls extends React.Component {
             </button>
             {this.state.popupVisible && (
               <div id='menuDropdown' className='dropdown-content p-3'>
-
                 <div
                   style={{
-                    textAlign: 'center',
-
+                    textAlign: 'center'
                   }}
                 >
                   {/* <button
@@ -420,7 +420,7 @@ class Controls extends React.Component {
                     <i className='fas fa-share-alt' />
                   </button> */}
                 </div>
-                <div className="menuitem p-2">
+                <div className='menuitem p-2'>
                   <i class='fas fa-adjust'></i>
                   &nbsp;Dark mode
                   <label className='switch'>
@@ -464,7 +464,7 @@ class Controls extends React.Component {
                 >
                   <i className='fas fa-cog' /> Settings
                 </div>
-                <div style={{ textAlign: 'center' }} className="">
+                <div style={{ textAlign: 'center' }} className=''>
                   <button id='zoomin' title='Zoom In' onClick={this.zoomInWebv}>
                     <i className='fas fa-search-plus' />
                   </button>
