@@ -32,6 +32,8 @@ app.on('ready', function () {
     height: 700,
     minWidth: 1200,
     minHeight: 700,
+    frame: false,
+    titleBarStyle: 'customButtonsOnHover',
     // icon: __dirname + '/src/logo.png',
     webPreferences: {
       webviewTag: true,

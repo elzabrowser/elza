@@ -2,10 +2,10 @@ import React from 'react'
 import '../assets/css/home.css'
 import Controls from './partials/Controls'
 import NewTab from './nativePages/NewTab'
-
 import TabGroup from '../electron-tabs'
 //const TabGroup = require("../electron-tabs");
 import USER_AGENT from '../functions/getUserAgent'
+const { remote } = window.require('electron')
 
 class Home extends React.Component {
   constructor (props) {
@@ -64,10 +64,61 @@ class Home extends React.Component {
     return (
       <>
         <div className={this.state.theme}>
-          <div className='etabs-tabgroup'>
-            <div className='etabs-tabs'></div>
-            <div className='etabs-buttons'>
+          <div
+            //to drag the frameless window
+            style={{
+              '-webkit-app-region': 'drag',
+              '-webkit-user-select': 'none'
+            }}
+            className='etabs-tabgroup'
+          >
+            <div
+              className='etabs-tabs'
+              style={{ '-webkit-app-region': 'no-drag' }}
+            ></div>
+            <div
+              className='etabs-buttons'
+              style={{ '-webkit-app-region': 'no-drag' }}
+            >
               <button onClick={() => this.addNewNativeTab()}>+</button>
+            </div>
+            <div
+              className='etabs-buttons'
+              style={{
+                '-webkit-app-region': 'no-drag',
+                position: 'absolute',
+                right: '0px'
+              }}
+            >
+              <button
+                style={{ marginRight: '5px' }}
+                onClick={() =>
+                  remote.BrowserWindow.getFocusedWindow().minimize()
+                }
+              >
+                <i
+                  class='fas fa-window-minimize'
+                  style={{ fontSize: '16px' }}
+                ></i>
+              </button>
+              <button
+                style={{ marginRight: '5px' }}
+                onClick={() => {
+                  var window = remote.BrowserWindow.getFocusedWindow()
+                  window.isMaximized() ? window.unmaximize() : window.maximize()
+                }}
+              >
+                <i
+                  class='far fa-window-maximize'
+                  style={{ fontSize: '16px' }}
+                ></i>
+              </button>
+              <button
+                style={{ marginRight: '5px' }}
+                onClick={() => remote.BrowserWindow.getFocusedWindow().close()}
+              >
+                X
+              </button>
             </div>
           </div>
           <div className='etabs-views'>
