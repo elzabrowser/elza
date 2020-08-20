@@ -18,6 +18,8 @@ html, body, #root {
   --background-color-secondary: #eee;
   --border-color-primary:#ddd;
   --background-color-urlbar:#dddddd;
+  --accent-background-color: linear-gradient(90deg, rgba(28,201,144,1) 0%, rgba(39,223,119,1) 48%, rgba(39,223,119,1) 48%);
+
 }
 
 .dark-theme {
@@ -27,6 +29,7 @@ html, body, #root {
   --background-color-secondary: rgb(22, 22, 22);
   --border-color-primary:#252525;
   --background-color-urlbar:#2c2c2c;
+  --accent-background-color: linear-gradient(90deg, rgba(28,201,144,1) 0%, rgba(39,223,119,1) 48%, rgba(39,223,119,1) 48%);
 
 }
 button:focus{
