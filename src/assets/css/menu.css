@@ -64,8 +64,7 @@ hr {
   cursor: pointer;
 }
 
-.dropbtn:hover,
-.dropbtn:focus {
+.dropbtn:hover, .dropbtn:focus {
   background-color: #3e8e41;
 }
 
@@ -103,19 +102,24 @@ hr {
 p {
   font-size: 13px;
 }
+
 .menuitem {
-  border-top: 1px solid;
-  border-color: #b0b0b0;
   height: 40px;
   padding: 2px;
   width: 100%;
   vertical-align: middle;
   float: left;
 }
+
 .menuitem:hover {
   background-color: rgb(219, 218, 218);
   cursor: pointer;
 }
+
+.menuitem i {
+  width: 30px;
+}
+
 .switch {
   position: relative;
   width: 30px;
@@ -155,21 +159,22 @@ p {
   transition: 0.4s;
 }
 
-input:checked + .slider {
+input:checked+.slider {
   background-color: #2196f3;
 }
 
-input:focus + .slider {
+input:focus+.slider {
   box-shadow: 0 0 1px #2196f3;
 }
 
-input:checked + .slider:before {
+input:checked+.slider:before {
   -webkit-transform: translateX(13px);
   -ms-transform: translateX(13px);
   transform: translateX(13px);
 }
 
 /* Rounded sliders */
+
 .slider.round {
   border-radius: 17px;
 }
