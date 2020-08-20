@@ -422,7 +422,7 @@ class Controls extends React.Component {
                 </div>
                 <div className="menuitem p-2">
                   <i class='fas fa-adjust'></i>
-                  &nbsp;Theme
+                  &nbsp;Dark mode
                   <label className='switch'>
                     <input
                       type='checkbox'

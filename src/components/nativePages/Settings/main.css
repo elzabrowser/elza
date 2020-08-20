@@ -1,10 +1,13 @@
-.settings-container{
-  color: #525252;
+.settings-container {
+	background-color: var(--background-color-secondary);
+	color: var(--font-color-primary);
+	height: 100%;
 }
-.settings-container input[type=checkbox]{
+
+.settings-container input[type=checkbox] {
 	height: 0;
 	width: 0;
-  visibility: hidden;
+	visibility: hidden;
 }
 
 .settings-container label {
@@ -27,14 +30,14 @@
 	height: 30px;
 	background: #fff;
 	border-radius: 30px;
-  transition: 0.3s;
+	transition: 0.3s;
 }
 
-.settings-container input:checked + label {
+.settings-container input:checked+label {
 	background: #55da55;
 }
 
-.settings-container input:checked + label:after {
+.settings-container input:checked+label:after {
 	left: calc(100% - 5px);
 	transform: translateX(-100%);
 }
@@ -42,6 +45,10 @@
 .settings-container label:active:after {
 	width: 34px;
 }
-.settings-itm{
-  display: flex;
+
+.settings-container .item {
+	background-color: var(--background-color-primary);
+}
+.settings-container .item:hover{
+	background-color: var(--background-color-primary);
 }

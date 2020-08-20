@@ -54,12 +54,16 @@ class BlankTab extends React.Component {
   render() {
     return (
       <div className="settings-container">
+      <div className=" native-header p-3">
+        Settings
+      </div>
         <div className="row">
+
           <div className="col-lg-2 p-4 border-right">
 
           </div>
           <div className="col-lg-10 p-4 ">
-            <div className="p-3 col-lg-8 ">
+            <div className="item p-3 col-lg-8 shadow-sm rounded ">
               <span>Default search engine</span>
               <div className="dropdown">
                 <select onChange={this.searchEngineSelector}>
@@ -69,7 +73,7 @@ class BlankTab extends React.Component {
                 </select>
               </div>
             </div>
-            <div className="p-3 col-lg-8">
+            <div className="mt-5 col-lg-8">
               <button className="btn btn-primary" onClick={this.savePreference}>
                 Save
             </button>

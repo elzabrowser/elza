@@ -6,7 +6,7 @@ const remote = window.require('electron').remote
 const fs = window.require('fs')
 const downloadInfoFile = remote.app.getPath('userData') + '/downloads.json'
 class Downloads extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.handleClick = this.handleClick.bind(this)
     this.handleOutsideClick = this.handleOutsideClick.bind(this)
@@ -17,12 +17,12 @@ class Downloads extends React.Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     try {
       this.setState({
         downloads: JSON.parse(fs.readFileSync(downloadInfoFile, 'utf8'))
       })
-    } catch {}
+    } catch { }
     console.log(this.state.downloads)
     fs.watch(downloadInfoFile, (curr, prev) => {
       try {
@@ -30,7 +30,7 @@ class Downloads extends React.Component {
           downloads: JSON.parse(fs.readFileSync(downloadInfoFile, 'utf8'))
         })
         //console.log(this.state.downloads)
-      } catch {}
+      } catch { }
     })
   }
   getProgress = (receivedBytes, totalBytes) => {
@@ -45,8 +45,8 @@ class Downloads extends React.Component {
   toggleDownloadPopup = () => {
     document.getElementById('downloadPopUp').classList.toggle('show')
   }
-  handleOutsideClick (e) {}
-  handleClick () {
+  handleOutsideClick(e) { }
+  handleClick() {
     if (!this.state.popupVisible) {
       document.addEventListener('click', this.handleOutsideClick, false)
     } else {
@@ -57,11 +57,13 @@ class Downloads extends React.Component {
     }))
   }
 
-  render () {
+  render() {
     return (
       <>
         <div className='download-container'>
-          <div className='topbar p-5'></div>
+          <div className=" native-header p-3">
+            Downloads
+      </div>
           <div className='downloadBox'>
             {Object.keys(this.state.downloads).map(key => (
               <div key={key} className=' '>

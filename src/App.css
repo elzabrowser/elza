@@ -35,3 +35,10 @@ html, body, #root {
 button:focus{
   outline: none !important;
 }
+.native-header{
+	background: var(--accent-background-color);
+	color: #fff;
+	font-size: large;
+	width: 100%;
+	font-weight: bold;
+}
