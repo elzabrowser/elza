@@ -10,7 +10,10 @@ class About extends React.Component {
         <div className="container p-5">
           <h2><b>Elza</b></h2>
           Version 0.1.1 - pre release
-      </div>
+          <div>
+            <small className="text-muted">Created by expertevidence.org</small>
+          </div>
+        </div>
       </div>
 
     )

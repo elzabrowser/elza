@@ -1,5 +1,6 @@
 import React from 'react'
 import './main.css'
+import About from '../about'
 const remote = window.require('electron').remote
 const app = remote.app
 const configFilePath = app.getPath('userData') + '/preferences.json'
@@ -8,7 +9,7 @@ const fs = window.require('fs')
 class BlankTab extends React.Component {
   constructor (props) {
     super(props)
-    console.log(configFilePath)
+    console.log(props)
     this.state = {
       pref: {
         privateMode: false,
@@ -52,7 +53,41 @@ class BlankTab extends React.Component {
       <div className='settings-container'>
         <div className=' native-header p-3'>Settings</div>
         <div className='row'>
-          <div className='col-lg-2 p-4 border-right'></div>
+          <div className='col-lg-2 p-4 '>
+            <div className='settings-sidebar-item p-3 settings-active'>
+              <i className='fa fa-cog' />
+              Settings
+            </div>
+            <div
+              className='settings-sidebar-item p-3 '
+              onClick={() => {
+                this.state.currentWebView = null
+                let newtab = this.props.tabGroup.addTab({
+                  title: 'About',
+                  src: 'elza://about',
+                  icon: 'fa fa-grip-horizontal',
+                  isNative: true,
+                  comp: About,
+                  webviewAttributes: {
+                    useragent:
+                      'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0 Elza Browser'
+                  }
+                })
+                newtab.activate()
+              }}
+            >
+              <i className='fa fa-info-circle' />
+              About
+            </div>
+            <div className='p-3 settings-version-info'>
+              <b>Version 0.1.1 </b>
+              <div>
+                <small className='text-muted'>
+                  Created by expertevidence.org
+                </small>
+              </div>
+            </div>
+          </div>
           <div className='col-lg-10 p-4 '>
             <div className='item p-3 col-lg-8 shadow-sm rounded '>
               <span>Default search engine</span>

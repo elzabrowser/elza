@@ -1,9 +1,9 @@
+import getUserAgent from '../functions/getUserAgent'
 const EventEmitter = require("events");
 const remote = window.require('electron').remote;
 const app = remote.app;
 const configFilePath = app.getPath('userData') + "/preferences.json"
 const fs = window.require('fs')
-
 var PARTITION = null;
 try {
   if (fs.existsSync(configFilePath)) {
@@ -202,6 +202,7 @@ class Tab extends EventEmitter {
     this.webviewAttributes = args.webviewAttributes || {};
     this.webviewAttributes.src = args.src;
     this.webviewAttributes.partition = "pvt"
+    this.webviewAttributes.userAgent = getUserAgent
 
     // console.log(PARTITION)
     // if (PARTITION)

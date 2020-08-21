@@ -52,3 +52,22 @@
 .settings-container .item:hover {
   background-color: var(--background-color-primary);
 }
+
+.settings-container .item:hover {
+  background-color: var(--background-color-primary);
+}
+
+.settings-sidebar-item {
+  color: var(--font-color-secondary);
+  cursor: pointer;
+}
+
+.settings-sidebar-item i {
+  width: 50px;
+}
+.settings-active {
+  font-weight: bold;
+}
+.settings-version-info {
+  margin-top: 620px;
+}
