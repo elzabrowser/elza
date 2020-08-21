@@ -371,7 +371,7 @@ class Controls extends React.Component {
             }}
           >
             <button id='menu' title='Menu' onClick={this.handleClick}>
-              <i className='fas fa-bars ' />
+              <i className='fas fa-ellipsis-v ' />
             </button>
             {this.state.popupVisible && (
               <div id='menuDropdown' className='dropdown-content p-3'>
