@@ -75,15 +75,15 @@ class Home extends React.Component {
             </div>
             <div className='windowactions etabs-buttons'>
               <button
-                className='mr-1'
+                className='pr-2 pl-2'
                 onClick={() =>
                   remote.BrowserWindow.getFocusedWindow().minimize()
                 }
               >
-                <i class='fas fa-window-minimize'></i>
+                <i className='fas fa-window-minimize'></i>
               </button>
               <button
-                className='mr-1'
+                className='pr-2 pl-2'
                 onClick={() => {
                   var window = remote.BrowserWindow.getFocusedWindow()
                   remote.BrowserWindow.getFocusedWindow().isMaximized()
@@ -91,10 +91,10 @@ class Home extends React.Component {
                     : window.maximize()
                 }}
               >
-                <i class='far fa-window-maximize'></i>
+                <i className='far fa-window-maximize'></i>
               </button>
               <button
-                className='mr-1'
+                className='closebutton pr-2 pl-2'
                 onClick={() => remote.BrowserWindow.getFocusedWindow().close()}
               >
                 X
