@@ -182,6 +182,7 @@ class Controls extends React.Component {
       if (tabCount == 0) {
         let newtab = tabGroup.addTab({
           src: '',
+          icon: 'fa fa-grip-horizontal',
           title: 'Home',
           isNative: true,
           comp: BlankTab,

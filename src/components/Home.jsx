@@ -5,6 +5,7 @@ import NewTab from './nativePages/NewTab'
 import TabGroup from '../electron-tabs'
 //const TabGroup = require("../electron-tabs");
 import USER_AGENT from '../functions/getUserAgent'
+import BlankTab from './nativePages/BlankTab'
 const { remote } = window.require('electron')
 
 class Home extends React.Component {
@@ -39,11 +40,11 @@ class Home extends React.Component {
   }
   addNewNativeTab = (title, src, comp, icon) => {
     let tab = this.tabGroup.addTab({
-      title: title || 'New Tab',
+      title: title || 'Home',
       src: src || '',
       icon: 'fa fa-grip-horizontal' || icon,
       isNative: true,
-      comp: comp || NewTab,
+      comp: comp || BlankTab,
       webviewAttributes: {
         useragent: USER_AGENT
       }
