@@ -166,7 +166,7 @@ class Sharing extends React.Component {
     this.setState({ file: e.target.files[0] })
   }
   openFile = path => {
-    shell.openItem(downloadPath + '/' + path)
+    shell.openPath(downloadPath + '/' + path)
   }
   chooseMode = () => {
     if (this.targetPeer) {

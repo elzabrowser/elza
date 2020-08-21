@@ -49,7 +49,7 @@ class ScreenCapture extends React.Component {
     shell.showItemInFolder(path)
   }
   openItem = path => {
-    shell.openItem(path)
+    shell.openPath(path)
   }
   randID = () => {
     var d = new Date()
