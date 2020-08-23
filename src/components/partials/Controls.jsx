@@ -1,10 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Capture from './Capture'
 import DownloadPopup from './DownloadPopup'
 import BlankTab from '../nativePages/BlankTab'
-import Sharing from '../nativePages/Sharing'
-import ScreenRecorder from '../nativePages/ScreenRecorder'
 import '../../assets/css/controls.css'
 import '../../assets/css/menu.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -357,12 +354,6 @@ class Controls extends React.Component {
                 )}
             </button>
           </form>
-          {false && (
-            <Capture
-              currentWebView={this.state.currentWebView}
-              tabGroup={this.state.tabGroup}
-            />
-          )}
           <DownloadPopup openDownloadsPage={this.openDownloadsPage} />
 
           <div

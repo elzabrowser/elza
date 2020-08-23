@@ -1,11 +1,8 @@
-import Sharing from '../components/nativePages/Sharing'
-import Osint from '../components/nativePages/Osint'
-import ScreenRecorder from '../components/nativePages/ScreenRecorder'
 import About from '../components/nativePages/about'
 import Settings from '../components/nativePages/Settings'
 import Downloads from '../components/nativePages/Downloads'
 
-function open (tabGroup, tab, title, src, comp, icon) {
+function open(tabGroup, tab, title, src, comp, icon) {
   let ntab = tabGroup.addTab({
     title: title,
     src: src,
@@ -20,20 +17,7 @@ function open (tabGroup, tab, title, src, comp, icon) {
   tab.close()
   ntab.activate()
 }
-function validateElzaProtocol (tabGroup, tab, url) {
-  if (url.startsWith('elza://share'))
-    open(tabGroup, tab, 'File Sharing', url, Sharing, 'fa fa-share-alt')
-  if (url.startsWith('elza://osint'))
-    open(tabGroup, tab, 'File Sharing', url, Osint, 'fa fa-share-alt')
-  if (url.startsWith('elza://recorder'))
-    open(
-      tabGroup,
-      tab,
-      'ScreenRecorder',
-      url,
-      ScreenRecorder,
-      'fa fa-share-alt'
-    )
+function validateElzaProtocol(tabGroup, tab, url) {
   if (url.startsWith('elza://downloads'))
     open(tabGroup, tab, 'Downloads', url, Downloads, 'fa fa-arrow-circle-down')
   if (url.startsWith('elza://about'))

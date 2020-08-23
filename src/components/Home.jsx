@@ -1,7 +1,6 @@
 import React from 'react'
 import '../assets/css/home.css'
 import Controls from './partials/Controls'
-import NewTab from './nativePages/NewTab'
 import TabGroup from '../electron-tabs'
 //const TabGroup = require("../electron-tabs");
 import USER_AGENT from '../functions/getUserAgent'
