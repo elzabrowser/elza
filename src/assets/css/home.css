@@ -106,9 +106,31 @@
   -webkit-app-region: no-drag;
   position: absolute;
   right: 0;
-  margin-top: -10px;
+}
+
+.windowactions button {
+  border-radius: 50%;
+  border: none;
+  line-height: 14px !important;
+  width: 14px;
+  height: 14px;
+  padding: 0px !important;
+  margin-right: 10px;
 }
 
 .windowactions button i {
-  font-size: 14px;
+  margin-top: -10px;
+  font-size: 7px;
+  width: 14px;
+  height: 14px;
+  color: transparent;
+}
+.windowactions .cls{
+  background-color: #FF605C;
+}
+.windowactions .max{
+  background-color: #00ca4e;
+}
+.windowactions .min{
+  background-color: #ffbd44;
 }
