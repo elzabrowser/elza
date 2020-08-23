@@ -10,7 +10,7 @@
 
 .etabs-tabs {
   -webkit-app-region: no-drag;
-  max-width: calc(85%);
+  max-width: calc(82%);
   padding: 0;
   margin: 0;
   display: flex;
@@ -63,7 +63,6 @@
   color: var(--font-color-secondary);
   border: none;
   height: 32px;
-  margin-right: 10px;
   background-color: rgba(221, 221, 221, 0);
 }
 
@@ -125,12 +124,18 @@
   height: 14px;
   color: transparent;
 }
-.windowactions .cls{
+.windowactions button:hover{
+  opacity: 0.8;
+}
+
+.windowactions .cls {
   background-color: #FF605C;
 }
-.windowactions .max{
+
+.windowactions .max {
   background-color: #00ca4e;
 }
-.windowactions .min{
+
+.windowactions .min {
   background-color: #ffbd44;
 }

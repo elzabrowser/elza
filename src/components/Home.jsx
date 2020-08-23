@@ -80,7 +80,7 @@ class Home extends React.Component {
                   remote.BrowserWindow.getFocusedWindow().minimize()
                 }
               >
-                <i class='fas fa-window-minimize'></i>
+                <i className='fas fa-window-minimize'></i>
               </button>
               <button
                 className='max'
@@ -91,7 +91,7 @@ class Home extends React.Component {
                     : window.maximize()
                 }}
               >
-                <i class='far fa-window-maximize'></i>
+                <i className='far fa-window-maximize'></i>
               </button>
               <button
                 className='cls'

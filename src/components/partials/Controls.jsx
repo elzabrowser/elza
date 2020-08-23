@@ -422,7 +422,7 @@ class Controls extends React.Component {
                   </button> */}
                 </div>
                 <div className='menuitem p-2'>
-                  <i class='fas fa-adjust'></i>
+                  <i className='fas fa-adjust'></i>
                   &nbsp;Dark mode
                   <label className='switch'>
                     <input
