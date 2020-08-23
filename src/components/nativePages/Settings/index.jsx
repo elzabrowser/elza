@@ -80,7 +80,7 @@ class BlankTab extends React.Component {
               About
             </div>
             <div className='p-3 settings-version-info'>
-              <b>Version 0.1.1 </b>
+              <b>Version 0.1.2 </b>
               <div>
                 <small className='text-muted'>
                   Created by expertevidence.org

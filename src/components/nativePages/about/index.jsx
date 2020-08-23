@@ -9,7 +9,7 @@ class About extends React.Component {
       <div className="about-container">
         <div className="container p-5">
           <h2><b>Elza</b></h2>
-          Version 0.1.1 - pre release
+          Version 0.1.2 - pre release
           <div>
             <small className="text-muted">Created by expertevidence.org</small>
           </div>
