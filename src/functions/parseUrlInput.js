@@ -3,7 +3,17 @@ const app = remote.app;
 const configFilePath = app.getPath('userData') + "/preferences.json"
 const fs = window.require('fs')
 
-var defaultSearchEngine = "www.google.com"
+var defaultSearchEngine = "google"
+var SEurl = {
+  google: "https://www.google.com/search?q=SEARCH_KW",
+  ddg: "https://duckduckgo.com/?q=SEARCH_KW",
+  ecosia: "https://www.ecosia.org/search?q=SEARCH_KW",
+  qwant: "https://www.qwant.com/?q=SEARCH_KW&t=web",
+  yandex: "https://yandex.com/search/?text=SEARCH_KW",
+  bing: "https://www.bing.com/search?q=SEARCH_KW",
+  yahoo: "https://search.yahoo.com/search?p=SEARCH_KW",
+
+}
 function isValidURL(str) {
   var pattern = new RegExp(
     '^(https?:\\/\\/)?' + // protocol
@@ -36,10 +46,10 @@ function updateConfig() {
 updateConfig()
 
 function parseUrlInput(url, searchEngine = defaultSearchEngine) {
-  searchEngine = searchEngine || defaultSearchEngine
   if (isValidURL(url)) {
     return addhttp(url)
   }
-  return 'https://' + searchEngine + '/search?q=' + url
+  searchEngine = searchEngine || defaultSearchEngine
+  return SEurl[searchEngine].replace("SEARCH_KW", url);
 }
 export default parseUrlInput
