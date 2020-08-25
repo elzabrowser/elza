@@ -51,7 +51,7 @@
     "build-win": "electron-builder --win -c.extraMetadata.main=build/electron.js",
     "build-lin": "electron-builder --linux -c.extraMetadata.main=build/electron.js",
     "package-win": "npm run build && electron-packager . ElzaBrowser --overwrite --asar --platform=win32 --arch=x64 --icon='./src/assets/logo.ico' --prune=true --out=release-builds --electron-version=6.1.12",
-    "package-linux": "npm run build && electron-packager . ElzaBrowser --overwrite --asar --platform=linux --arch=x64 --icon='./src/assets/logo.png' --prune=true --out=release-builds --electron-version=6.1.12",
+    "package-linux": "npm run build && electron-packager . ElzaBrowser --overwrite --asar --platform=linux --arch=x64 --icon='./src/assets/logo.png' --prune=true --out=release-builds --electron-version=6.1.12"
   },
   "eslintConfig": {
     "extends": "react-app"
