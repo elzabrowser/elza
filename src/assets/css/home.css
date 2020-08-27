@@ -5,7 +5,6 @@
   flex-direction: row;
   background-color: var(--background-color-secondary);
   overflow: hidden;
-  padding-top: 10px;
 }
 
 .etabs-tabs {
@@ -15,20 +14,19 @@
   margin: 0;
   display: flex;
   overflow: hidden;
-  padding-left: 10px;
 }
 
 .etabs-tab {
-  color: var(--font-color-primary);
+  color: var(--font-color-secondary);
   display: flex;
-  height: 32px;
+  height: 37px;
   align-items: center;
   padding: 0.5rem;
   flex: 1;
   overflow: hidden;
-  margin-right: 10px;
   border-right: 1px solid var(--border-color-primary);
-  border-radius: 5px 5px 0 0;
+  border-top: 3px solid rgba(238, 238, 238, 0);
+
 }
 
 .etabs-tab-icon {
@@ -52,8 +50,8 @@
 }
 
 .etabs-tabs .active {
-  background-color: var(--background-color-primary);
-  box-shadow: 0px -2px 16px -8px rgba(0, 0, 0, 0.75);
+  border-top: 3px solid #eee;
+  background-color: var(--background-color-secondary);
 }
 
 .etabs-buttons button {
@@ -62,7 +60,8 @@
   font-weight: 400;
   color: var(--font-color-secondary);
   border: none;
-  height: 32px;
+  height: 37px;
+  width: 37px;
   background-color: rgba(221, 221, 221, 0);
 }
 
@@ -91,7 +90,7 @@
 }
 
 .etabs-view {
-  height: calc(100vh - 88px);
+  height: calc(100vh - 80px);
 }
 
 .nativeView {
@@ -105,12 +104,37 @@
   -webkit-app-region: no-drag;
   position: absolute;
   right: 0;
-  margin-top: -10px;
+  margin-top: 7px;
+}
+
+.windowactions button {
+  border-radius: 50%;
+  border: none;
+  line-height: 12px !important;
+  width: 12px;
+  height: 12px;
+  padding: 0px !important;
+  margin-right: 10px;
 }
 
 .windowactions button i {
-  font-size: 14px;
+  font-size: 7px;
+  width: 14px;
+  height: 14px;
+  color: transparent;
 }
-.closebutton:hover {
-  background-color: rgb(212, 40, 40) !important;
+.windowactions button:hover{
+  opacity: 0.8;
+}
+
+.windowactions .cls {
+  background-color: #FF605C;
+}
+
+.windowactions .max {
+  background-color: #00ca4e;
+}
+
+.windowactions .min {
+  background-color: #ffbd44;
 }

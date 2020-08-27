@@ -1,7 +1,6 @@
 import React from 'react'
 import '../assets/css/home.css'
 import Controls from './partials/Controls'
-import NewTab from './nativePages/NewTab'
 import TabGroup from '../electron-tabs'
 //const TabGroup = require("../electron-tabs");
 import USER_AGENT from '../functions/getUserAgent'
@@ -9,15 +8,15 @@ import BlankTab from './nativePages/BlankTab'
 const { remote } = window.require('electron')
 
 class Home extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.tabGroup = null
     this.state = {
       tabGroup: null,
-      theme: 'light-theme'
+      theme: 'dark-theme'
     }
   }
-  componentDidMount () {
+  componentDidMount() {
     this.tabGroup = new TabGroup()
     this.setState({ tabGroup: this.tabGroup })
   }
@@ -61,7 +60,7 @@ class Home extends React.Component {
     this.loadStartingPage()
   }
 
-  render () {
+  render() {
     return (
       <>
         <div className={this.state.theme}>
@@ -73,9 +72,9 @@ class Home extends React.Component {
             <div className='etabs-buttons'>
               <button onClick={() => this.addNewNativeTab()}>+</button>
             </div>
-            <div className='windowactions etabs-buttons'>
+            <div className='windowactions'>
               <button
-                className='pr-2 pl-2'
+                className='min'
                 onClick={() =>
                   remote.BrowserWindow.getFocusedWindow().minimize()
                 }
@@ -83,7 +82,7 @@ class Home extends React.Component {
                 <i className='fas fa-window-minimize'></i>
               </button>
               <button
-                className='pr-2 pl-2'
+                className='max'
                 onClick={() => {
                   var window = remote.BrowserWindow.getFocusedWindow()
                   remote.BrowserWindow.getFocusedWindow().isMaximized()
@@ -94,10 +93,10 @@ class Home extends React.Component {
                 <i className='far fa-window-maximize'></i>
               </button>
               <button
-                className='closebutton pr-2 pl-2'
+                className='cls'
                 onClick={() => remote.BrowserWindow.getFocusedWindow().close()}
               >
-                X
+                <i class='fas fa-times'></i>
               </button>
             </div>
           </div>

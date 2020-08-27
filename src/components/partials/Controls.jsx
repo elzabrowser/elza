@@ -1,10 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Capture from './Capture'
 import DownloadPopup from './DownloadPopup'
 import BlankTab from '../nativePages/BlankTab'
-import Sharing from '../nativePages/Sharing'
-import ScreenRecorder from '../nativePages/ScreenRecorder'
 import '../../assets/css/controls.css'
 import '../../assets/css/menu.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -18,7 +15,7 @@ const contextMenu = window.require('electron-context-menu')
 const fs = window.require('fs')
 const remote = window.require('electron').remote
 class Controls extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.openDownloadsPage = this.openDownloadsPage.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -36,18 +33,18 @@ class Controls extends React.Component {
     }
   }
 
-  componentWillReceiveProps (newProps) {
+  componentWillReceiveProps(newProps) {
     this.setState({ tabGroup: newProps.tabGroup })
     this.tabGroupEvents(newProps.tabGroup)
   }
-  componentDidMount () {}
-  handleOutsideClick (e) {
+  componentDidMount() { }
+  handleOutsideClick(e) {
     if (this.node.contains(e.target)) {
       return
     }
     this.handleClick()
   }
-  handleClick () {
+  handleClick() {
     if (!this.state.popupVisible) {
       document.addEventListener('click', this.handleOutsideClick, false)
     } else {
@@ -273,7 +270,7 @@ class Controls extends React.Component {
       this.setState({ isSiteSecure: false })
     }
   }
-  openDownloadsPage () {
+  openDownloadsPage() {
     console.log(this.state)
     let newtab = this.state.tabGroup.addTab({
       src: '',
@@ -284,7 +281,7 @@ class Controls extends React.Component {
     newtab.activate()
   }
 
-  render () {
+  render() {
     return (
       <>
         <div id='controls'>
@@ -312,8 +309,8 @@ class Controls extends React.Component {
             {this.state.isSiteSecure ? (
               <i className='fa fa-lock secure-site' />
             ) : (
-              <i className='fa fa-globe' />
-            )}
+                <i className='fa fa-globe' />
+              )}
             <div className='urlInfoCtr rounded shadow p-3'>
               {this.state.isSiteSecure ? (
                 <div>
@@ -325,15 +322,15 @@ class Controls extends React.Component {
                   </p>
                 </div>
               ) : (
-                <div>
-                  <b className='insecure-site'>Insecure connection !</b>
-                  <p>
-                    Connection to this site is not encrypted. You should not
-                    enter any sensitive information to this site, because it
-                    could be stolen by attackers.
+                  <div>
+                    <b className='insecure-site'>Insecure connection !</b>
+                    <p>
+                      Connection to this site is not encrypted. You should not
+                      enter any sensitive information to this site, because it
+                      could be stolen by attackers.
                   </p>
-                </div>
-              )}
+                  </div>
+                )}
             </div>
           </button>
           <form id='location-form' onSubmit={this.submitURL}>
@@ -353,16 +350,10 @@ class Controls extends React.Component {
               {this.state.webvIsLoading ? (
                 <div className='loader'></div>
               ) : (
-                <i className='fas fa-arrow-right' />
-              )}
+                  <i className='fas fa-arrow-right' />
+                )}
             </button>
           </form>
-          {false && (
-            <Capture
-              currentWebView={this.state.currentWebView}
-              tabGroup={this.state.tabGroup}
-            />
-          )}
           <DownloadPopup openDownloadsPage={this.openDownloadsPage} />
 
           <div
@@ -371,121 +362,20 @@ class Controls extends React.Component {
               this.node = node
             }}
           >
-            <button id='menu' title='Menu' onClick={this.handleClick}>
+            <button id='menu' title='Menu'
+              onClick={() => {
+                this.state.currentWebView = null
+                let newtab = this.state.tabGroup.addTab({
+                  title: 'Settings',
+                  src: 'elza://settings',
+                  icon: 'fa fa-cog',
+                  isNative: true,
+                  comp: Settings
+                })
+                newtab.activate()
+              }}>
               <i className='fas fa-ellipsis-v ' />
             </button>
-            {this.state.popupVisible && (
-              <div id='menuDropdown' className='dropdown-content p-3'>
-                <div
-                  style={{
-                    textAlign: 'center'
-                  }}
-                >
-                  {/* <button
-                    id='recorder'
-                    title='Screen Recorder'
-                    onClick={() => {
-                      let newtab = this.state.tabGroup.addTab({
-                        title: 'ScreenRecorder',
-                        src: 'elza://recorder',
-                        icon: 'fa fa-grip-horizontal',
-                        isNative: true,
-                        comp: ScreenRecorder,
-                        webviewAttributes: {
-                          useragent:
-                            'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0 Elza Browser'
-                        }
-                      })
-                      newtab.activate()
-                    }}
-                  >
-                    <i className='fas fa-video' />
-                  </button> */}
-                  {/* <button
-                    onClick={() => {
-                      this.state.currentWebView = null
-                      let newtab = this.state.tabGroup.addTab({
-                        title: 'File Sharing',
-                        src: 'elza://share',
-                        icon: 'fa fa-grip-horizontal',
-                        isNative: true,
-                        comp: Sharing,
-                        webviewAttributes: {
-                          useragent:
-                            'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0 Elza Browser'
-                        }
-                      })
-                      newtab.activate()
-                    }}
-                  >
-                    <i className='fas fa-share-alt' />
-                  </button> */}
-                </div>
-                <div className='menuitem p-2'>
-                  <i className='fas fa-adjust'></i>
-                  &nbsp;Dark mode
-                  <label className='switch'>
-                    <input
-                      type='checkbox'
-                      onChange={() => this.props.changeTheme()}
-                    />
-                    <span className='slider round'></span>
-                  </label>
-                </div>
-                <div
-                  className='menuitem p-2'
-                  onClick={() => {
-                    this.state.currentWebView = null
-                    let newtab = this.state.tabGroup.addTab({
-                      title: 'Downloads',
-                      src: 'elza://downloads',
-                      icon: 'fa fa-arrow-circle-down',
-                      isNative: true,
-                      comp: Downloads
-                    })
-                    newtab.activate()
-                  }}
-                >
-                  <i className='fas fa-arrow-down' /> Downloads
-                </div>
-
-                <div
-                  className='menuitem p-2'
-                  onClick={() => {
-                    this.state.currentWebView = null
-                    let newtab = this.state.tabGroup.addTab({
-                      title: 'Settings',
-                      src: 'elza://settings',
-                      icon: 'fa fa-cog',
-                      isNative: true,
-                      comp: Settings
-                    })
-                    newtab.activate()
-                  }}
-                >
-                  <i className='fas fa-cog' /> Settings
-                </div>
-                <div style={{ textAlign: 'center' }} className=''>
-                  <button id='zoomin' title='Zoom In' onClick={this.zoomInWebv}>
-                    <i className='fas fa-search-plus' />
-                  </button>
-                  <button
-                    id='resetzoom'
-                    title='Reset Zoom'
-                    onClick={this.activeWebView}
-                  >
-                    <i className='fas fa-minus-square' />
-                  </button>
-                  <button
-                    id='zooout'
-                    title='Zoom Out'
-                    onClick={this.zoomOutWebv}
-                  >
-                    <i className='fas fa-search-minus' />
-                  </button>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </>

@@ -1,18 +1,14 @@
 #controls {
   display: flex;
   padding: 8px;
-  border-bottom: 1px solid var(--border-color-primary);
-  /* grid-template-columns: 35px 35px 35px 35px auto 35px 100px;
-	grid-column-gap: 10px; */
-  background-color: var(--background-color-primary);
+  background-color: var(--background-color-secondary);
 }
 
-#controls button,
-#controls button:focus {
+#controls button, #controls button:focus {
   width: 27px;
   height: 27px;
   margin: 0 5px;
-  background-color: var(--background-color-primary);
+  background-color: var(--background-color-secondary);
   border: none;
   user-select: none;
   border-radius: 50%;
@@ -23,8 +19,7 @@
 }
 
 #controls button:hover {
-  background: #ecececb6 radial-gradient(circle, transparent 1%, #ecececb6 1%)
-    center/15000%;
+  background: #424242b6 radial-gradient(circle, transparent 1%, #ecececb6 1%) center/15000%;
 }
 
 #controls button:active {
@@ -49,7 +44,7 @@
   line-height: 26px;
 }
 
-#controls #urlInfo:focus > .urlInfoCtr {
+#controls #urlInfo:focus>.urlInfoCtr {
   visibility: visible;
 }
 
@@ -88,7 +83,7 @@
   height: 27px;
   color: var(--font-color-secondary);
   font-size: 0.9em;
-  border-radius: 13px;
+  border-radius: 5px;
   border: 1.3px solid var(--background-color-secondary);
 }
 
@@ -98,21 +93,22 @@
   outline: none;
 }
 
-#goButton {
-  position: relative;
-  left: -33px;
-  background-color: var(--background-color-secondary) !important;
-  border: none;
-  height: 23px !important;
-  margin-top: 2px !important;
-  width: 27px;
+#location:focus > #goButton {
+  color: var(--font-color-primary) !important;
+  background-color: var(--background-color-urlbar) !important;
+  outline: none;
 }
 
-#goButton:focus,
-#goButton:hover,
-#goButton:active {
-  background-color: var(--background-color-primary) !important;
-  color: inherit !important;
+#goButton {
+  display: none;
+  position: relative;
+  left: -33px;
+  border: none;
+  height: 26px !important;
+  margin-top: 0px !important;
+  width: 27px;
+  border-radius: 0 !important;
+  background-color: var(--background-color-secondary);
 }
 
 @keyframes loader {
