@@ -5,10 +5,10 @@ import TabGroup from '../electron-tabs'
 //const TabGroup = require("../electron-tabs");
 import USER_AGENT from '../functions/getUserAgent'
 import BlankTab from './nativePages/BlankTab'
-const { remote } = window.require('electron')
+const { ipcRenderer, remote } = window.require('electron')
 
 class Home extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.tabGroup = null
     this.state = {
@@ -16,9 +16,14 @@ class Home extends React.Component {
       theme: 'dark-theme'
     }
   }
-  componentDidMount() {
+  componentDidMount () {
     this.tabGroup = new TabGroup()
     this.setState({ tabGroup: this.tabGroup })
+    ipcRenderer.send('app_version')
+    ipcRenderer.on('app_version', (event, arg) => {
+      ipcRenderer.removeAllListeners('app_version')
+      console.log(arg.version)
+    })
   }
   loadStartingPage = () => {
     this.addNewNativeTab()
@@ -60,7 +65,7 @@ class Home extends React.Component {
     this.loadStartingPage()
   }
 
-  render() {
+  render () {
     return (
       <>
         <div className={this.state.theme}>

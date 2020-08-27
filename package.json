@@ -4,17 +4,20 @@
   "private": true,
   "homepage": "./",
   "main": "public/electron.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/expertevidence/elza-browser.git"
+  },
   "build": {
     "appId": "com.elza.browser",
-    "files": [
-      "build/**/*",
-      "node_modules/**/*"
-    ],
+    "files": ["build/**/*", "node_modules/**/*"],
+    "publish": ["github"],
     "directories": {
       "buildResources": "assets"
     }
   },
   "dependencies": {
+    "@imjs/electron-differential-updater": "^5.0.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -25,6 +28,7 @@
     "dns": "^0.2.2",
     "electron-context-menu": "^2.3.0",
     "electron-is-dev": "^1.2.0",
+    "electron-updater": "^4.3.4",
     "font-awesome": "^4.7.0",
     "nedb": "^1.8.0",
     "pdfkit": "^0.11.0",
@@ -50,6 +54,7 @@
     "eject": "react-scripts eject",
     "build-win": "electron-builder --win -c.extraMetadata.main=build/electron.js",
     "build-lin": "electron-builder --linux -c.extraMetadata.main=build/electron.js",
+    "deploy": "electron-builder build --win --publish always -c.extraMetadata.main=build/electron.js",
     "package-win": "npm run build && electron-packager . ElzaBrowser --overwrite --asar --platform=win32 --arch=x64 --icon='./src/assets/logo.ico' --prune=true --out=release-builds --electron-version=6.1.12",
     "package-linux": "npm run build && electron-packager . ElzaBrowser --overwrite --asar --platform=linux --arch=x64 --icon='./src/assets/logo.png' --prune=true --out=release-builds --electron-version=6.1.12"
   },
@@ -57,11 +62,7 @@
     "extends": "react-app"
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
+    "production": [">0.2%", "not dead", "not op_mini all"],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",

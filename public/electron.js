@@ -1,7 +1,8 @@
-const { app, BrowserWindow, Menu, session, DownloadItem } = require('electron')
+const { app, BrowserWindow, Menu, ipcMain } = require('electron')
 const fs = require('fs')
 const isDev = require('electron-is-dev')
 const electronDl = require('electron-dl')
+const { autoUpdater } = require('electron-differential-updater')
 const downloadInfoFile = app.getPath('userData') + '/downloads.json'
 let downloads
 fs.writeFile(downloadInfoFile, '{}', function (err) {
@@ -94,4 +95,19 @@ app.on('ready', function () {
       })
     }
   })
+})
+app.once('ready-to-show', () => {
+  autoUpdater.checkForUpdatesAndNotify()
+})
+ipcMain.on('app_version', event => {
+  event.sender.send('app_version', { version: app.getVersion() })
+})
+autoUpdater.on('update-available', () => {
+  console.log('update available')
+  mainWindow.webContents.send('update_available')
+})
+autoUpdater.on('update-downloaded', () => {
+  console.log('update downloaded')
+  mainWindow.webContents.send('update_downloaded')
+  autoUpdater.quitAndInstall()
 })
