@@ -2,7 +2,7 @@ const { app, BrowserWindow, Menu, ipcMain } = require('electron')
 const fs = require('fs')
 const isDev = require('electron-is-dev')
 const electronDl = require('electron-dl')
-const { autoUpdater } = require('electron-differential-updater')
+const { autoUpdater } = require('electron-updater')
 const downloadInfoFile = app.getPath('userData') + '/downloads.json'
 let downloads
 fs.writeFile(downloadInfoFile, '{}', function (err) {

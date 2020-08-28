@@ -24,6 +24,10 @@ class Home extends React.Component {
       ipcRenderer.removeAllListeners('app_version')
       console.log(arg.version)
     })
+    ipcRenderer.on('update_available', () => {
+      ipcRenderer.removeAllListeners('update_available')
+      alert('update available')
+    })
   }
   loadStartingPage = () => {
     this.addNewNativeTab()
