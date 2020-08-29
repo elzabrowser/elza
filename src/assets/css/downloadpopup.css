@@ -1,5 +1,6 @@
 .alldownloads {
   text-align: center;
+  color: #4e58e4;
 }
 
 hr {
@@ -27,4 +28,6 @@ hr {
   font-size: 16px !important;
   border: none !important;
   color: #4e58e4 !important;
+  background-color: inherit !important;
+  height: 0px !important;
 }

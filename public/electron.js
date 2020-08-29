@@ -1,15 +1,9 @@
 const { app, BrowserWindow, Menu, ipcMain } = require('electron')
-const fs = require('fs')
 const isDev = require('electron-is-dev')
 const electronDl = require('electron-dl')
 const { autoUpdater } = require('electron-updater')
-const downloadInfoFile = app.getPath('userData') + '/downloads.json'
 const contextMenu = require('electron-context-menu')
-let downloads
-fs.writeFile(downloadInfoFile, '{}', function (err) {
-  if (err) throw err
-})
-downloads = {}
+let downloads = {}
 
 app.on('window-all-closed', function () {
   app.quit()
@@ -17,15 +11,9 @@ app.on('window-all-closed', function () {
 Menu.setApplicationMenu(null)
 let mainWindow
 updateDownload = () => {
-  fs.writeFile(downloadInfoFile, JSON.stringify(downloads), err => {
-    if (err) throw err
-  })
+  mainWindow.webContents.send('downloads_changed', downloads)
 }
 app.on('ready', function () {
-  const { screen } = require('electron')
-  const electronScreen = screen
-  var mainScreen = electronScreen.getPrimaryDisplay()
-  var dimensions = mainScreen.size
   mainWindow = new BrowserWindow({
     title: 'Elza Browser',
     titleBarStyle: 'hidden',
@@ -35,12 +23,9 @@ app.on('ready', function () {
     minWidth: 1200,
     minHeight: 700,
     frame: false,
-    titleBarStyle: 'customButtonsOnHover',
-    // icon: __dirname + '/src/logo.png',
     webPreferences: {
       webviewTag: true,
-      nodeIntegration: true,
-      webSecurity: false
+      nodeIntegration: true
     }
   })
   if (isDev) {
@@ -54,7 +39,6 @@ app.on('ready', function () {
     saveAs: false,
     showBadge: true,
     onStarted: function (item) {
-      //mainWindow.webContents.send('started', item)
       var downloadItem = new Object()
       downloadItem.name = item.getFilename()
       downloadItem.totalBytes = item.getTotalBytes()
@@ -64,7 +48,6 @@ app.on('ready', function () {
       downloadItem.status = 'started'
       downloadItem.path = item.getSavePath()
       downloads[downloadID] = downloadItem
-      console.log(downloads)
       updateDownload()
       item.once('done', (event, state) => {
         if (state === 'completed') {

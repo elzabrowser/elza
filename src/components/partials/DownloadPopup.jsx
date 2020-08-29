@@ -1,7 +1,7 @@
 import React from 'react'
 import '../../assets/css/w3.css'
 import '../../assets/css/downloadpopup.css'
-const { shell } = window.require('electron')
+const { shell, ipcRenderer } = window.require('electron')
 const remote = window.require('electron').remote
 const fs = window.require('fs')
 const downloadInfoFile = remote.app.getPath('userData') + '/downloads.json'
@@ -18,19 +18,8 @@ class DownloadPopup extends React.Component {
   }
 
   componentDidMount () {
-    try {
-      this.setState({
-        downloads: JSON.parse(fs.readFileSync(downloadInfoFile, 'utf8'))
-      })
-    } catch {}
-    console.log(this.state.downloads)
-    fs.watch(downloadInfoFile, (curr, prev) => {
-      try {
-        this.setState({
-          downloads: JSON.parse(fs.readFileSync(downloadInfoFile, 'utf8'))
-        })
-        //console.log(this.state.downloads)
-      } catch {}
+    ipcRenderer.on('downloads_changed', (event, arg) => {
+      this.setState({ downloads: arg })
     })
   }
   getProgress = (receivedBytes, totalBytes) => {
@@ -75,11 +64,11 @@ class DownloadPopup extends React.Component {
                     <div key={key} className='border-bottom m-2 shadow-sm'>
                       <div className='p-3'>
                         <b>
-                          {this.state.downloads[key].name.length < 12
+                          {this.state.downloads[key].name.length < 15
                             ? this.state.downloads[key].name
                             : this.state.downloads[key].name
                                 .split('')
-                                .splice(0, 12)
+                                .splice(0, 15)
                                 .join('') + '...'}
                         </b>
                         {this.state.downloads[key].status == 'done' && (
