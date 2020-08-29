@@ -1,10 +1,7 @@
 import React from 'react'
 import '../../../assets/css/w3.css'
 import './main.css'
-const { shell } = window.require('electron')
-const remote = window.require('electron').remote
-const fs = window.require('fs')
-const downloadInfoFile = remote.app.getPath('userData') + '/downloads.json'
+const { shell, ipcRenderer } = window.require('electron')
 class Downloads extends React.Component {
   constructor (props) {
     super(props)
@@ -16,23 +13,16 @@ class Downloads extends React.Component {
       isVisible: false
     }
   }
-
   componentDidMount () {
-    try {
+    ipcRenderer.on('senddownloads', (event, arg) => {
+      console.log(arg)
       this.setState({
-        downloads: JSON.parse(fs.readFileSync(downloadInfoFile, 'utf8'))
+        downloads: arg
       })
-    } catch {}
-    console.log(this.state.downloads)
-    fs.watch(downloadInfoFile, (curr, prev) => {
-      try {
-        this.setState({
-          downloads: JSON.parse(fs.readFileSync(downloadInfoFile, 'utf8'))
-        })
-        //console.log(this.state.downloads)
-      } catch {}
     })
+    ipcRenderer.send('getdownloads')
   }
+
   getProgress = (receivedBytes, totalBytes) => {
     if (totalBytes === 0) return 0
     else {

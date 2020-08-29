@@ -108,9 +108,13 @@ app.on('web-contents-created', (e, contents) => {
       showCopyImageAddress: true,
       showCopyImage: true,
       showSaveLinkAs: true,
+      showSearchWithGoogle: false,
       window: contents
     })
   }
+})
+ipcMain.on('getdownloads', event => {
+  event.reply('senddownloads', downloads)
 })
 app.once('ready-to-show', () => {
   autoUpdater.checkForUpdatesAndNotify()
