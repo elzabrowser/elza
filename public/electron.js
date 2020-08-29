@@ -83,6 +83,15 @@ app.on('ready', function () {
 app.on('web-contents-created', (e, contents) => {
   if (contents.getType() == 'webview') {
     contextMenu({
+      prepend: (defaultActions, params, browserWindow) => [
+        {
+          label: 'Open in New Tab',
+          visible: params.linkURL.trim().length > 0,
+          click: () => {
+            mainWindow.webContents.send('openin_newtab', params.linkURL)
+          }
+        }
+      ],
       labels: {
         saveImage: 'Download Image',
         saveLinkAs: 'Download Link'

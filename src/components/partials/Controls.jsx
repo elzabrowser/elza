@@ -172,8 +172,7 @@ class Controls extends React.Component {
           tab.webview
         )
       } */
-      let tabCount = tabGroup.getTabs()
-      if (tabCount === 0) {
+      if (tabGroup.getTabs().length === 0) {
         let newtab = tabGroup.addTab({
           src: '',
           icon: 'fa fa-grip-horizontal',

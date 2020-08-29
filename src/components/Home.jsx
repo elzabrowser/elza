@@ -28,24 +28,22 @@ class Home extends React.Component {
       ipcRenderer.removeAllListeners('update_available')
       alert('update available')
     })
+    ipcRenderer.on('openin_newtab', (event, url) => {
+      let tab = this.tabGroup.addTab({
+        title: 'Loading...',
+        src: url,
+        isNative: false,
+        webviewAttributes: {
+          useragent: USER_AGENT
+        }
+      })
+      tab.activate()
+    })
   }
   loadStartingPage = () => {
     this.addNewNativeTab()
   }
-  addTab = () => {
-    let tab = this.tabGroup.addTab({
-      title: 'New Tab',
-      src: 'https://www.google.com',
-      visible: false,
-      icon: 'loader',
-      isNative: false,
-      webviewAttributes: {
-        useragent:
-          'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0 Elza Browser'
-      }
-    })
-    tab.activate()
-  }
+
   addNewNativeTab = (title, src, comp, icon) => {
     let tab = this.tabGroup.addTab({
       title: title || 'Home',
