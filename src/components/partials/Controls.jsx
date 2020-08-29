@@ -10,12 +10,12 @@ import parseUrlInput from '../../functions/parseUrlInput'
 import validateElzaProtocol from '../../functions/validateElzaProtocol'
 import Settings from '../nativePages/Settings'
 import Downloads from '../nativePages/Downloads'
-const { ipcRenderer } = window.require('electron')
+const { app } = window.require('electron')
 const contextMenu = window.require('electron-context-menu')
 const fs = window.require('fs')
 const remote = window.require('electron').remote
 class Controls extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.openDownloadsPage = this.openDownloadsPage.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -33,18 +33,18 @@ class Controls extends React.Component {
     }
   }
 
-  componentWillReceiveProps(newProps) {
+  componentWillReceiveProps (newProps) {
     this.setState({ tabGroup: newProps.tabGroup })
     this.tabGroupEvents(newProps.tabGroup)
   }
-  componentDidMount() { }
-  handleOutsideClick(e) {
+  componentDidMount () {}
+  handleOutsideClick (e) {
     if (this.node.contains(e.target)) {
       return
     }
     this.handleClick()
   }
-  handleClick() {
+  handleClick () {
     if (!this.state.popupVisible) {
       document.addEventListener('click', this.handleOutsideClick, false)
     } else {
@@ -69,12 +69,6 @@ class Controls extends React.Component {
   tabEvents = tab => {
     tab.webview.addEventListener('did-start-loading', () => {
       this.setState({ currentWebView: null })
-      contextMenu({
-        window: tab.webview,
-        showSaveImage: true,
-        showSearchWithGoogle: false,
-        showInspectElement: false
-      })
       tab.setIcon('', 'loader')
     })
     tab.webview.addEventListener('will-navigate', () => {
@@ -86,6 +80,12 @@ class Controls extends React.Component {
       tab.setTitle(newTitle)
     })
     tab.webview.addEventListener('did-stop-loading', () => {
+      /* contextMenu({
+        window: tab.webview,
+        showSaveImage: true,
+        showSearchWithGoogle: false,
+        showInspectElement: false
+      }) */
       let tabs = [...this.state.tabs]
       tabs[tab.id].url = tab.webview.src
       tabs[tab.id].inputURL = tab.webview.src
@@ -160,6 +160,7 @@ class Controls extends React.Component {
         )
       }
     })
+
     tabGroup.on('tab-removed', (tab, tabGroup) => {
       /* document.getElementById('location').value = tab.webviewAttributes.src
       this.setState({ activeTab: tab.id })
@@ -270,7 +271,7 @@ class Controls extends React.Component {
       this.setState({ isSiteSecure: false })
     }
   }
-  openDownloadsPage() {
+  openDownloadsPage () {
     console.log(this.state)
     let newtab = this.state.tabGroup.addTab({
       src: '',
@@ -281,7 +282,7 @@ class Controls extends React.Component {
     newtab.activate()
   }
 
-  render() {
+  render () {
     return (
       <>
         <div id='controls'>
@@ -309,8 +310,8 @@ class Controls extends React.Component {
             {this.state.isSiteSecure ? (
               <i className='fa fa-lock secure-site' />
             ) : (
-                <i className='fa fa-globe' />
-              )}
+              <i className='fa fa-globe' />
+            )}
             <div className='urlInfoCtr rounded shadow p-3'>
               {this.state.isSiteSecure ? (
                 <div>
@@ -322,15 +323,15 @@ class Controls extends React.Component {
                   </p>
                 </div>
               ) : (
-                  <div>
-                    <b className='insecure-site'>Insecure connection !</b>
-                    <p>
-                      Connection to this site is not encrypted. You should not
-                      enter any sensitive information to this site, because it
-                      could be stolen by attackers.
+                <div>
+                  <b className='insecure-site'>Insecure connection !</b>
+                  <p>
+                    Connection to this site is not encrypted. You should not
+                    enter any sensitive information to this site, because it
+                    could be stolen by attackers.
                   </p>
-                  </div>
-                )}
+                </div>
+              )}
             </div>
           </button>
           <form id='location-form' onSubmit={this.submitURL}>
@@ -350,8 +351,8 @@ class Controls extends React.Component {
               {this.state.webvIsLoading ? (
                 <div className='loader'></div>
               ) : (
-                  <i className='fas fa-arrow-right' />
-                )}
+                <i className='fas fa-arrow-right' />
+              )}
             </button>
           </form>
           <DownloadPopup openDownloadsPage={this.openDownloadsPage} />
@@ -362,7 +363,9 @@ class Controls extends React.Component {
               this.node = node
             }}
           >
-            <button id='menu' title='Menu'
+            <button
+              id='menu'
+              title='Menu'
               onClick={() => {
                 this.state.currentWebView = null
                 let newtab = this.state.tabGroup.addTab({
@@ -373,7 +376,8 @@ class Controls extends React.Component {
                   comp: Settings
                 })
                 newtab.activate()
-              }}>
+              }}
+            >
               <i className='fas fa-ellipsis-v ' />
             </button>
           </div>

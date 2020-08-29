@@ -4,6 +4,7 @@ const isDev = require('electron-is-dev')
 const electronDl = require('electron-dl')
 const { autoUpdater } = require('electron-updater')
 const downloadInfoFile = app.getPath('userData') + '/downloads.json'
+const contextMenu = require('electron-context-menu')
 let downloads
 fs.writeFile(downloadInfoFile, '{}', function (err) {
   if (err) throw err
@@ -14,12 +15,12 @@ app.on('window-all-closed', function () {
   app.quit()
 })
 Menu.setApplicationMenu(null)
+let mainWindow
 updateDownload = () => {
   fs.writeFile(downloadInfoFile, JSON.stringify(downloads), err => {
     if (err) throw err
   })
 }
-let mainWindow
 app.on('ready', function () {
   const { screen } = require('electron')
   const electronScreen = screen
@@ -81,7 +82,6 @@ app.on('ready', function () {
           if (item.isPaused()) {
             console.log('Download is paused')
           } else {
-            updateDownload()
             downloads[downloadID].receivedBytes = item.getReceivedBytes()
             if (
               downloads[downloadID].totalBytes ==
@@ -89,12 +89,29 @@ app.on('ready', function () {
               downloads[downloadID].totalBytes != 0
             ) {
               downloads[downloadID].status = 'done'
+              updateDownload()
             }
           }
         }
       })
     }
   })
+})
+app.on('web-contents-created', (e, contents) => {
+  if (contents.getType() == 'webview') {
+    contextMenu({
+      labels: {
+        saveImage: 'Download Image',
+        saveLinkAs: 'Download Link'
+      },
+      showSaveImage: true,
+      showInspectElement: true,
+      showCopyImageAddress: true,
+      showCopyImage: true,
+      showSaveLinkAs: true,
+      window: contents
+    })
+  }
 })
 app.once('ready-to-show', () => {
   autoUpdater.checkForUpdatesAndNotify()
