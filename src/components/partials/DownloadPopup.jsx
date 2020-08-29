@@ -2,9 +2,6 @@ import React from 'react'
 import '../../assets/css/w3.css'
 import '../../assets/css/downloadpopup.css'
 const { shell, ipcRenderer } = window.require('electron')
-const remote = window.require('electron').remote
-const fs = window.require('fs')
-const downloadInfoFile = remote.app.getPath('userData') + '/downloads.json'
 class DownloadPopup extends React.Component {
   constructor (props) {
     super(props)
@@ -18,12 +15,12 @@ class DownloadPopup extends React.Component {
   }
 
   componentDidMount () {
-    ipcRenderer.on('downloads_changed', (event, arg) => {
-      this.setState({ downloads: arg })
+    ipcRenderer.on('downloads_changed', (event, downloads) => {
+      this.setState({ downloads: downloads })
     })
   }
   getProgress = (receivedBytes, totalBytes) => {
-    if (totalBytes == 0) return 0
+    if (totalBytes === 0) return 0
     else {
       return ((receivedBytes / totalBytes) * 100).toFixed(2) + '%'
     }
@@ -71,7 +68,7 @@ class DownloadPopup extends React.Component {
                                 .splice(0, 15)
                                 .join('') + '...'}
                         </b>
-                        {this.state.downloads[key].status == 'done' && (
+                        {this.state.downloads[key].status === 'done' && (
                           <button
                             className='openDownloadItem'
                             onClick={() =>
@@ -82,7 +79,7 @@ class DownloadPopup extends React.Component {
                           </button>
                         )}
 
-                        {this.state.downloads[key].status != 'done' && (
+                        {this.state.downloads[key].status !== 'done' && (
                           <div
                             className='w3-grey w3-round-xlarge'
                             style={{ marginTop: '5px' }}

@@ -34,7 +34,7 @@ class Downloads extends React.Component {
     })
   }
   getProgress = (receivedBytes, totalBytes) => {
-    if (totalBytes == 0) return 0
+    if (totalBytes === 0) return 0
     else {
       return ((receivedBytes / totalBytes) * 100).toFixed(2) + '%'
     }
@@ -71,7 +71,7 @@ class Downloads extends React.Component {
                       ? this.state.downloads[key].name
                       : this.state.downloads[key].name}
                   </b>
-                  {this.state.downloads[key].status == 'done' && (
+                  {this.state.downloads[key].status === 'done' && (
                     <button
                       className='openDownloadItem'
                       onClick={() =>
@@ -82,7 +82,7 @@ class Downloads extends React.Component {
                     </button>
                   )}
 
-                  {this.state.downloads[key].status != 'done' && (
+                  {this.state.downloads[key].status !== 'done' && (
                     <div
                       className='w3-grey w3-round-xlarge'
                       style={{ marginTop: '5px' }}

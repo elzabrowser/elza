@@ -1,8 +1,5 @@
 import React from 'react'
 class BlankTab extends React.Component {
-  constructor (props) {
-    super(props)
-  }
   getTime () {
     var dt = new Date()
     var h = dt.getHours(),

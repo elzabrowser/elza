@@ -10,10 +10,6 @@ import parseUrlInput from '../../functions/parseUrlInput'
 import validateElzaProtocol from '../../functions/validateElzaProtocol'
 import Settings from '../nativePages/Settings'
 import Downloads from '../nativePages/Downloads'
-const { app } = window.require('electron')
-const contextMenu = window.require('electron-context-menu')
-const fs = window.require('fs')
-const remote = window.require('electron').remote
 class Controls extends React.Component {
   constructor (props) {
     super(props)
@@ -177,7 +173,7 @@ class Controls extends React.Component {
         )
       } */
       let tabCount = tabGroup.getTabs()
-      if (tabCount == 0) {
+      if (tabCount === 0) {
         let newtab = tabGroup.addTab({
           src: '',
           icon: 'fa fa-grip-horizontal',
@@ -228,7 +224,7 @@ class Controls extends React.Component {
     this.state.tabs[this.state.activeTab].tab.webview.goBack()
   }
   reloadWebv = () => {
-    if (this.state.currentWebView == null) return
+    if (this.state.currentWebView === null) return
     this.state.tabs[this.state.activeTab].tab.webview.reload()
   }
   zoomInWebv = () => {
@@ -367,7 +363,7 @@ class Controls extends React.Component {
               id='menu'
               title='Menu'
               onClick={() => {
-                this.state.currentWebView = null
+                this.setState({ currentWebView: null })
                 let newtab = this.state.tabGroup.addTab({
                   title: 'Settings',
                   src: 'elza://settings',

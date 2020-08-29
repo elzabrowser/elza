@@ -59,8 +59,8 @@ class Home extends React.Component {
     })
     tab.activate()
   }
-  changeTheme = theme => {
-    if (this.state.theme == 'dark-theme')
+  changeTheme = () => {
+    if (this.state.theme === 'dark-theme')
       this.setState({ theme: 'light-theme' })
     else this.setState({ theme: 'dark-theme' })
   }
@@ -105,7 +105,7 @@ class Home extends React.Component {
                 className='cls'
                 onClick={() => remote.BrowserWindow.getFocusedWindow().close()}
               >
-                <i class='fas fa-times'></i>
+                <i className='fas fa-times'></i>
               </button>
             </div>
           </div>

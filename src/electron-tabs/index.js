@@ -1,18 +1,17 @@
 import getUserAgent from '../functions/getUserAgent'
-const EventEmitter = require("events");
-const remote = window.require('electron').remote;
-const app = remote.app;
-const configFilePath = app.getPath('userData') + "/preferences.json"
+const EventEmitter = require('events')
+const remote = window.require('electron').remote
+const app = remote.app
+const configFilePath = app.getPath('userData') + '/preferences.json'
 const fs = window.require('fs')
-var PARTITION = null;
+var PARTITION = null
 try {
   if (fs.existsSync(configFilePath)) {
     let cfile = window.require(configFilePath)
-    console.log(cfile)
     if (cfile.privateMode) {
       PARTITION = null
     } else {
-      PARTITION = "persist:elzawindow"
+      PARTITION = 'persist:elzawindow'
     }
   }
 } catch (err) {
@@ -20,11 +19,11 @@ try {
 }
 
 if (!document) {
-  throw Error("electron-tabs module must be called in renderer process");
+  throw Error('electron-tabs module must be called in renderer process')
 }
 
 // Inject styles
-(function () {
+;(function () {
   const styles = `
     webview {
       position: absolute;
@@ -35,471 +34,487 @@ if (!document) {
     webview.visible {
       visibility: visible;
     }
-  `;
-  let styleTag = document.createElement("style");
-  styleTag.innerHTML = styles;
-  document.getElementsByTagName("head")[0].appendChild(styleTag);
-})();
+  `
+  let styleTag = document.createElement('style')
+  styleTag.innerHTML = styles
+  document.getElementsByTagName('head')[0].appendChild(styleTag)
+})()
 
 class TabGroup extends EventEmitter {
-  constructor(args = {}) {
-    super();
-    let options = this.options = {
-      tabContainerSelector: args.tabContainerSelector || ".etabs-tabs",
-      buttonsContainerSelector: args.buttonsContainerSelector || ".etabs-buttons",
-      viewContainerSelector: args.viewContainerSelector || ".etabs-views",
-      tabClass: args.tabClass || "etabs-tab",
-      viewClass: args.viewClass || "etabs-view",
-      closeButtonText: args.closeButtonText || "&#215;",
+  constructor (args = {}) {
+    super()
+    let options = (this.options = {
+      tabContainerSelector: args.tabContainerSelector || '.etabs-tabs',
+      buttonsContainerSelector:
+        args.buttonsContainerSelector || '.etabs-buttons',
+      viewContainerSelector: args.viewContainerSelector || '.etabs-views',
+      tabClass: args.tabClass || 'etabs-tab',
+      viewClass: args.viewClass || 'etabs-view',
+      closeButtonText: args.closeButtonText || '&#215;',
       newTab: args.newTab,
-      newTabButtonText: args.newTabButtonText || "&#65291;",
+      newTabButtonText: args.newTabButtonText || '&#65291;',
       visibilityThreshold: args.visibilityThreshold || 0,
       ready: args.ready
-    };
-    this.tabContainer = document.querySelector(options.tabContainerSelector);
-    this.viewContainer = document.querySelector(options.viewContainerSelector);
-    this.tabs = [];
-    this.newTabId = 0;
-    TabGroupPrivate.initNewTabButton.bind(this)();
-    TabGroupPrivate.initVisibility.bind(this)();
-    if (typeof this.options.ready === "function") {
-      this.options.ready(this);
+    })
+    this.tabContainer = document.querySelector(options.tabContainerSelector)
+    this.viewContainer = document.querySelector(options.viewContainerSelector)
+    this.tabs = []
+    this.newTabId = 0
+    TabGroupPrivate.initNewTabButton.bind(this)()
+    TabGroupPrivate.initVisibility.bind(this)()
+    if (typeof this.options.ready === 'function') {
+      this.options.ready(this)
     }
   }
 
-  addTab(args = this.options.newTab) {
-    if (typeof args === "function") {
-      args = args(this);
+  addTab (args = this.options.newTab) {
+    if (typeof args === 'function') {
+      args = args(this)
     }
-    let id = this.newTabId;
-    this.newTabId++;
-    let tab = new Tab(this, id, args);
-    this.tabs.push(tab);
+    let id = this.newTabId
+    this.newTabId++
+    let tab = new Tab(this, id, args)
+    this.tabs.push(tab)
     // Don't call tab.activate() before a tab is referenced in this.tabs
     if (args.active === true) {
-      tab.activate();
+      tab.activate()
     }
-    this.emit("tab-added", tab, this);
-    return tab;
+    this.emit('tab-added', tab, this)
+    return tab
   }
 
-  getTab(id) {
+  getTab (id) {
     for (let i in this.tabs) {
       if (this.tabs[i].id === id) {
-        return this.tabs[i];
+        return this.tabs[i]
       }
     }
-    return null;
+    return null
   }
 
-  getTabByPosition(position) {
-    let fromRight = position < 0;
+  getTabByPosition (position) {
+    let fromRight = position < 0
     for (let i in this.tabs) {
       if (this.tabs[i].getPosition(fromRight) === position) {
-        return this.tabs[i];
+        return this.tabs[i]
       }
     }
-    return null;
+    return null
   }
 
-  getTabByRelPosition(position) {
-    position = this.getActiveTab().getPosition() + position;
+  getTabByRelPosition (position) {
+    position = this.getActiveTab().getPosition() + position
     if (position <= 0) {
-      return null;
+      return null
     }
-    return this.getTabByPosition(position);
+    return this.getTabByPosition(position)
   }
 
-  getNextTab() {
-    return this.getTabByRelPosition(1);
+  getNextTab () {
+    return this.getTabByRelPosition(1)
   }
 
-  getPreviousTab() {
-    return this.getTabByRelPosition(-1);
+  getPreviousTab () {
+    return this.getTabByRelPosition(-1)
   }
 
-  getTabs() {
-    return this.tabs.slice();
+  getTabs () {
+    return this.tabs.slice()
   }
 
-  eachTab(fn) {
-    this.getTabs().forEach(fn);
-    return this;
+  eachTab (fn) {
+    this.getTabs().forEach(fn)
+    return this
   }
 
-  getActiveTab() {
-    if (this.tabs.length === 0) return null;
-    return this.tabs[0];
+  getActiveTab () {
+    if (this.tabs.length === 0) return null
+    return this.tabs[0]
   }
 }
 
 const TabGroupPrivate = {
   initNewTabButton: function () {
-    if (!this.options.newTab) return;
-    let container = document.querySelector(this.options.buttonsContainerSelector);
-    let button = container.appendChild(document.createElement("button"));
-    button.classList.add(`${this.options.tabClass}-button-new`);
-    button.innerHTML = this.options.newTabButtonText;
-    button.addEventListener("click", this.addTab.bind(this, undefined), false);
+    if (!this.options.newTab) return
+    let container = document.querySelector(
+      this.options.buttonsContainerSelector
+    )
+    let button = container.appendChild(document.createElement('button'))
+    button.classList.add(`${this.options.tabClass}-button-new`)
+    button.innerHTML = this.options.newTabButtonText
+    button.addEventListener('click', this.addTab.bind(this, undefined), false)
   },
 
   initVisibility: function () {
-    function toggleTabsVisibility(tab, tabGroup) {
-      var visibilityThreshold = this.options.visibilityThreshold;
-      var el = tabGroup.tabContainer.parentNode;
+    function toggleTabsVisibility (tab, tabGroup) {
+      var visibilityThreshold = this.options.visibilityThreshold
+      var el = tabGroup.tabContainer.parentNode
       if (this.tabs.length >= visibilityThreshold) {
-        el.classList.add("visible");
+        el.classList.add('visible')
       } else {
-        el.classList.remove("visible");
+        el.classList.remove('visible')
       }
     }
 
-    this.on("tab-added", toggleTabsVisibility);
-    this.on("tab-removed", toggleTabsVisibility);
+    this.on('tab-added', toggleTabsVisibility)
+    this.on('tab-removed', toggleTabsVisibility)
   },
 
   removeTab: function (tab, triggerEvent) {
-    let id = tab.id;
+    let id = tab.id
     for (let i in this.tabs) {
       if (this.tabs[i].id === id) {
-        this.tabs.splice(i, 1);
-        break;
+        this.tabs.splice(i, 1)
+        break
       }
     }
     if (triggerEvent) {
-      this.emit("tab-removed", tab, this);
+      this.emit('tab-removed', tab, this)
     }
-    return this;
+    return this
   },
 
   setActiveTab: function (tab) {
-    TabGroupPrivate.removeTab.bind(this)(tab);
-    this.tabs.unshift(tab);
-    this.emit("tab-active", tab, this);
-    return this;
+    TabGroupPrivate.removeTab.bind(this)(tab)
+    this.tabs.unshift(tab)
+    this.emit('tab-active', tab, this)
+    return this
   },
 
   activateRecentTab: function (tab) {
     if (this.tabs.length > 0) {
-      this.tabs[0].activate();
+      this.tabs[0].activate()
     }
-    return this;
+    return this
   }
-};
+}
 
 class Tab extends EventEmitter {
-  constructor(tabGroup, id, args) {
-    super();
-    this.tabGroup = tabGroup;
-    this.id = id;
-    this.title = args.title;
-    this.badge = args.badge;
-    this.iconURL = args.iconURL;
-    this.icon = args.icon;
-    this.isNative = args.isNative || false;
-    this.comp = args.comp;
-    this.closable = args.closable === false ? false : true;
-    this.webviewAttributes = args.webviewAttributes || {};
-    this.webviewAttributes.src = args.src;
-    this.webviewAttributes.partition = "pvt"
+  constructor (tabGroup, id, args) {
+    super()
+    this.tabGroup = tabGroup
+    this.id = id
+    this.title = args.title
+    this.badge = args.badge
+    this.iconURL = args.iconURL
+    this.icon = args.icon
+    this.isNative = args.isNative || false
+    this.comp = args.comp
+    this.closable = args.closable === false ? false : true
+    this.webviewAttributes = args.webviewAttributes || {}
+    this.webviewAttributes.src = args.src
+    this.webviewAttributes.partition = 'pvt'
     this.webviewAttributes.userAgent = getUserAgent
 
     // console.log(PARTITION)
     // if (PARTITION)
     //   this.webviewAttributes.partition = PARTITION
     // console.log(this.webviewAttributes)
-    this.src = args.src;
-    this.tabElements = {};
-    TabPrivate.initTab.bind(this)();
+    this.src = args.src
+    this.tabElements = {}
+    TabPrivate.initTab.bind(this)()
     if (args.isNative) {
-      TabPrivate.initNativeView.bind(this)();
+      TabPrivate.initNativeView.bind(this)()
     } else {
-      TabPrivate.initWebview.bind(this)();
+      TabPrivate.initWebview.bind(this)()
     }
 
     if (args.visible !== false) {
-      this.show();
+      this.show()
     }
-    if (typeof args.ready === "function") {
-      args.ready(this);
+    if (typeof args.ready === 'function') {
+      args.ready(this)
     }
   }
 
-  setTitle(title) {
-    if (this.isClosed) return;
-    let span = this.tabElements.title;
-    span.innerHTML = title;
-    span.title = title;
-    this.title = title;
-    this.emit("title-changed", title, this);
-    return this;
+  setTitle (title) {
+    if (this.isClosed) return
+    let span = this.tabElements.title
+    span.innerHTML = title
+    span.title = title
+    this.title = title
+    this.emit('title-changed', title, this)
+    return this
   }
 
-  getTitle() {
-    if (this.isClosed) return;
-    return this.title;
+  getTitle () {
+    if (this.isClosed) return
+    return this.title
   }
 
-  setBadge(badge) {
-    if (this.isClosed) return;
-    let span = this.tabElements.badge;
-    this.badge = badge;
+  setBadge (badge) {
+    if (this.isClosed) return
+    let span = this.tabElements.badge
+    this.badge = badge
 
     if (badge) {
-      span.innerHTML = badge;
-      span.classList.remove('hidden');
+      span.innerHTML = badge
+      span.classList.remove('hidden')
     } else {
-      span.classList.add('hidden');
+      span.classList.add('hidden')
     }
 
-    this.emit("badge-changed", badge, this);
+    this.emit('badge-changed', badge, this)
   }
 
-  getBadge() {
-    if (this.isClosed) return;
-    return this.badge;
+  getBadge () {
+    if (this.isClosed) return
+    return this.badge
   }
 
-  setIcon(iconURL, icon) {
-    if (this.isClosed) return;
-    this.iconURL = iconURL;
-    this.icon = icon;
-    let span = this.tabElements.icon;
+  setIcon (iconURL, icon) {
+    if (this.isClosed) return
+    this.iconURL = iconURL
+    this.icon = icon
+    let span = this.tabElements.icon
     if (iconURL) {
-      span.innerHTML = `<img src="${iconURL}" />`;
-      this.emit("icon-changed", iconURL, this);
+      span.innerHTML = `<img src="${iconURL}" />`
+      this.emit('icon-changed', iconURL, this)
     } else if (icon) {
-      span.innerHTML = `<i class="${icon}"></i>`;
-      this.emit("icon-changed", icon, this);
+      span.innerHTML = `<i class="${icon}"></i>`
+      this.emit('icon-changed', icon, this)
     }
 
-    return this;
+    return this
   }
 
-  getIcon() {
-    if (this.isClosed) return;
-    if (this.iconURL) return this.iconURL;
-    return this.icon;
+  getIcon () {
+    if (this.isClosed) return
+    if (this.iconURL) return this.iconURL
+    return this.icon
   }
 
-  setPosition(newPosition) {
-    let tabContainer = this.tabGroup.tabContainer;
-    let tabs = tabContainer.children;
-    let oldPosition = this.getPosition() - 1;
+  setPosition (newPosition) {
+    let tabContainer = this.tabGroup.tabContainer
+    let tabs = tabContainer.children
+    let oldPosition = this.getPosition() - 1
 
     if (newPosition < 0) {
-      newPosition += tabContainer.childElementCount;
+      newPosition += tabContainer.childElementCount
 
       if (newPosition < 0) {
-        newPosition = 0;
+        newPosition = 0
       }
     } else {
       if (newPosition > tabContainer.childElementCount) {
-        newPosition = tabContainer.childElementCount;
+        newPosition = tabContainer.childElementCount
       }
 
       // Make 1 be leftmost position
-      newPosition--;
+      newPosition--
     }
 
     if (newPosition > oldPosition) {
-      newPosition++;
+      newPosition++
     }
 
-    tabContainer.insertBefore(tabs[oldPosition], tabs[newPosition]);
+    tabContainer.insertBefore(tabs[oldPosition], tabs[newPosition])
 
-    return this;
+    return this
   }
 
-  getPosition(fromRight) {
-    let position = 0;
-    let tab = this.tab;
-    while ((tab = tab.previousSibling) != null) position++;
+  getPosition (fromRight) {
+    let position = 0
+    let tab = this.tab
+    while ((tab = tab.previousSibling) != null) position++
 
     if (fromRight === true) {
-      position -= this.tabGroup.tabContainer.childElementCount;
+      position -= this.tabGroup.tabContainer.childElementCount
     }
 
     if (position >= 0) {
-      position++;
+      position++
     }
 
-    return position;
+    return position
   }
 
-  activate() {
-    if (this.isClosed) return;
-    let activeTab = this.tabGroup.getActiveTab();
+  activate () {
+    if (this.isClosed) return
+    let activeTab = this.tabGroup.getActiveTab()
     if (activeTab) {
-      activeTab.tab.classList.remove("active");
-      activeTab.webview.classList.remove("visible");
-      activeTab.emit("inactive", activeTab);
+      activeTab.tab.classList.remove('active')
+      activeTab.webview.classList.remove('visible')
+      activeTab.emit('inactive', activeTab)
     }
-    TabGroupPrivate.setActiveTab.bind(this.tabGroup)(this);
-    this.tab.classList.add("active");
-    this.webview.classList.add("visible");
-    this.webview.focus();
-    this.emit("active", this);
-    return this;
+    TabGroupPrivate.setActiveTab.bind(this.tabGroup)(this)
+    this.tab.classList.add('active')
+    this.webview.classList.add('visible')
+    this.webview.focus()
+    this.emit('active', this)
+    return this
   }
 
-  show(flag) {
-    if (this.isClosed) return;
+  show (flag) {
+    if (this.isClosed) return
     if (flag !== false) {
-      this.tab.classList.add("visible");
-      this.emit("visible", this);
+      this.tab.classList.add('visible')
+      this.emit('visible', this)
     } else {
-      this.tab.classList.remove("visible");
-      this.emit("hidden", this);
+      this.tab.classList.remove('visible')
+      this.emit('hidden', this)
     }
-    return this;
+    return this
   }
 
-  hide() {
-    return this.show(false);
+  hide () {
+    return this.show(false)
   }
 
-  flash(flag) {
-    if (this.isClosed) return;
+  flash (flag) {
+    if (this.isClosed) return
     if (flag !== false) {
-      this.tab.classList.add("flash");
-      this.emit("flash", this);
+      this.tab.classList.add('flash')
+      this.emit('flash', this)
     } else {
-      this.tab.classList.remove("flash");
-      this.emit("unflash", this);
+      this.tab.classList.remove('flash')
+      this.emit('unflash', this)
     }
-    return this;
+    return this
   }
 
-  unflash() {
-    return this.flash(false);
+  unflash () {
+    return this.flash(false)
   }
 
-  hasClass(classname) {
-    return this.tab.classList.contains(classname);
+  hasClass (classname) {
+    return this.tab.classList.contains(classname)
   }
 
-  removeNative(newURL) {
+  removeNative (newURL) {
     this.isNative = false
-    let tabGroup = this.tabGroup;
-    this.src = newURL;
-    this.webviewAttributes.src = newURL;
-    tabGroup.viewContainer.removeChild(this.webview);
-    TabPrivate.initWebview.bind(this)();
+    let tabGroup = this.tabGroup
+    this.src = newURL
+    this.webviewAttributes.src = newURL
+    tabGroup.viewContainer.removeChild(this.webview)
+    TabPrivate.initWebview.bind(this)()
   }
 
-  close(force) {
-    const abortController = new AbortController();
-    const abort = () => abortController.abort();
-    this.emit("closing", this, abort);
+  close (force) {
+    const abortController = new AbortController()
+    const abort = () => abortController.abort()
+    this.emit('closing', this, abort)
 
-    const abortSignal = abortController.signal;
-    if (this.isClosed || (!this.closable && !force) || abortSignal.aborted) return;
+    const abortSignal = abortController.signal
+    if (this.isClosed || (!this.closable && !force) || abortSignal.aborted)
+      return
 
-    this.isClosed = true;
-    let tabGroup = this.tabGroup;
-    tabGroup.tabContainer.removeChild(this.tab);
-    tabGroup.viewContainer.removeChild(this.webview);
-    let activeTab = this.tabGroup.getActiveTab();
-    TabGroupPrivate.removeTab.bind(tabGroup)(this, true);
+    this.isClosed = true
+    let tabGroup = this.tabGroup
+    tabGroup.tabContainer.removeChild(this.tab)
+    tabGroup.viewContainer.removeChild(this.webview)
+    let activeTab = this.tabGroup.getActiveTab()
+    TabGroupPrivate.removeTab.bind(tabGroup)(this, true)
 
-    this.emit("close", this);
+    this.emit('close', this)
 
     if (activeTab.id === this.id) {
-      TabGroupPrivate.activateRecentTab.bind(tabGroup)();
+      TabGroupPrivate.activateRecentTab.bind(tabGroup)()
     }
   }
 }
 
 const TabPrivate = {
   initTab: function () {
-    let tabClass = this.tabGroup.options.tabClass;
+    let tabClass = this.tabGroup.options.tabClass
 
     // Create tab element
-    let tab = this.tab = document.createElement("div");
-    tab.classList.add(tabClass);
-    for (let el of ["icon", "title", "buttons", "badge"]) {
-      let span = tab.appendChild(document.createElement("span"));
-      span.classList.add(`${tabClass}-${el}`);
-      this.tabElements[el] = span;
+    let tab = (this.tab = document.createElement('div'))
+    tab.classList.add(tabClass)
+    for (let el of ['icon', 'title', 'buttons', 'badge']) {
+      let span = tab.appendChild(document.createElement('span'))
+      span.classList.add(`${tabClass}-${el}`)
+      this.tabElements[el] = span
     }
 
-    this.setTitle(this.title);
-    this.setBadge(this.badge);
-    this.setIcon(this.iconURL, this.icon);
-    TabPrivate.initTabButtons.bind(this)();
-    TabPrivate.initTabClickHandler.bind(this)();
+    this.setTitle(this.title)
+    this.setBadge(this.badge)
+    this.setIcon(this.iconURL, this.icon)
+    TabPrivate.initTabButtons.bind(this)()
+    TabPrivate.initTabClickHandler.bind(this)()
 
-    this.tabGroup.tabContainer.appendChild(this.tab);
+    this.tabGroup.tabContainer.appendChild(this.tab)
   },
 
   initTabButtons: function () {
-    let container = this.tabElements.buttons;
-    let tabClass = this.tabGroup.options.tabClass;
+    let container = this.tabElements.buttons
+    let tabClass = this.tabGroup.options.tabClass
     if (this.closable) {
-      let button = container.appendChild(document.createElement("button"));
-      button.classList.add(`${tabClass}-button-close`);
-      button.innerHTML = this.tabGroup.options.closeButtonText;
-      button.addEventListener("click", this.close.bind(this, false), false);
+      let button = container.appendChild(document.createElement('button'))
+      button.classList.add(`${tabClass}-button-close`)
+      button.innerHTML = this.tabGroup.options.closeButtonText
+      button.addEventListener('click', this.close.bind(this, false), false)
     }
   },
 
   initTabClickHandler: function () {
     // Mouse up
     const tabClickHandler = function (e) {
-      if (this.isClosed) return;
+      if (this.isClosed) return
       if (e.which === 2) {
-        this.close();
+        this.close()
       }
-    };
-    this.tab.addEventListener("mouseup", tabClickHandler.bind(this), false);
+    }
+    this.tab.addEventListener('mouseup', tabClickHandler.bind(this), false)
     // Mouse down
     const tabMouseDownHandler = function (e) {
-      if (this.isClosed) return;
+      if (this.isClosed) return
       if (e.which === 1) {
-        if (e.target.matches("button")) return;
-        this.activate();
+        if (e.target.matches('button')) return
+        this.activate()
       }
-    };
-    this.tab.addEventListener("mousedown", tabMouseDownHandler.bind(this), false);
+    }
+    this.tab.addEventListener(
+      'mousedown',
+      tabMouseDownHandler.bind(this),
+      false
+    )
   },
 
   initWebview: function () {
-    const webview = this.webview = document.createElement("webview");
+    const webview = (this.webview = document.createElement('webview'))
 
     const tabWebviewDidFinishLoadHandler = function (e) {
-      this.emit("webview-ready", this);
-    };
+      this.emit('webview-ready', this)
+    }
 
-    this.webview.addEventListener("did-finish-load", tabWebviewDidFinishLoadHandler.bind(this), false);
+    this.webview.addEventListener(
+      'did-finish-load',
+      tabWebviewDidFinishLoadHandler.bind(this),
+      false
+    )
 
     const tabWebviewDomReadyHandler = function (e) {
       // Remove this once https://github.com/electron/electron/issues/14474 is fixed
-      webview.blur();
-      webview.focus();
-      this.emit("webview-dom-ready", this);
-    };
+      webview.blur()
+      webview.focus()
+      this.emit('webview-dom-ready', this)
+    }
 
-    this.webview.addEventListener("dom-ready", tabWebviewDomReadyHandler.bind(this), false);
+    this.webview.addEventListener(
+      'dom-ready',
+      tabWebviewDomReadyHandler.bind(this),
+      false
+    )
 
-    this.webview.classList.add(this.tabGroup.options.viewClass);
+    this.webview.classList.add(this.tabGroup.options.viewClass)
     if (this.webviewAttributes) {
-      let attrs = this.webviewAttributes;
+      let attrs = this.webviewAttributes
       for (let key in attrs) {
-        const attr = attrs[key];
-        if (attr === false) continue;
-        this.webview.setAttribute(key, attr);
+        const attr = attrs[key]
+        if (attr === false) continue
+        this.webview.setAttribute(key, attr)
       }
     }
 
-    this.tabGroup.viewContainer.appendChild(this.webview);
+    this.tabGroup.viewContainer.appendChild(this.webview)
   },
   initNativeView: function () {
-    this.webview = document.createElement("div");
-    this.webview.className = "nativeView";
-    this.tabGroup.viewContainer.appendChild(this.webview);
+    this.webview = document.createElement('div')
+    this.webview.className = 'nativeView'
+    this.tabGroup.viewContainer.appendChild(this.webview)
   }
-};
+}
 
 //module.exports = TabGroup;
 export default TabGroup
