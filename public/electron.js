@@ -90,6 +90,13 @@ app.on('web-contents-created', (e, contents) => {
           click: () => {
             mainWindow.webContents.send('openin_newtab', params.linkURL)
           }
+        },
+        {
+          label: 'Open Image in New Tab',
+          visible: params.mediaType === 'image',
+          click: () => {
+            mainWindow.webContents.send('openin_newtab', params.srcURL)
+          }
         }
       ],
       labels: {
