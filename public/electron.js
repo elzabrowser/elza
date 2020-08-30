@@ -3,11 +3,15 @@ const isDev = require('electron-is-dev')
 const electronDl = require('electron-dl')
 const { autoUpdater } = require('electron-updater')
 const contextMenu = require('electron-context-menu')
-let downloads = {}
-
+const log = require('electron-log')
+//log.transports.file.file =  ''
+log.warn('test log')
+autoUpdater.logger = log
+autoUpdater.logger.transports.file.level = 'info'
 app.on('window-all-closed', function () {
   app.quit()
 })
+let downloads = {}
 Menu.setApplicationMenu(null)
 let mainWindow
 updateDownload = () => {

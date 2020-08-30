@@ -1,20 +1,25 @@
 {
   "name": "elza-browser",
-  "version": "0.1.3",
-  "private": true,
+  "version": "0.1.7",
   "homepage": "./",
   "main": "public/electron.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/expertevidence/elza-browser.git"
-  },
   "build": {
     "appId": "com.elza.browser",
     "files": ["build/**/*", "node_modules/**/*"],
-    "publish": ["github"],
+    "publish": [
+      {
+        "provider": "generic",
+        "url": "http://localhost:5080/"
+      }
+    ],
     "directories": {
       "buildResources": "assets"
     }
+  },
+  "linux": {
+    "category": "Utility",
+    "synopsis": "Incognito  Browser",
+    "target": ["appImage"]
   },
   "dependencies": {
     "@imjs/electron-differential-updater": "^5.0.1",
@@ -28,6 +33,7 @@
     "dns": "^0.2.2",
     "electron-context-menu": "^2.3.0",
     "electron-is-dev": "^1.2.0",
+    "electron-log": "^4.2.4",
     "electron-updater": "^4.3.4",
     "font-awesome": "^4.7.0",
     "nedb": "^1.8.0",
@@ -54,7 +60,7 @@
     "eject": "react-scripts eject",
     "build-win": "electron-builder --win -c.extraMetadata.main=build/electron.js",
     "build-lin": "electron-builder --linux -c.extraMetadata.main=build/electron.js",
-    "deploy": "electron-builder build --lin --publish always -c.extraMetadata.main=build/electron.js",
+    "deploy": "electron-builder build --lin --publish never -c.extraMetadata.main=build/electron.js",
     "package-win": "npm run build && electron-packager . ElzaBrowser --overwrite --asar --platform=win32 --arch=x64 --icon='./src/assets/logo.ico' --prune=true --out=release-builds --electron-version=6.1.12",
     "package-linux": "npm run build && electron-packager . ElzaBrowser --overwrite --asar --platform=linux --arch=x64 --icon='./src/assets/logo.png' --prune=true --out=release-builds --electron-version=6.1.12"
   },
