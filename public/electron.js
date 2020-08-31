@@ -4,10 +4,9 @@ const electronDl = require('electron-dl')
 const { autoUpdater } = require('electron-updater')
 const contextMenu = require('electron-context-menu')
 const log = require('electron-log')
-//log.transports.file.file =  ''
-log.warn('test log')
 autoUpdater.logger = log
 autoUpdater.logger.transports.file.level = 'info'
+log.warn('test log')
 app.on('window-all-closed', function () {
   app.quit()
 })
@@ -21,6 +20,7 @@ app.on('ready', function () {
   mainWindow = new BrowserWindow({
     title: 'Elza Browser',
     titleBarStyle: 'hidden',
+    show: true,
     resizable: true,
     width: 1200,
     height: 700,
@@ -37,6 +37,7 @@ app.on('ready', function () {
     mainWindow.openDevTools()
   } else {
     mainWindow.loadFile('./build/index.html')
+    autoUpdater.checkForUpdatesAndNotify()
     //mainWindow.openDevTools()
   }
   electronDl({
@@ -120,18 +121,9 @@ app.on('web-contents-created', (e, contents) => {
 ipcMain.on('getdownloads', event => {
   event.reply('senddownloads', downloads)
 })
-app.once('ready-to-show', () => {
-  autoUpdater.checkForUpdatesAndNotify()
-})
 ipcMain.on('app_version', event => {
   event.sender.send('app_version', { version: app.getVersion() })
 })
-autoUpdater.on('update-available', () => {
-  console.log('update available')
-  mainWindow.webContents.send('update_available')
-})
-autoUpdater.on('update-downloaded', () => {
-  console.log('update downloaded')
-  mainWindow.webContents.send('update_downloaded')
-  autoUpdater.quitAndInstall()
+autoUpdater.on('error', error => {
+  console.log(error)
 })

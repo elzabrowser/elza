@@ -22,7 +22,7 @@ class Home extends React.Component {
     ipcRenderer.send('app_version')
     ipcRenderer.on('app_version', (event, arg) => {
       ipcRenderer.removeAllListeners('app_version')
-      console.log(arg.version)
+      //alert(arg.version)
     })
     ipcRenderer.on('update_available', () => {
       ipcRenderer.removeAllListeners('update_available')
