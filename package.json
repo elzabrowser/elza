@@ -1,11 +1,21 @@
 {
   "name": "elza-browser",
+  "description": "Elza incognito web browser",
   "version": "0.1.7",
+  "author": {
+    "name": "ExpertEvidence.org",
+    "email": "team@expertevidence.org",
+    "url": "https://www.expertevidence.org/"
+  },
   "homepage": "./",
   "main": "public/electron.js",
+  "productName": "Elza Browser",
   "build": {
     "appId": "com.elza.browser",
-    "files": ["build/**/*", "node_modules/**/*"],
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
     "publish": [
       {
         "provider": "generic",
@@ -13,13 +23,19 @@
       }
     ],
     "directories": {
-      "buildResources": "assets"
+      "buildResources": "build"
+    },
+    "linux": {
+      "category": "Network",
+      "synopsis": "Elza incognito web browser",
+      "target": [
+        "appImage"
+      ],
+      "desktop": {
+        "Name": "Elza",
+        "Comment": "Elza incognito web browser"
+      }
     }
-  },
-  "linux": {
-    "category": "Utility",
-    "synopsis": "Incognito  Browser",
-    "target": ["appImage"]
   },
   "dependencies": {
     "@imjs/electron-differential-updater": "^5.0.1",
@@ -54,21 +70,22 @@
   },
   "scripts": {
     "start": "cross-env BROWSER=none react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "react-build": "react-scripts build",
     "electron": "electron .",
-    "eject": "react-scripts eject",
-    "build-win": "electron-builder --win -c.extraMetadata.main=build/electron.js",
-    "build-lin": "electron-builder --linux -c.extraMetadata.main=build/electron.js",
-    "deploy": "electron-builder build --lin --publish never -c.extraMetadata.main=build/electron.js",
-    "package-win": "npm run build && electron-packager . ElzaBrowser --overwrite --asar --platform=win32 --arch=x64 --icon='./src/assets/logo.ico' --prune=true --out=release-builds",
-    "package-linux": "npm run build && electron-packager . ElzaBrowser --overwrite --asar --platform=linux --arch=x64 --icon='./src/assets/logo.png' --prune=true --out=release-builds"
+    "build-win": "npm run react-build && electron-builder --win -c.extraMetadata.main=build/electron.js",
+    "build-linux": "npm run react-build && electron-builder --linux -c.extraMetadata.main=build/electron.js",
+    "package-win": "npm run react-build && electron-packager . ElzaBrowser --overwrite --asar --platform=win32 --arch=x64 --prune=true --out=packages",
+    "package-linux": "npm run react-build && electron-packager . ElzaBrowser --overwrite --asar --platform=linux --arch=x64 --prune=true --out=packages"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
   "browserslist": {
-    "production": [">0.2%", "not dead", "not op_mini all"],
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
