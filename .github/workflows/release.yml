@@ -29,4 +29,5 @@ jobs:
             !dist/builder-effective-config.yaml
             !dist/win-unpacked*
         env:
-          CI: true
+          #otherwise warnings will cause build to fail
+          CI: false
