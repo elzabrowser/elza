@@ -20,7 +20,7 @@ app.on('ready', function () {
   mainWindow = new BrowserWindow({
     title: 'Elza Browser',
     titleBarStyle: 'hidden',
-    show: true,
+    show: false,
     resizable: true,
     width: 1200,
     height: 700,
@@ -40,6 +40,9 @@ app.on('ready', function () {
     autoUpdater.checkForUpdatesAndNotify()
     //mainWindow.openDevTools()
   }
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show()
+  })
   electronDl({
     saveAs: false,
     showBadge: true,
