@@ -16,9 +16,9 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install
-      - run: npm run build-linux --if-present
-      - run: npm run build-linux --if-present
+      - run: CI= npm install
+      - run: CI= npm run build-linux --if-present
+      - run: CI= npm run build-win --if-present
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
         with:
