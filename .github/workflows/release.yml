@@ -3,7 +3,7 @@ name: Node.js CI
 on: [push]
 
 jobs:
-  build:
+  build-lin:
     runs-on: ubuntu-latest
 
     strategy:
@@ -18,6 +18,32 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: CI= npm install
       - run: CI= npm run build-linux --if-present
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Exclude some files
+          path: |
+            dist
+            !dist/.icon.ico*
+            !dist/builder-effective-config.yaml
+            !dist/win-unpacked*
+        env:
+          #otherwise warnings will cause build to fail
+          CI: ''
+  build-win:
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: CI= npm install
       - run: CI= npm run build-win --if-present
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
