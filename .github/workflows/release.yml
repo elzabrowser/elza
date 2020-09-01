@@ -30,4 +30,4 @@ jobs:
             !dist/win-unpacked*
         env:
           #otherwise warnings will cause build to fail
-          CI: false
+          CI: ''
