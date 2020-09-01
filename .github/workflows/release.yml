@@ -22,9 +22,11 @@ jobs:
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
         with:
-            name: Archive all
-            path: |
+          name: Exclude some files
+          path: |
             dist
-            !dist/**/*.md
+            !dist/.icon.ico*
+            !dist/builder-effective-config.yaml
+            !dist/win-unpacked*
         env:
           CI: true
