@@ -63,8 +63,8 @@
   },
   "scripts": {
     "electron-dev": "cross-env BROWSER=none concurrently \"react-scripts start\" \"wait-on http://localhost:3000 && electron .\"",
-    "build-win": "react-scripts build && electron-builder --win",
-    "build-linux": "react-scripts build && electron-builder --linux",
+    "build-win": "cross-env CI= react-scripts build && electron-builder --win",
+    "build-linux": "cross-env CI= react-scripts build && electron-builder --linux",
     "deploy": "react-scripts build && GH_TOKEN='' electron-builder --win --publish always"
   },
   "eslintConfig": {
