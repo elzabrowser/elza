@@ -4,9 +4,25 @@ const electronDl = require('electron-dl')
 const { autoUpdater } = require('electron-updater')
 const contextMenu = require('electron-context-menu')
 const log = require('electron-log')
+const fs = require('fs')
 autoUpdater.logger = log
 autoUpdater.logger.transports.file.level = 'info'
 log.warn('test log')
+const configFilePath = app.getPath('userData') + '/preferences.json'
+let initialConfig = {
+  searchEngine: 'google',
+  downloadLocation: app.getPath('downloads')
+}
+fs.writeFile(configFilePath, initialConfig, { flag: 'wx' }, function (err) {
+  if (err) {
+  }
+  console.log("It's saved!")
+})
+let downloadLocation = require(configFilePath).downloadLocation
+let askLocation
+if (downloadLocation == 'ask') askLocation = true
+else askLocation = false
+console.log('ask' + askLocation)
 app.on('window-all-closed', function () {
   app.quit()
 })
@@ -44,8 +60,9 @@ app.on('ready', function () {
     mainWindow.show()
   })
   electronDl({
-    saveAs: false,
+    saveAs: askLocation,
     showBadge: true,
+    directory: downloadLocation,
     onStarted: function (item) {
       var downloadItem = new Object()
       downloadItem.name = item.getFilename()
@@ -123,6 +140,10 @@ app.on('web-contents-created', (e, contents) => {
 })
 ipcMain.on('getdownloads', event => {
   event.reply('senddownloads', downloads)
+})
+ipcMain.on('change_download_setting', (event, pref) => {
+  downloadLocation = pref.downloadLocation
+  if (downloadLocation == 'ask') askLocation = true
 })
 ipcMain.on('app_version', event => {
   event.sender.send('app_version', { version: app.getVersion() })

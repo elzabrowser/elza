@@ -1,6 +1,6 @@
 .alldownloads {
   text-align: center;
-  color: #4e58e4;
+  color: var(--font-color-secondary);
 }
 
 hr {
@@ -10,14 +10,9 @@ hr {
   cursor: pointer;
 }
 .dropdown-downloads {
-  margin-top: 6px;
-  padding: 6px;
-  border: 1px solid;
   border-radius: 2px;
   position: absolute;
-  background-color: var(--background-color-primary);
-  color: var(--font-color-secondary);
-  min-width: 300px;
+  background: #100e0e;
   overflow: auto;
   right: 0;
   z-index: 1;
@@ -30,4 +25,28 @@ hr {
   color: #4e58e4 !important;
   background-color: inherit !important;
   height: 0px !important;
+}
+.filetype {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #c4c4c4;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.downloadname {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 14px;
+  color: var(--font-color-secondary);
+}
+.progressinfo {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 14px;
+  color: var(--font-color-secondary);
 }
