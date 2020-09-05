@@ -13,16 +13,15 @@ let initialConfig = {
   searchEngine: 'google',
   downloadLocation: app.getPath('downloads')
 }
-fs.writeFile(configFilePath, initialConfig, { flag: 'wx' }, function (err) {
-  if (err) {
-  }
-  console.log("It's saved!")
-})
+try {
+  fs.writeFileSync(configFilePath, JSON.stringify(initialConfig), {
+    flag: 'wx'
+  })
+} catch (error) {}
 let downloadLocation = require(configFilePath).downloadLocation
 let askLocation
 if (downloadLocation == 'ask') askLocation = true
 else askLocation = false
-console.log('ask' + askLocation)
 app.on('window-all-closed', function () {
   app.quit()
 })
@@ -30,6 +29,7 @@ let downloads = {}
 Menu.setApplicationMenu(null)
 let mainWindow
 updateDownload = () => {
+  console.log('progress', downloads)
   mainWindow.webContents.send('downloads_changed', downloads)
 }
 app.on('ready', function () {
@@ -77,7 +77,6 @@ app.on('ready', function () {
       item.once('done', (event, state) => {
         if (state === 'completed') {
           downloads[downloadID].status = 'done'
-          console.log(downloads)
           updateDownload()
         } else {
           console.log(`Download failed: ${state}`)
@@ -91,14 +90,7 @@ app.on('ready', function () {
             console.log('Download is paused')
           } else {
             downloads[downloadID].receivedBytes = item.getReceivedBytes()
-            if (
-              downloads[downloadID].totalBytes ==
-                downloads[downloadID].receivedBytes &&
-              downloads[downloadID].totalBytes != 0
-            ) {
-              downloads[downloadID].status = 'done'
-              updateDownload()
-            }
+            updateDownload()
           }
         }
       })

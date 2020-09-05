@@ -81,13 +81,17 @@ class Downloads extends React.Component {
                 <div className='progressinfo'>
                   {this.state.downloads[key].status === 'done'
                     ? 'Completed - ' +
-                      (this.state.downloads[key].totalBytes / 1024).toFixed(2) +
-                      ' MB'
-                    : (this.state.downloads[key].receivedBytes / 1024).toFixed(
+                      (this.state.downloads[key].totalBytes / 1048576).toFixed(
                         2
                       ) +
+                      ' MB'
+                    : (
+                        this.state.downloads[key].receivedBytes / 1048576
+                      ).toFixed(2) +
                       ' of ' +
-                      (this.state.downloads[key].totalBytes / 1024).toFixed(2) +
+                      (this.state.downloads[key].totalBytes / 1048576).toFixed(
+                        2
+                      ) +
                       ' MB'}
                 </div>
               </div>
