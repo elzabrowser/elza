@@ -16,28 +16,21 @@
   },
   "build": {
     "appId": "com.eeo.elzabrowser",
-    "files": [
-      "build/**/*",
-      "node_modules/**/*",
-      "node_modules/@imjs/**/*"
-    ],
-    "publish": [
-      "github"
-    ],
+    "files": ["build/**/*", "node_modules/**/*", "node_modules/@imjs/**/*"],
+    "publish": ["github"],
     "directories": {
       "buildResources": "build"
     },
     "linux": {
       "category": "Network",
       "synopsis": "Elza incognito web browser",
-      "target": [
-        "appImage"
-      ],
+      "target": ["appImage"],
       "desktop": {
         "Name": "Elza",
         "Comment": "Elza incognito web browser"
       }
-    }
+    },
+    "win": { "target": ["nsis", "nsis-web"] }
   },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -70,19 +63,15 @@
   },
   "scripts": {
     "electron-dev": "cross-env BROWSER=none concurrently \"react-scripts start\" \"wait-on http://localhost:3000 && electron .\"",
-    "build-win": "react-scripts build && electron-builder --win",
-    "build-linux": "react-scripts build && electron-builder --linux",
+    "build-win": "cross-env CI= react-scripts build && electron-builder --win --publish never",
+    "build-linux": "cross-env CI= react-scripts build && electron-builder --linux --publish never",
     "deploy": "react-scripts build && GH_TOKEN='' electron-builder --win --publish always"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
+    "production": [">0.2%", "not dead", "not op_mini all"],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
