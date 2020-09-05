@@ -272,7 +272,7 @@ class Controls extends React.Component {
       src: '',
       title: 'Downloads',
       isNative: true,
-      comp: Downloads
+      comp: Settings
     })
     newtab.activate()
   }

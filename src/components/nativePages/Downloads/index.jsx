@@ -5,47 +5,23 @@ class Downloads extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      downloads: {
-        1599141222568: {
-          name: 'download.png',
-          path: '/home/basil/Downloads/download (4).png',
-          receivedBytes: 1340,
-          status: 'done',
-          totalBytes: 0
-        },
-        1599141937799: {
-          name: 'download.jpeg',
-          path: '/home/basil/Downloads/download (32).jpeg',
-          receivedBytes: 2000,
-          status: 'started',
-          totalBytes: 3500
-        }
-      }
+      downloads: {}
     }
   }
   componentDidMount () {
     ipcRenderer.on('senddownloads', (event, arg) => {
       console.log(arg)
       this.setState({
-        downloads: {
-          1599141222568: {
-            name: 'download.png',
-            path: '/home/basil/Downloads/download (4).png',
-            receivedBytes: 1340,
-            status: 'done',
-            totalBytes: 0
-          },
-          1599141937799: {
-            name: 'download.jpeg',
-            path: '/home/basil/Downloads/download (32).jpeg',
-            receivedBytes: 2000,
-            status: 'started',
-            totalBytes: 3500
-          }
-        }
+        downloads: arg
       })
     })
     ipcRenderer.send('getdownloads')
+    ipcRenderer.on('downloads_changed', (event, downloads) => {
+      console.log(downloads)
+      this.setState({
+        downloads: downloads
+      })
+    })
   }
 
   getProgress = (receivedBytes, totalBytes) => {
@@ -72,7 +48,7 @@ class Downloads extends React.Component {
               style={{ height: '50px' }}
               className='row m-2'
             >
-              <div className='col-sm-2 justify-content-center align-self-center'>
+              <div className='col-sm-2 text-center align-self-center'>
                 <i
                   style={{ fontSize: '30px', color: '#C4C4C4' }}
                   className='fa fa-file-download'
