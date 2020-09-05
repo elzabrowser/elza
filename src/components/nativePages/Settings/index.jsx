@@ -1,4 +1,5 @@
 import React from 'react'
+import Downloads from '../Downloads'
 import './main.css'
 import bingImg from '../../../assets/images/icons8-bing-96.png'
 import googleImg from '../../../assets/images/icons8-google-96.png'
@@ -7,7 +8,6 @@ import ecosiaImg from '../../../assets/images/ecosia.png'
 import yahooImg from '../../../assets/images/yahoo-icon.png'
 import yandexImg from '../../../assets/images/yandex-icon.png'
 import qwantImg from '../../../assets/images/qwant-icon.png'
-import { act } from 'react-dom/test-utils'
 
 const { dialog } = window.require('electron').remote
 const { ipcRenderer } = window.require('electron')
@@ -25,7 +25,8 @@ class BlankTab extends React.Component {
         searchEngine: 'google',
         downloadLocation: app.getPath('downloads')
       },
-      active: 'settings'
+      active: 'settings',
+      version: ''
     }
   }
   privateToggleChange = e => {
@@ -49,6 +50,11 @@ class BlankTab extends React.Component {
     } catch (err) {
       console.error(err)
     }
+    ipcRenderer.send('app_version')
+    ipcRenderer.on('app_version', (event, arg) => {
+      ipcRenderer.removeAllListeners('app_version')
+      this.setState({ version: arg.version })
+    })
   }
   savePreference = () => {
     console.log(this.state.pref)
@@ -68,7 +74,6 @@ class BlankTab extends React.Component {
     ipcRenderer.send('change_download_setting', pref)
     this.setState({ pref }, this.savePreference)
   }
-
   render () {
     return (
       <div className='settings-container h-100 pt-2'>
@@ -108,7 +113,11 @@ class BlankTab extends React.Component {
               </p>
             </div>
           </div>
-          <div className='col-sm-9 pt-3'>
+          <div
+            className={
+              this.state.active === 'settings' ? 'col-sm-9 pt-3' : 'd-none'
+            }
+          >
             <h4>Search engine</h4>
             <br />
             <div className='settings-search-engine-list-ctr'>
@@ -243,6 +252,22 @@ class BlankTab extends React.Component {
               <i className='fa fa-info-circle'></i> Download preference changes
               will be reflected on next start.
             </p>
+          </div>
+          <div
+            className={
+              this.state.active === 'downloads' ? 'col-sm-9 pt-3' : 'd-none'
+            }
+          >
+            <Downloads />
+          </div>
+          <div
+            className={
+              this.state.active === 'about' ? 'col-sm-9 pt-3' : 'd-none'
+            }
+          >
+            <h5>Elza Browser</h5>
+            <br />
+            <p className='small'>Version {this.state.version}</p>
           </div>
         </div>
       </div>

@@ -19,11 +19,6 @@ class Home extends React.Component {
   componentDidMount () {
     this.tabGroup = new TabGroup()
     this.setState({ tabGroup: this.tabGroup })
-    ipcRenderer.send('app_version')
-    ipcRenderer.on('app_version', (event, arg) => {
-      ipcRenderer.removeAllListeners('app_version')
-      //alert(arg.version)
-    })
     ipcRenderer.on('update_available', () => {
       ipcRenderer.removeAllListeners('update_available')
       alert('update available')
