@@ -74,6 +74,7 @@
 .etabs-tab-button-close {
   background-color: #ffffff00;
   border: none;
+  position: relative;
   border-radius: 50%;
   font-weight: bold;
   color: var(--font-color-secondary);

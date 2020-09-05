@@ -10,14 +10,12 @@ class Downloads extends React.Component {
   }
   componentDidMount () {
     ipcRenderer.on('senddownloads', (event, arg) => {
-      console.log(arg)
       this.setState({
         downloads: arg
       })
     })
     ipcRenderer.send('getdownloads')
     ipcRenderer.on('downloads_changed', (event, downloads) => {
-      console.log(downloads)
       this.setState({
         downloads: downloads
       })

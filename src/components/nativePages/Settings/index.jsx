@@ -19,7 +19,6 @@ const fs = window.require('fs')
 class BlankTab extends React.Component {
   constructor (props) {
     super(props)
-    console.log(props)
     this.state = {
       pref: {
         searchEngine: 'google',
@@ -43,7 +42,6 @@ class BlankTab extends React.Component {
     try {
       if (fs.existsSync(configFilePath)) {
         let cfile = window.require(configFilePath)
-        console.log(cfile)
         if (cfile.privateMode) this.toggleCheck = true
         this.setState({ pref: cfile })
       }
@@ -57,10 +55,8 @@ class BlankTab extends React.Component {
     })
   }
   savePreference = () => {
-    console.log(this.state.pref)
     fs.writeFile(configFilePath, JSON.stringify(this.state.pref), err => {
       if (err) throw err
-      console.log('Saved!', this.state.pref)
     })
     this.props.handleSearchEngineChange(this.state.pref.searchEngine)
   }

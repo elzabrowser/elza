@@ -81,19 +81,26 @@
   background-color: var(--background-color-secondary);
   width: 80%;
   font-family: Roboto;
-  font-weight: 400;
+  font-weight: 300;
   padding: 0 10px 0 10px;
   height: 33px;
   color: var(--font-color-secondary);
   font-size: 0.9em;
+  text-align: center;
   border-radius: 5px;
   border: 1.3px solid var(--border-color-urlbar);
+  -webkit-transition: border 500ms ease-out;
+  -moz-transition: border 500ms ease-out;
+  -o-transition: border 500ms ease-out;
+  transition: border 500ms ease-out;
 }
 
 #location:focus {
   color: var(--font-color-primary);
-  border: 1.5px solid #ffffff;
+  font-weight: 500;
+  border: 1px solid #ffffff;
   outline: none;
+  text-align: left;
 }
 
 #location:focus > #goButton {

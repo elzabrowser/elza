@@ -9,7 +9,6 @@ import getFavicon from '../../functions/getFavicon'
 import parseUrlInput from '../../functions/parseUrlInput'
 import validateElzaProtocol from '../../functions/validateElzaProtocol'
 import Settings from '../nativePages/Settings'
-import Downloads from '../nativePages/Downloads'
 class Controls extends React.Component {
   constructor (props) {
     super(props)
@@ -26,7 +25,8 @@ class Controls extends React.Component {
       currentWebView: null,
       popupVisible: false,
       searchEngine: null,
-      isSiteSecure: true
+      isSiteSecure: true,
+      isFirstRender: true
     }
   }
 
@@ -139,7 +139,14 @@ class Controls extends React.Component {
     })
 
     tabGroup.on('tab-active', (tab, tabGroup) => {
-      if (tab.src === '') this.inputField.focus()
+      if (tab.src === '') {
+        if (this.state.isFirstRender)
+          setTimeout(() => {
+            this.setState({ isFirstRender: false })
+            this.inputField.focus()
+          }, 1500)
+        else this.inputField.focus()
+      }
       document.getElementById('location').value =
         this.state.tabs[tab.id]?.url || tab.webviewAttributes.src
       this.secureSiteCheck()
@@ -268,7 +275,6 @@ class Controls extends React.Component {
     }
   }
   openDownloadsPage () {
-    console.log(this.state)
     let newtab = this.state.tabGroup.addTab({
       src: '',
       title: 'Downloads',
@@ -320,7 +326,6 @@ class Controls extends React.Component {
                 id='location'
                 type='text'
                 spellCheck='false'
-                className='text-center'
                 ref={input => (this.inputField = input)}
                 // onFocus={() => (this.inputField.value = '')}
                 onChange={this.handleChange}

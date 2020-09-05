@@ -5,6 +5,7 @@ const { autoUpdater } = require('electron-updater')
 const contextMenu = require('electron-context-menu')
 const log = require('electron-log')
 const fs = require('fs')
+const path = require('path')
 autoUpdater.logger = log
 autoUpdater.logger.transports.file.level = 'info'
 log.warn('test log')
@@ -29,7 +30,6 @@ let downloads = {}
 Menu.setApplicationMenu(null)
 let mainWindow
 updateDownload = () => {
-  console.log('progress', downloads)
   mainWindow.webContents.send('downloads_changed', downloads)
 }
 app.on('ready', function () {
@@ -37,6 +37,7 @@ app.on('ready', function () {
     title: 'Elza Browser',
     titleBarStyle: 'hidden',
     show: false,
+    icon: path.join(__dirname, '/icon.png'),
     resizable: true,
     width: 1200,
     height: 700,
