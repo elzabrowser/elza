@@ -119,10 +119,8 @@ class BlankTab extends React.Component {
             }
           >
             <h4>Search engine</h4>
-            <br />
             <div className='settings-search-engine-list-ctr'>
               <div className='p-1 mr-3'>
-                <span>Recomended</span>
                 <div className='settings-search-engine-list pt-3'>
                   <img
                     className={
@@ -158,7 +156,6 @@ class BlankTab extends React.Component {
                 </div>
               </div>
               <div className='ml-3 p-1'>
-                <span>Popular</span>
                 <div className='settings-search-engine-list pt-3'>
                   <img
                     className={

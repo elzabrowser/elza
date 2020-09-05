@@ -14,7 +14,7 @@ class BlankTab extends React.Component {
     return (
       <div
         style={{
-          backgroundColor: 'black',
+          backgroundColor: 'var(--background-color-secondary)',
           height: '100%',
           textAlign: 'center',
           padding: '250px 0'

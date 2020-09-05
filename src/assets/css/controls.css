@@ -1,12 +1,13 @@
 #controls {
   display: flex;
-  padding: 8px;
+  padding-bottom: 4px;
   background-color: var(--background-color-secondary);
 }
 
-#controls button, #controls button:focus {
-  width: 27px;
-  height: 27px;
+#controls button,
+#controls button:focus {
+  width: 33px;
+  height: 33px;
   margin: 0 5px;
   background-color: var(--background-color-secondary);
   border: none;
@@ -19,7 +20,8 @@
 }
 
 #controls button:hover {
-  background: #424242b6 radial-gradient(circle, transparent 1%, #ecececb6 1%) center/15000%;
+  background: #424242b6 radial-gradient(circle, transparent 1%, #ecececb6 1%)
+    center/15000%;
 }
 
 #controls button:active {
@@ -33,18 +35,18 @@
   color: rgb(114, 114, 114);
 }
 
-#controls #urlInfo {
+.urlInfo {
   background-color: rgba(255, 255, 255, 0);
   margin-right: -46px;
   z-index: 2;
-  height: 26px;
-  width: 26px;
-  font-size: 12px;
+  height: 33px;
+  width: 33px;
+  font-size: 16px;
   color: var(--font-color-secondary);
   line-height: 26px;
 }
 
-#controls #urlInfo:focus>.urlInfoCtr {
+#controls #urlInfo:focus > .urlInfoCtr {
   visibility: visible;
 }
 
@@ -77,19 +79,20 @@
 
 #location {
   background-color: var(--background-color-secondary);
-  width: 100%;
+  width: 80%;
+  font-family: Roboto;
   font-weight: 400;
-  padding: 0 10px 0 30px;
-  height: 27px;
+  padding: 0 10px 0 10px;
+  height: 33px;
   color: var(--font-color-secondary);
   font-size: 0.9em;
   border-radius: 5px;
-  border: 1.3px solid var(--background-color-secondary);
+  border: 1.3px solid var(--border-color-urlbar);
 }
 
 #location:focus {
   color: var(--font-color-primary);
-  background-color: var(--background-color-urlbar);
+  border: 1.5px solid #ffffff;
   outline: none;
 }
 

@@ -26,7 +26,6 @@
   overflow: hidden;
   border-right: 1px solid var(--border-color-primary);
   border-top: 3px solid rgba(238, 238, 238, 0);
-
 }
 
 .etabs-tab-icon {
@@ -35,15 +34,16 @@
 }
 
 .etabs-tab-title {
+  font-family: Roboto;
+  font-size: 0.9rem;
+  max-height: 32px;
   width: 120px;
   max-width: 120px;
   display: block;
   overflow: hidden;
   text-overflow: clip;
   white-space: nowrap;
-  height: 32px;
-  max-height: 32px;
-  font-size: 0.8rem;
+  height: 36px;
   overflow: hidden;
   line-height: 32px;
   padding: 0 1rem 0 1rem;
@@ -56,7 +56,7 @@
 
 .etabs-buttons button {
   -webkit-app-region: no-drag;
-  font-size: 20px;
+  font-size: 25px;
   font-weight: 400;
   color: var(--font-color-secondary);
   border: none;
@@ -123,12 +123,12 @@
   height: 14px;
   color: transparent;
 }
-.windowactions button:hover{
+.windowactions button:hover {
   opacity: 0.8;
 }
 
 .windowactions .cls {
-  background-color: #FF605C;
+  background-color: #ff605c;
 }
 
 .windowactions .max {

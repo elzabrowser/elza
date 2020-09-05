@@ -25,7 +25,8 @@ class Controls extends React.Component {
       tabs: [],
       currentWebView: null,
       popupVisible: false,
-      searchEngine: null
+      searchEngine: null,
+      isSiteSecure: true
     }
   }
 
@@ -301,43 +302,27 @@ class Controls extends React.Component {
           <button id='reload' title='Reload' onClick={this.reloadWebv}>
             <i className='fas fa-redo' />
           </button>
-          <button id='urlInfo'>
-            {this.state.isSiteSecure ? (
-              <i className='fa fa-lock secure-site' />
-            ) : (
-              <i className='fa fa-globe' />
-            )}
-            <div className='urlInfoCtr rounded shadow p-3'>
-              {this.state.isSiteSecure ? (
-                <div>
-                  <b className='secure-site'>Connection is secure</b>
-                  <p>
-                    Connection to this site is TLS encrypted. your information
-                    (for example passwords or credit cards numbers) is private
-                    when it is sent to this site
-                  </p>
-                </div>
-              ) : (
-                <div>
-                  <b className='insecure-site'>Insecure connection !</b>
-                  <p>
-                    Connection to this site is not encrypted. You should not
-                    enter any sensitive information to this site, because it
-                    could be stolen by attackers.
-                  </p>
-                </div>
-              )}
-            </div>
-          </button>
-          <form id='location-form' onSubmit={this.submitURL}>
+
+          <form
+            className='text-center'
+            id='location-form'
+            onSubmit={this.submitURL}
+          >
             <div id='center-column'>
+              <button className='urlInfo d-none'>
+                {this.state.isSiteSecure ? (
+                  <i className='fa fa-lock secure-site' />
+                ) : (
+                  <i className='fa fa-globe' />
+                )}
+              </button>
               <input
                 id='location'
                 type='text'
                 spellCheck='false'
+                className='text-center'
                 ref={input => (this.inputField = input)}
                 // onFocus={() => (this.inputField.value = '')}
-                placeholder='Search or type in url'
                 onChange={this.handleChange}
                 defaultValue={'loading'}
               />
