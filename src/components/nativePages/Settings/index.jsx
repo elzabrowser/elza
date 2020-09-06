@@ -76,52 +76,54 @@ class BlankTab extends React.Component {
     return (
       <div className='settings-container h-100'>
         <div className='row pt-4'>
-          <div className='col-sm-3 vh-100 pl-5 border-right border-white'>
-            <p
-              className={
-                this.state.active === 'settings'
-                  ? 'h4 mt-1'
-                  : 'font-weight-light h4 mt-1'
-              }
-              onClick={() => {
-                this.setState({ active: 'settings' })
-              }}
-              role='button'
-            >
-              Settings
-            </p>
-            <p
-              className={
-                this.state.active === 'downloads'
-                  ? 'h4 mt-4'
-                  : 'font-weight-light h4 mt-4'
-              }
-              onClick={() => {
-                this.setState({ active: 'downloads' })
-              }}
-              role='button'
-            >
-              Downloads
-            </p>
-            <p
-              className={
-                this.state.active === 'about'
-                  ? 'h4 mt-4'
-                  : 'font-weight-light h4 mt-4'
-              }
-              onClick={() => {
-                this.setState({ active: 'about' })
-              }}
-              role='button'
-            >
-              About
-            </p>
-            <div id='logo'>
-              <img className='logo' src={elzaLogo} />
-              <p className='h6 font-weight-light d-inline'> Elza Browser</p>
+          <div className='col-sm-3 vh-100 pl-5 pr-5 border-right border-white'>
+            <div className='text-center'>
+              <p
+                className={
+                  this.state.active === 'settings'
+                    ? 'h4 mt-1'
+                    : 'font-weight-light h4 mt-1'
+                }
+                onClick={() => {
+                  this.setState({ active: 'settings' })
+                }}
+                role='button'
+              >
+                Settings
+              </p>
+              <p
+                className={
+                  this.state.active === 'downloads'
+                    ? 'h4 mt-4'
+                    : 'font-weight-light h4 mt-4'
+                }
+                onClick={() => {
+                  this.setState({ active: 'downloads' })
+                }}
+                role='button'
+              >
+                Downloads
+              </p>
+              <p
+                className={
+                  this.state.active === 'about'
+                    ? 'h4 mt-4'
+                    : 'font-weight-light h4 mt-4'
+                }
+                onClick={() => {
+                  this.setState({ active: 'about' })
+                }}
+                role='button'
+              >
+                About
+              </p>
+              <div id='logo'>
+                <img className='logo' src={elzaLogo} />
+                <p className='h6 font-weight-light d-inline'> Elza Browser</p>
+              </div>
             </div>
           </div>
-          <div className='pl-5'>
+          <div className='col-sm-9 pl-5'>
             <div className={this.state.active === 'settings' ? '' : 'd-none'}>
               <h4 className='font-weight-light'>Search Engine</h4>
               <div className='settings-search-engine-list-ctr'>
@@ -283,6 +285,7 @@ class BlankTab extends React.Component {
                     : 'settings-tor-icon settings-tor-icon-inactive'
                 }
               />
+
               <small className='ml-3 text-muted'>
                 status:{' '}
                 {this.state.pref.isTorEnabled
@@ -296,18 +299,18 @@ class BlankTab extends React.Component {
                 changes will be reflected on next start.
               </p>
               <p className='small font-weight-light'>
-                <i className='font-weight-light fa fa-info-circle mr-2'></i>
+                <i className='fa fa-info-circle mr-2'></i>
                 Tor service must be running on 127.0.0.1:9050
               </p>
             </div>
-          </div>
-          <div className={this.state.active === 'downloads' ? '' : 'd-none'}>
-            <Downloads />
-          </div>
-          <div className={this.state.active === 'about' ? '' : 'd-none'}>
-            <h5>Elza Browser</h5>
-            <br />
-            <p className='small'>Version {this.state.version}</p>
+            <div className={this.state.active === 'downloads' ? '' : 'd-none'}>
+              <Downloads />
+            </div>
+            <div className={this.state.active === 'about' ? '' : 'd-none'}>
+              <h5>Elza Browser</h5>
+              <br />
+              <p className='small'>Version {this.state.version}</p>
+            </div>
           </div>
         </div>
       </div>

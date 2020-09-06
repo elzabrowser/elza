@@ -45,6 +45,7 @@ jobs:
       - run: npm install
       - run: npm run build-win --if-present
       - run: move .\dist\nsis-web\*.exe .\dist\
+      - run: move .\dist\nsis-web\*.7z .\dist\
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')

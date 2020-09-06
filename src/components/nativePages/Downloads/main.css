@@ -12,16 +12,6 @@
   margin: 15px 70px 5px 70px;
 }
 
-.topbar {
-  vertical-align: middle;
-  padding-left: 30px;
-  height: 70px;
-  color: var(--font-color-secondary);
-  font-size: xx-large;
-  margin: auto;
-  padding: 10px;
-}
-
 .download-item {
   background-color: var(--background-color-primary);
   color: var(--font-color-primary);

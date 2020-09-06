@@ -146,8 +146,10 @@
 }
 #logo {
   position: fixed;
+  height: 100px;
   bottom: 0;
-  margin-bottom: 20px;
+  right: 38%;
+  width: 100%;
 }
 #logo img {
   width: 30px;

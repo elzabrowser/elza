@@ -6,6 +6,7 @@
 
 #controls button,
 #controls button:focus {
+  margin-top: 3px !important;
   width: 33px;
   height: 33px;
   margin: 0 5px;
@@ -20,6 +21,8 @@
 }
 
 #controls button:hover {
+  -webkit-text-stroke: 1px;
+  font-weight: 900;
   background: #424242b6 radial-gradient(circle, transparent 1%, #ecececb6 1%)
     center/15000%;
 }
@@ -88,7 +91,7 @@
   font-size: 0.9em;
   text-align: center;
   border-radius: 5px;
-  border: 1.3px solid var(--border-color-urlbar);
+  border: 0px solid var(--border-color-urlbar);
   -webkit-transition: border 500ms ease-out;
   -moz-transition: border 500ms ease-out;
   -o-transition: border 500ms ease-out;
@@ -101,6 +104,13 @@
   border: 1px solid #ffffff;
   outline: none;
   text-align: left;
+}
+
+#location:hover:not(:focus) {
+  color: var(--font-color-secondary);
+  font-weight: 500;
+  border: 1.3px solid var(--border-color-urlbar);
+  outline: none;
 }
 
 #location:focus > #goButton {
