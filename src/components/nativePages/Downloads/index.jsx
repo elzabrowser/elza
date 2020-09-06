@@ -35,7 +35,7 @@ class Downloads extends React.Component {
   render () {
     return (
       <>
-        <div className='container p-1'>
+        <div className='container p-1 width'>
           {Object.keys(this.state.downloads).map(key => (
             <div
               key={key}
@@ -44,7 +44,7 @@ class Downloads extends React.Component {
                   this.openItem(this.state.downloads[key].path)
               }}
               style={{ height: '50px' }}
-              className='row m-2 seperator'
+              className='row m-2 border border-white p-1'
             >
               <div className='col-sm-2 text-center align-self-center'>
                 <i

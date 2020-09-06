@@ -1,10 +1,13 @@
+.width {
+  min-width: 300px;
+  max-width: 600px;
+}
+
 .download-container {
   background-color: var(--background-color-secondary);
   height: 100%;
 }
 
-.seperator {
-}
 .downloadBox {
   margin: 15px 70px 5px 70px;
 }
