@@ -253,7 +253,7 @@ class BlankTab extends React.Component {
                     : 'd-none'
                 }
                 onClick={() => this.selectDownloadLocation()}
-                style={{ width: '500px', textAlign: 'left' }}
+                style={{ width: '80%', textAlign: 'left' }}
               >
                 {this.state.pref.downloadLocation}
               </button>
