@@ -17,7 +17,7 @@ try {
   fs.writeFileSync(configFilePath, JSON.stringify(initialConfig), {
     flag: 'wx'
   })
-} catch (error) {}
+} catch (error) { }
 let downloadLocation = require(configFilePath).downloadLocation
 let askLocation
 if (downloadLocation == 'ask') askLocation = true
@@ -32,6 +32,11 @@ updateDownload = () => {
   console.log('progress', downloads)
   mainWindow.webContents.send('downloads_changed', downloads)
 }
+
+if (require(configFilePath).isTorEnabled) {
+  app.commandLine.appendSwitch('proxy-server', 'socks5://127.0.0.1:9050')
+}
+
 app.on('ready', function () {
   mainWindow = new BrowserWindow({
     title: 'Elza Browser',

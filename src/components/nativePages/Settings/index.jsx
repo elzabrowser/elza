@@ -8,6 +8,7 @@ import ecosiaImg from '../../../assets/images/ecosia.png'
 import yahooImg from '../../../assets/images/yahoo-icon.png'
 import yandexImg from '../../../assets/images/yandex-icon.png'
 import qwantImg from '../../../assets/images/qwant-icon.png'
+import torImg from '../../../assets/images/tor.png'
 
 const { dialog } = window.require('electron').remote
 const { ipcRenderer } = window.require('electron')
@@ -17,7 +18,7 @@ const configFilePath = app.getPath('userData') + '/preferences.json'
 const fs = window.require('fs')
 
 class BlankTab extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     console.log(props)
     this.state = {
@@ -39,7 +40,7 @@ class BlankTab extends React.Component {
     pref.searchEngine = e
     this.setState({ pref }, this.savePreference)
   }
-  componentWillMount () {
+  componentWillMount() {
     try {
       if (fs.existsSync(configFilePath)) {
         let cfile = window.require(configFilePath)
@@ -74,7 +75,7 @@ class BlankTab extends React.Component {
     ipcRenderer.send('change_download_setting', pref)
     this.setState({ pref }, this.savePreference)
   }
-  render () {
+  render() {
     return (
       <div className='settings-container h-100 pt-2'>
         <div className='row'>
@@ -201,7 +202,7 @@ class BlankTab extends React.Component {
                 </div>
               </div>
             </div>
-            <br />
+            <br /><br />
             <h4>Download Location</h4>
             <br />
             <button
@@ -249,8 +250,32 @@ class BlankTab extends React.Component {
             <br />
             <br />
             <p className='small'>
-              <i className='fa fa-info-circle'></i> Download preference changes
+              <i className='fa fa-info-circle mr-2'></i> Download preference changes
               will be reflected on next start.
+            </p>
+            <br /><br />
+            <h4>Tor Proxy</h4>
+            <br />
+            <button
+              className="settings-tor-button"
+              onClick={() => {
+                var pref = { ...this.state.pref }
+                pref.isTorEnabled = !pref.isTorEnabled
+                this.setState({ pref }, this.savePreference)
+              }}
+            >
+              {this.state.pref.isTorEnabled ? "Disable" : "Enable"}
+            </button>
+            <img src={torImg} className={this.state.pref.isTorEnabled ? "settings-tor-icon" : "settings-tor-icon settings-tor-icon-inactive"} />
+            <small className="ml-3 text-muted">status: {this.state.pref.isTorEnabled ? "Channeling traffic to Tor port 9050" : "Disabled"}</small>
+            <br /><br />
+            <p className='small'>
+              <i className='fa fa-info-circle mr-2'></i> Tor preference changes
+              will be reflected on next start.
+            </p>
+            <p className='small'>
+              <i className='fa fa-info-circle mr-2'></i> 
+              Tor service must be running on 127.0.0.1:9050
             </p>
           </div>
           <div
