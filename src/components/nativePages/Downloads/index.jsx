@@ -44,7 +44,7 @@ class Downloads extends React.Component {
                   this.openItem(this.state.downloads[key].path)
               }}
               style={{ height: '50px' }}
-              className='row m-2'
+              className='row m-2 seperator'
             >
               <div className='col-sm-2 text-center align-self-center'>
                 <i
