@@ -33,11 +33,11 @@
   transition: 0.3s;
 }
 
-.settings-container input:checked + label {
+.settings-container input:checked+label {
   background: #d1f8d1;
 }
 
-.settings-container input:checked + label:after {
+.settings-container input:checked+label:after {
   left: calc(100% - 5px);
   transform: translateX(-100%);
 }
@@ -96,9 +96,36 @@
 .settings-search-engine-list .active {
   border-color: #f0f0f0;
 }
+
 .settings-search-engine-list img:hover {
   background-color: #f0f0f0;
 }
+
+.settings-tor-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.settings-tor-icon-inactive {
+  filter: grayscale(100%);
+}
+
+.settings-tor-button {
+  color: var(--font-color-primary);
+  background-color: transparent;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 14px;
+  width: 160px;
+  height: 33px;
+  border: 0.1px solid #575757;
+  box-sizing: border-box;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  border-radius: 6px;
+  margin-right: 30px;
+}
+
 .download {
   color: var(--font-color-primary);
   background-color: transparent;
@@ -113,6 +140,7 @@
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   border-radius: 6px;
 }
+
 .download-active {
   border: 2px solid #ffffff;
 }
