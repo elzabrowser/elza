@@ -66,7 +66,10 @@ class DownloadPopup extends React.Component {
                   : 'd-none'
               }
             >
-              <Downloads />
+              <div style={{ height: '200px' }}>
+                <Downloads />
+              </div>
+
               <div
                 onClick={() => {
                   this.props.openDownloadsPage()

@@ -27,7 +27,8 @@ class BlankTab extends React.Component {
           backgroundColor: 'var(--background-color-secondary)',
           height: '100%',
           textAlign: 'center',
-          padding: '200px 0'
+          padding: '200px 0',
+          userSelect: 'none'
         }}
       >
         <h1 style={{ color: 'white', fontSize: '100px', fontWeight: '100' }}>

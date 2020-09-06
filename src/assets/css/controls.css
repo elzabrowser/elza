@@ -92,10 +92,7 @@
   text-align: center;
   border-radius: 5px;
   border: 0px solid var(--border-color-urlbar);
-  -webkit-transition: border 500ms ease-out;
-  -moz-transition: border 500ms ease-out;
-  -o-transition: border 500ms ease-out;
-  transition: border 500ms ease-out;
+  transition: border 500ms ease-in-out;
 }
 
 #location:focus {
@@ -109,8 +106,9 @@
 #location:hover:not(:focus) {
   color: var(--font-color-secondary);
   font-weight: 500;
-  border: 1.3px solid var(--border-color-urlbar);
+  border: 1px solid #858585;
   outline: none;
+  transition: border 500ms ease-in-out;
 }
 
 #location:focus > #goButton {
@@ -144,7 +142,7 @@
   border-top-color: var(--font-color-secondary);
   border-left-color: var(--font-color-secondary);
   /* Additional loader styles */
-  animation: loader 400ms linear infinite;
+  animation: loader 400ms ease-in-out infinite;
   border-bottom-color: transparent;
   border-right-color: transparent;
   border-style: solid;
@@ -162,7 +160,7 @@
   border-top-color: var(--font-color-secondary);
   border-left-color: var(--font-color-secondary);
   /* Additional loader styles */
-  animation: loader-rev 400ms linear infinite;
+  animation: loader-rev 400ms ease-in-out infinite;
   border-bottom-color: transparent;
   border-right-color: transparent;
   border-style: solid;
@@ -202,7 +200,7 @@
 }
 
 .loader-slow {
-  animation: loader 1s linear infinite;
+  animation: loader 1s ease-in-out infinite;
 }
 
 .loader-blue {

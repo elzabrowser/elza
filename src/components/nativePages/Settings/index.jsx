@@ -3,9 +3,9 @@ import Downloads from '../Downloads'
 import './main.css'
 import elzaLogo from '../../../assets/images/icon.png'
 import bingImg from '../../../assets/images/icons8-bing-96.png'
-import googleImg from '../../../assets/images/icons8-google-96.png'
-import duckImg from '../../../assets/images/icons8-duckduckgo-96.png'
-import ecosiaImg from '../../../assets/images/ecosia.png'
+import googleImg from '../../../assets/images/dark/google.png'
+import duckImg from '../../../assets/images/dark/ddg.png'
+import ecosiaImg from '../../../assets/images/dark/ecosia.png'
 import yahooImg from '../../../assets/images/yahoo-icon.png'
 import yandexImg from '../../../assets/images/yandex-icon.png'
 import qwantImg from '../../../assets/images/qwant-icon.png'
@@ -67,7 +67,7 @@ class BlankTab extends React.Component {
     let path = await dialog.showOpenDialog({
       properties: ['openDirectory']
     })
-
+    if (!path.filePaths[0]) return
     pref.downloadLocation = path.filePaths[0]
     ipcRenderer.send('change_download_setting', pref)
     this.setState({ pref }, this.savePreference)
@@ -162,7 +162,7 @@ class BlankTab extends React.Component {
                     />
                   </div>
                 </div>
-                <div className='ml-3 p-1'>
+                <div className='ml-3 p-1 d-none'>
                   <div className='settings-search-engine-list pt-3'>
                     <img
                       className={

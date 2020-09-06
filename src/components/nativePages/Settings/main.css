@@ -2,6 +2,7 @@
   background-color: var(--background-color-secondary);
   color: var(--font-color-primary);
   font-family: Roboto !important;
+  user-select: none;
 }
 
 .settings-container input[type='checkbox'] {

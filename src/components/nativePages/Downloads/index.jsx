@@ -16,8 +16,15 @@ class Downloads extends React.Component {
     })
     ipcRenderer.send('getdownloads')
     ipcRenderer.on('downloads_changed', (event, downloads) => {
+      console.log(downloads)
+      const sortedDownloads = {}
+      Object.keys(downloads)
+        .sort((a, b) => b - a)
+        .forEach(function (key) {
+          sortedDownloads[key] = downloads[key]
+        })
       this.setState({
-        downloads: downloads
+        downloads: sortedDownloads
       })
     })
   }
@@ -43,7 +50,6 @@ class Downloads extends React.Component {
                 if (this.state.downloads[key].status === 'done')
                   this.openItem(this.state.downloads[key].path)
               }}
-              style={{ height: '50px' }}
               className='row m-2 border border-white p-1'
             >
               <div className='col-sm-2 text-center align-self-center'>

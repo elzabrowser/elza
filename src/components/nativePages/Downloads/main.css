@@ -1,11 +1,19 @@
 .width {
   min-width: 300px;
   max-width: 600px;
+  height: 100%;
+  overflow-y: scroll;
 }
-
+::-webkit-scrollbar {
+  width: 0px; /* Remove scrollbar space */
+  background: transparent; /* Optional: just make scrollbar invisible */
+}
+/* Optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+  background: #ff0000;
+}
 .download-container {
   background-color: var(--background-color-secondary);
-  height: 100%;
 }
 
 .downloadBox {
