@@ -279,7 +279,8 @@ class Controls extends React.Component {
       src: '',
       title: 'Downloads',
       isNative: true,
-      comp: Settings
+      comp: Settings,
+      compProps: { renderLocation: 'settings' }
     })
     newtab.activate()
   }

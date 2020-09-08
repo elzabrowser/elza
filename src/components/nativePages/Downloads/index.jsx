@@ -5,8 +5,13 @@ class Downloads extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      downloads: {}
+      downloads: {},
+      renderLocation: 'popup'
     }
+  }
+  componentWillReceiveProps (props) {
+    alert(props.renderLocation)
+    this.setState({ renderLocation: props.renderLocation })
   }
   componentDidMount () {
     ipcRenderer.on('senddownloads', (event, arg) => {
@@ -50,15 +55,16 @@ class Downloads extends React.Component {
                 if (this.state.downloads[key].status === 'done')
                   this.openItem(this.state.downloads[key].path)
               }}
-              className='row m-2 border border-white p-1'
+              className='row m-2 border border-secondary rounded'
+              role={this.state.downloads[key].status === 'done' ? 'button' : ''}
             >
-              <div className='col-sm-2 text-center align-self-center'>
+              <div className='col-sm-2 p-2 border-right border-secondary text-center align-self-center'>
                 <i
                   style={{ fontSize: '30px', color: '#C4C4C4' }}
                   className='fa fa-file-download'
                 ></i>
               </div>
-              <div className='col-sm-10'>
+              <div className='col-sm-10 p-2'>
                 <b className='downloadname'>
                   {this.state.downloads[key].name.length < 15
                     ? this.state.downloads[key].name

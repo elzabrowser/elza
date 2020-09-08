@@ -10,7 +10,6 @@ body,
   width: 100%;
   display: flex;
   flex-flow: column;
-  overflow: hidden;
 }
 
 .light-theme {

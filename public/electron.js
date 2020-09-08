@@ -18,7 +18,7 @@ try {
   fs.writeFileSync(configFilePath, JSON.stringify(initialConfig), {
     flag: 'wx'
   })
-} catch (error) { }
+} catch (error) {}
 let downloadLocation = require(configFilePath).downloadLocation
 let askLocation
 if (downloadLocation == 'ask') askLocation = true

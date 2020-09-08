@@ -29,7 +29,8 @@ class Home extends React.Component {
         src: url,
         isNative: false,
         webviewAttributes: {
-          useragent: USER_AGENT
+          useragent: USER_AGENT,
+          plugins: null
         }
       })
       tab.activate()
@@ -47,6 +48,7 @@ class Home extends React.Component {
       isNative: true,
       comp: comp || BlankTab,
       webviewAttributes: {
+        plugins: null,
         useragent: USER_AGENT
       }
     })

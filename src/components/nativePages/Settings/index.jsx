@@ -74,7 +74,7 @@ class BlankTab extends React.Component {
   }
   render () {
     return (
-      <div className='settings-container h-100'>
+      <div className='container-fluid settings-container h-100'>
         <div className='row pt-4'>
           <div className='col-sm-3 vh-100 pl-5 pr-5 border-right border-white'>
             <div className='text-center'>
@@ -123,7 +123,10 @@ class BlankTab extends React.Component {
               </div>
             </div>
           </div>
-          <div className='col-sm-9 pl-5'>
+          <div
+            className='col-sm-9 pl-5 vh-100 overflow-auto'
+            style={{ height: '100vh', overflow: 'scroll' }}
+          >
             <div className={this.state.active === 'settings' ? '' : 'd-none'}>
               <h4 className='font-weight-light'>Search Engine</h4>
               <div className='settings-search-engine-list-ctr'>

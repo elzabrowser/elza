@@ -91,8 +91,8 @@
   font-size: 0.9em;
   text-align: center;
   border-radius: 5px;
-  border: 0px solid var(--border-color-urlbar);
-  transition: border 500ms ease-in-out;
+  border: 1px solid var(--background-color-secondary);
+  transition: border 1000ms ease-in-out;
 }
 
 #location:focus {
