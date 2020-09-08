@@ -77,12 +77,6 @@ class Controls extends React.Component {
       tab.setTitle(newTitle)
     })
     tab.webview.addEventListener('did-stop-loading', () => {
-      /* contextMenu({
-        window: tab.webview,
-        showSaveImage: true,
-        showSearchWithGoogle: false,
-        showInspectElement: false
-      }) */
       let tabs = [...this.state.tabs]
       tabs[tab.id].url = tab.webview.src
       tabs[tab.id].inputURL = tab.webview.src
@@ -98,14 +92,6 @@ class Controls extends React.Component {
         }
       })
       this.setState({ currentWebView: tab.webview })
-      /* tab.webview
-        .getWebContents()
-        .session.on('will-download', (event, item, webContents) => {
-          event.preventDefault()
-          //console.log(item.getFilename)
-          //item.setSavePath('/tmp/downloaded.zip')
-          //alert('Download!!')
-        }) */
     })
     tab.webview.addEventListener('new-window', e => {
       const url = e.url
@@ -118,6 +104,18 @@ class Controls extends React.Component {
         }
       })
       newtab.activate()
+    })
+    tab.webview.addEventListener('did-fail-load', e => {
+      var data =
+        "'<h3>Error loading page</h3><p>" +
+        e.errorCode +
+        ': ' +
+        e.errorDescription +
+        "</p>'"
+      tab.webview.executeJavaScript('document.body.innerHTML+=' + data)
+      setTimeout(() => {
+        tab.setIcon('', 'fa fa-exclamation-circle')
+      }, 30)
     })
   }
   tabGroupEvents = tabGroup => {
@@ -212,6 +210,7 @@ class Controls extends React.Component {
     let id = this.state.activeTab
     let sTab = this.state.tabs[id]
     let url = sTab.inputURL
+    if (!url) return
     if (url.startsWith('elza://')) {
       validateElzaProtocol(this.state.tabGroup, sTab.tab, url)
       return

@@ -48,6 +48,20 @@ class Downloads extends React.Component {
     return (
       <>
         <div className='container p-1 width'>
+          <div
+            className={
+              Object.keys(this.state.downloads).length > 0
+                ? 'd-none'
+                : 'w-100 h-100 text-center'
+            }
+          >
+            <br />
+            <br />
+            <br />
+            <h6 className='font-weight-light'>
+              No downloads in the current session.
+            </h6>
+          </div>
           {Object.keys(this.state.downloads).map(key => (
             <div
               key={key}
