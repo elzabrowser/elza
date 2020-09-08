@@ -73,7 +73,7 @@ class DownloadPopup extends React.Component {
               }
             >
               <div style={{ height: '200px' }}>
-                <Downloads />
+                <Downloads calledBy='popup' />
               </div>
 
               <div

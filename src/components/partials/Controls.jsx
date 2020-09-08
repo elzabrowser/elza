@@ -10,7 +10,7 @@ import parseUrlInput from '../../functions/parseUrlInput'
 import validateElzaProtocol from '../../functions/validateElzaProtocol'
 import Settings from '../nativePages/Settings'
 class Controls extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.openDownloadsPage = this.openDownloadsPage.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -30,18 +30,18 @@ class Controls extends React.Component {
     }
   }
 
-  componentWillReceiveProps(newProps) {
+  componentWillReceiveProps (newProps) {
     this.setState({ tabGroup: newProps.tabGroup })
     this.tabGroupEvents(newProps.tabGroup)
   }
-  componentDidMount() { }
-  handleOutsideClick(e) {
+  componentDidMount () {}
+  handleOutsideClick (e) {
     if (this.node.contains(e.target)) {
       return
     }
     this.handleClick()
   }
-  handleClick() {
+  handleClick () {
     if (!this.state.popupVisible) {
       document.addEventListener('click', this.handleOutsideClick, false)
     } else {
@@ -276,18 +276,18 @@ class Controls extends React.Component {
       this.setState({ isSiteSecure: false })
     }
   }
-  openDownloadsPage() {
+  openDownloadsPage () {
     let newtab = this.state.tabGroup.addTab({
       src: '',
       title: 'Downloads',
       isNative: true,
       comp: Settings,
-      compProps: { renderLocation: 'settings' }
+      compProps: { calledBy: 'downloadpopup' }
     })
     newtab.activate()
   }
 
-  render() {
+  render () {
     return (
       <>
         <div id='controls'>
@@ -322,8 +322,8 @@ class Controls extends React.Component {
                 {this.state.isSiteSecure ? (
                   <i className='fa fa-lock secure-site' />
                 ) : (
-                    <i className='fa fa-globe' />
-                  )}
+                  <i className='fa fa-globe' />
+                )}
               </button>
               <input
                 id='location'
@@ -339,8 +339,8 @@ class Controls extends React.Component {
               {this.state.webvIsLoading ? (
                 <div className='loader'></div>
               ) : (
-                  <i className='fas fa-arrow-right' />
-                )}
+                <i className='fas fa-arrow-right' />
+              )}
             </button>
           </form>
           <DownloadPopup openDownloadsPage={this.openDownloadsPage} />
@@ -362,7 +362,7 @@ class Controls extends React.Component {
                   icon: 'fa fa-cog',
                   isNative: true,
                   comp: Settings,
-                  //compProps: { additionalProps: "value" }
+                  compProps: { calledBy: 'menu' }
                 })
                 newtab.activate()
               }}

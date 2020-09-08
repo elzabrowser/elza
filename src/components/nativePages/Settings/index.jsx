@@ -40,6 +40,10 @@ class BlankTab extends React.Component {
     pref.searchEngine = e
     this.setState({ pref }, this.savePreference)
   }
+  componentWillReceiveProps (props) {
+    if (props.tab.compProps.calledBy === 'downloadpopup')
+      this.setState({ active: 'downloads' })
+  }
   componentWillMount () {
     try {
       if (fs.existsSync(configFilePath)) {
@@ -307,7 +311,7 @@ class BlankTab extends React.Component {
               </p>
             </div>
             <div className={this.state.active === 'downloads' ? '' : 'd-none'}>
-              <Downloads />
+              <Downloads calledBy='settings' />
             </div>
             <div className={this.state.active === 'about' ? '' : 'd-none'}>
               <h5>Elza Browser</h5>

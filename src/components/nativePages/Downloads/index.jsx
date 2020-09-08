@@ -10,8 +10,8 @@ class Downloads extends React.Component {
     }
   }
   componentWillReceiveProps (props) {
-    alert(props.renderLocation)
-    this.setState({ renderLocation: props.renderLocation })
+    if (props.calledBy === 'settings')
+      this.setState({ renderLocation: 'settings' })
   }
   componentDidMount () {
     ipcRenderer.on('senddownloads', (event, arg) => {
@@ -55,10 +55,20 @@ class Downloads extends React.Component {
                 if (this.state.downloads[key].status === 'done')
                   this.openItem(this.state.downloads[key].path)
               }}
-              className='row m-2 border border-secondary rounded'
+              className={
+                this.state.renderLocation == 'popup'
+                  ? 'row m-2 border border-secondary rounded'
+                  : 'row m-2 mt-3 border border-secondary rounded'
+              }
               role={this.state.downloads[key].status === 'done' ? 'button' : ''}
             >
-              <div className='col-sm-2 p-2 border-right border-secondary text-center align-self-center'>
+              <div
+                className={
+                  this.state.renderLocation == 'popup'
+                    ? 'col-sm-2 p-2 border-right border-secondary text-center align-self-center'
+                    : 'col-sm-2 p-3 border-right border-secondary text-center align-self-center'
+                }
+              >
                 <i
                   style={{ fontSize: '30px', color: '#C4C4C4' }}
                   className='fa fa-file-download'
