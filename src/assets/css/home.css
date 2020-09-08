@@ -9,7 +9,7 @@
 
 .etabs-tabs {
   -webkit-app-region: no-drag;
-  max-width: calc(82%);
+  max-width: calc(100% - 150px);
   padding: 0;
   margin: 0;
   display: flex;
@@ -37,7 +37,7 @@
   font-family: Roboto;
   font-size: 0.9rem;
   max-height: 32px;
-  width: 120px;
+  min-width: 1px;
   max-width: 120px;
   display: block;
   overflow: hidden;
@@ -52,6 +52,7 @@
 .etabs-tabs .active {
   border-top: 3px solid #eee;
   background-color: var(--background-color-secondary);
+  min-width: 90px;
 }
 
 .etabs-buttons button {
@@ -124,6 +125,7 @@
   height: 14px;
   color: transparent;
 }
+
 .windowactions button:hover {
   opacity: 0.8;
 }
