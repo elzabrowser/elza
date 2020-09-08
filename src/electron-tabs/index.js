@@ -200,6 +200,7 @@ class Tab extends EventEmitter {
     this.icon = args.icon
     this.isNative = args.isNative || false
     this.comp = args.comp
+    this.compProps = args.compProps
     this.closable = args.closable === false ? false : true
     this.webviewAttributes = args.webviewAttributes || {}
     this.webviewAttributes.src = args.src
