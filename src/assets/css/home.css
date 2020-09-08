@@ -9,7 +9,7 @@
 
 .etabs-tabs {
   -webkit-app-region: no-drag;
-  max-width: calc(82%);
+  max-width: calc(100% - 150px);
   padding: 0;
   margin: 0;
   display: flex;
