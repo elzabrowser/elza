@@ -154,3 +154,19 @@
 #logo img {
   width: 30px;
 }
+.feedback {
+  border: 2px solid #ffffff;
+  width: 500px;
+}
+.textarea {
+  border: none;
+  overflow: auto;
+  outline: none;
+  background-color: rgb(12, 12, 12);
+  color: rgb(196, 196, 196);
+  font-family: Roboto;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  resize: none; /*remove the resize handle on the bottom right*/
+}

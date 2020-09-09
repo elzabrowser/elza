@@ -76,6 +76,31 @@ class BlankTab extends React.Component {
     ipcRenderer.send('change_download_setting', pref)
     this.setState({ pref }, this.savePreference)
   }
+  handleKeyDown (e) {
+    e.target.style.height = 'inherit'
+    e.target.style.height = `${e.target.scrollHeight}px`
+  }
+  onchangeHandler = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+  submitFeedback = e => {
+    e.preventDefault()
+    let feedback = this.state.feedbackData
+    if (feedback) {
+      fetch('https://feedback.api.elzabrowser.com/feedback', {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(feedback)
+      })
+        .then(res => res.json())
+        .then(res => console.log(res))
+    }
+  }
   render () {
     return (
       <div className='container-fluid settings-container h-100'>
@@ -128,8 +153,8 @@ class BlankTab extends React.Component {
             </div>
           </div>
           <div
-            className='col-sm-9 pl-5 vh-100 overflow-auto'
-            style={{ height: '100vh', overflow: 'scroll' }}
+            className='col-sm-9 pl-5'
+            style={{ height: '500px', overflow: 'scroll' }}
           >
             <div className={this.state.active === 'settings' ? '' : 'd-none'}>
               <h4 className='font-weight-light'>Search Engine</h4>
@@ -271,7 +296,6 @@ class BlankTab extends React.Component {
                 changes will be reflected on next start.
               </p>
               <br />
-              <br />
               <div className='d-none'>
                 <h4 className='font-weight-light'>Tor Proxy</h4>
                 <br />
@@ -311,22 +335,31 @@ class BlankTab extends React.Component {
                   Tor service must be running on 127.0.0.1:9050
                 </p>
               </div>
-              <div className='feedback'>
+              <h4 className='font-weight-light'>Notes</h4>
+              <br />
+              <div className='feedback rounded'>
                 <form action=''>
                   <textarea
-                    className='rounded mt-3'
+                    className='rounded textarea p-2'
                     rows='4'
-                    cols='40'
+                    cols='50'
                     name='comment'
                     form='usrform'
-                    style={{
-                      backgroundColor: 'rgb(12, 12, 12)',
-                      color: 'rgb(196, 196, 196)',
-                      fontFamily: 'Roboto'
-                    }}
-                  >
-                    Your valuable feedback...
-                  </textarea>
+                    placeholder='Do you have any suggestion to improve Elza Browser?'
+                    onKeyDown={this.handleKeyDown}
+                  ></textarea>
+                  <hr style={{ borderColor: 'white', margin: '0px' }} />
+                  <input
+                    style={{ width: '470px' }}
+                    type='text'
+                    className='rounded textarea pl-2'
+                    placeholder='email id or name (optional)'
+                  ></input>
+                  <i
+                    className='fa fa-chevron-right'
+                    role='button'
+                    title='Send'
+                  ></i>
                 </form>
               </div>
             </div>
