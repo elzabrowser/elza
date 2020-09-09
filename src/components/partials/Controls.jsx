@@ -5,10 +5,10 @@ import BlankTab from '../nativePages/BlankTab'
 import '../../assets/css/controls.css'
 import '../../assets/css/menu.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import getFavicon from '../../functions/getFavicon'
 import parseUrlInput from '../../functions/parseUrlInput'
 import validateElzaProtocol from '../../functions/validateElzaProtocol'
 import Settings from '../nativePages/Settings'
+import loadFavicon from '../../functions/loadFavicon'
 class Controls extends React.Component {
   constructor (props) {
     super(props)
@@ -76,13 +76,13 @@ class Controls extends React.Component {
       const newTitle = tab.webview.getTitle()
       tab.setTitle(newTitle)
     })
+    loadFavicon(tab)
     tab.webview.addEventListener('did-stop-loading', () => {
       let tabs = [...this.state.tabs]
       tabs[tab.id].url = tab.webview.src
       tabs[tab.id].inputURL = tab.webview.src
       tabs[tab.id].canGoBack = tab.webview.canGoBack()
       tabs[tab.id].canGoForward = tab.webview.canGoForward()
-      tab.setIcon(getFavicon(tab.webview.src), '')
       this.setState({ tabs }, () => {
         if (tab.id === this.state.activeTab) {
           document.getElementById('location').value = this.state.tabs[

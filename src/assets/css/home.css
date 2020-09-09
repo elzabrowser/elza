@@ -31,7 +31,13 @@
 
 .etabs-tab-icon {
   width: 18px;
-  padding-left: 5px;
+  margin-left:5px
+}
+
+.etabs-tab-icon img {
+  width: 16px;
+  height: 16px;
+  margin-top:-4px;
 }
 
 .etabs-tab-title {
