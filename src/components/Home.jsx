@@ -13,7 +13,8 @@ class Home extends React.Component {
     this.tabGroup = null
     this.state = {
       tabGroup: null,
-      theme: 'dark-theme'
+      theme: 'dark-theme',
+      isFullScreen: false
     }
   }
   componentDidMount () {
@@ -59,6 +60,9 @@ class Home extends React.Component {
       this.setState({ theme: 'light-theme' })
     else this.setState({ theme: 'dark-theme' })
   }
+  changeFullscreen = () => {
+    //this.setState({ isFullScreen: true })
+  }
 
   listenerReady = () => {
     this.loadStartingPage()
@@ -67,10 +71,13 @@ class Home extends React.Component {
   render () {
     return (
       <>
-        <div className={this.state.theme}>
+        <div className='dark-theme'>
           <div
-            //to drag the frameless window
-            className='etabs-tabgroup'
+            className={
+              this.state.isFullScreen
+                ? 'etabs-tabgroup d-none'
+                : 'etabs-tabgroup'
+            }
           >
             <div className='etabs-tabs'></div>
             <div className='etabs-buttons'>
@@ -110,6 +117,7 @@ class Home extends React.Component {
               listenerReady={this.listenerReady}
               addNewNativeTab={this.addNewNativeTab}
               changeTheme={this.changeTheme}
+              changeFullscreen={this.changeFullscreen}
             />
           </div>
         </div>

@@ -26,7 +26,8 @@ class Controls extends React.Component {
       popupVisible: false,
       searchEngine: null,
       isSiteSecure: true,
-      isFirstRender: true
+      isFirstRender: true,
+      isfullScreen: false
     }
   }
 
@@ -105,6 +106,14 @@ class Controls extends React.Component {
       })
       newtab.activate()
     })
+    tab.webview.addEventListener('enter-html-full-screen', e => {
+      //this.setState({ isfullScreen: true })
+      this.props.changeFullscreen()
+    })
+    tab.webview.addEventListener('leave-html-full-screen', e => {
+      this.setState({ isfullScreen: false })
+      this.props.changeFullscreen()
+    })
     tab.webview.addEventListener('did-fail-load', e => {
       var data =
         "'<h3>Error loading page</h3><p>" +
@@ -166,20 +175,6 @@ class Controls extends React.Component {
     })
 
     tabGroup.on('tab-removed', (tab, tabGroup) => {
-      /* document.getElementById('location').value = tab.webviewAttributes.src
-      this.setState({ activeTab: tab.id })
-      if (tab.isNative) {
-        ReactDOM.render(
-          <tab.comp
-            submitURL={this.submitURL}
-            handleChange={this.handleChange}
-            handleSearchEngineChange={this.handleSearchEngineChange}
-            tabGroup={tabGroup}
-            tab={tab}
-          />,
-          tab.webview
-        )
-      } */
       if (tabGroup.getTabs().length === 0) {
         let newtab = tabGroup.addTab({
           src: '',
@@ -289,7 +284,7 @@ class Controls extends React.Component {
   render () {
     return (
       <>
-        <div id='controls'>
+        <div id='controls' className={this.state.isfullScreen ? 'd-none' : ''}>
           <button
             id='back'
             title='Go Back'
