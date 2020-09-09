@@ -26,18 +26,18 @@
   overflow: hidden;
   border-right: 1px solid var(--border-color-primary);
   border-top: 2px solid rgba(238, 238, 238, 0);
-  border-bottom: 1px solid var(--border-color-primary);
+  border-bottom: 0px solid var(--border-color-primary);
 }
 
 .etabs-tab-icon {
   width: 18px;
-  margin-left:5px
+  margin-left: 5px;
 }
 
 .etabs-tab-icon img {
   width: 16px;
   height: 16px;
-  margin-top:-4px;
+  margin-top: -4px;
 }
 
 .etabs-tab-title {
@@ -57,7 +57,7 @@
 }
 
 .etabs-tabs .active {
-  border-top: 2px solid var(--border-color-primary);
+  border-top: 2px solid var(--font-color-primary);
   background-color: var(--background-color-secondary);
   min-width: 90px;
   border-bottom: 1px solid rgba(0, 0, 0, 0);

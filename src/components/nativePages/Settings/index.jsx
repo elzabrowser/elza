@@ -272,43 +272,63 @@ class BlankTab extends React.Component {
               </p>
               <br />
               <br />
-              <h4 className='font-weight-light'>Tor Proxy</h4>
-              <br />
-              <button
-                className='settings-tor-button'
-                onClick={() => {
-                  var pref = { ...this.state.pref }
-                  pref.isTorEnabled = !pref.isTorEnabled
-                  this.setState({ pref }, this.savePreference)
-                }}
-              >
-                {this.state.pref.isTorEnabled ? 'Disable' : 'Enable'}
-              </button>
-              <img
-                src={torImg}
-                className={
-                  this.state.pref.isTorEnabled
-                    ? 'settings-tor-icon'
-                    : 'settings-tor-icon settings-tor-icon-inactive'
-                }
-              />
+              <div className='d-none'>
+                <h4 className='font-weight-light'>Tor Proxy</h4>
+                <br />
+                <button
+                  className='settings-tor-button'
+                  onClick={() => {
+                    var pref = { ...this.state.pref }
+                    pref.isTorEnabled = !pref.isTorEnabled
+                    this.setState({ pref }, this.savePreference)
+                  }}
+                >
+                  {this.state.pref.isTorEnabled ? 'Disable' : 'Enable'}
+                </button>
+                <img
+                  src={torImg}
+                  className={
+                    this.state.pref.isTorEnabled
+                      ? 'settings-tor-icon'
+                      : 'settings-tor-icon settings-tor-icon-inactive'
+                  }
+                />
 
-              <small className='ml-3 text-muted'>
-                status:{' '}
-                {this.state.pref.isTorEnabled
-                  ? 'Channeling traffic to Tor port 9050'
-                  : 'Disabled'}
-              </small>
-              <br />
-              <br />
-              <p className='small font-weight-light'>
-                <i className='fa fa-info-circle mr-2'></i> Tor preference
-                changes will be reflected on next start.
-              </p>
-              <p className='small font-weight-light'>
-                <i className='fa fa-info-circle mr-2'></i>
-                Tor service must be running on 127.0.0.1:9050
-              </p>
+                <small className='ml-3 text-muted'>
+                  status:{' '}
+                  {this.state.pref.isTorEnabled
+                    ? 'Channeling traffic to Tor port 9050'
+                    : 'Disabled'}
+                </small>
+                <br />
+                <br />
+                <p className='small font-weight-light'>
+                  <i className='fa fa-info-circle mr-2'></i> Tor preference
+                  changes will be reflected on next start.
+                </p>
+                <p className='small font-weight-light'>
+                  <i className='fa fa-info-circle mr-2'></i>
+                  Tor service must be running on 127.0.0.1:9050
+                </p>
+              </div>
+              <div className='feedback'>
+                <form action=''>
+                  <textarea
+                    className='rounded mt-3'
+                    rows='4'
+                    cols='40'
+                    name='comment'
+                    form='usrform'
+                    style={{
+                      backgroundColor: 'rgb(12, 12, 12)',
+                      color: 'rgb(196, 196, 196)',
+                      fontFamily: 'Roboto'
+                    }}
+                  >
+                    Your valuable feedback...
+                  </textarea>
+                </form>
+              </div>
             </div>
             <div className={this.state.active === 'downloads' ? '' : 'd-none'}>
               <Downloads calledBy='settings' />

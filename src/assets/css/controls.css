@@ -1,12 +1,11 @@
 #controls {
   display: flex;
-  padding-bottom: 4px;
+  padding: 2px;
   background-color: var(--background-color-secondary);
 }
 
 #controls button,
 #controls button:focus {
-  margin-top: 3px !important;
   width: 33px;
   height: 33px;
   margin: 0 5px;
@@ -91,14 +90,14 @@
   font-size: 0.9em;
   text-align: center;
   border-radius: 5px;
-  border: 1px solid var(--background-color-secondary);
+  border: 0.5px solid var(--background-color-secondary);
   transition: border 1000ms ease-in-out;
 }
 
 #location:focus {
   color: var(--font-color-primary);
   font-weight: 500;
-  border: 1px solid #ffffff;
+  border: 0.5px solid #ffffff;
   outline: none;
   text-align: left;
 }
@@ -106,7 +105,7 @@
 #location:hover:not(:focus) {
   color: var(--font-color-secondary);
   font-weight: 500;
-  border: 1px solid #858585;
+  border: 0.5px solid #858585;
   outline: none;
   transition: border 500ms ease-in-out;
 }
