@@ -36,7 +36,7 @@ updateDownload = () => {
 if (require(configFilePath).isTorEnabled) {
   app.commandLine.appendSwitch('proxy-server', 'socks5://127.0.0.1:9050')
 }
-
+app.commandLine.appendSwitch('disable-features', 'OutOfBlinkCors')
 app.on('ready', function () {
   mainWindow = new BrowserWindow({
     title: 'Elza Browser',
@@ -46,10 +46,11 @@ app.on('ready', function () {
     resizable: true,
     width: 1000,
     height: 600,
-    minWidth: 900,
-    minHeight: 500,
+    minWidth: 800,
+    minHeight: 400,
     frame: false,
     webPreferences: {
+      webSecurity: false,
       webviewTag: true,
       nodeIntegration: true
     }

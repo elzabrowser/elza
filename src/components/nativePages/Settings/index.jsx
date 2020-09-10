@@ -26,7 +26,9 @@ class BlankTab extends React.Component {
         searchEngine: 'google',
         downloadLocation: app.getPath('downloads')
       },
+      sentFeedback: false,
       active: 'settings',
+      feedbackData: {},
       version: ''
     }
   }
@@ -81,13 +83,16 @@ class BlankTab extends React.Component {
     e.target.style.height = `${e.target.scrollHeight}px`
   }
   onchangeHandler = e => {
+    let feedback = this.state.feedbackData
+    feedback[e.target.name] = e.target.value
     this.setState({
-      [e.target.name]: e.target.value
+      feedbackData: feedback
     })
   }
   submitFeedback = e => {
     e.preventDefault()
     let feedback = this.state.feedbackData
+    console.log(feedback)
     if (feedback) {
       fetch('https://feedback.api.elzabrowser.com/feedback', {
         method: 'post',
@@ -98,7 +103,10 @@ class BlankTab extends React.Component {
         body: JSON.stringify(feedback)
       })
         .then(res => res.json())
-        .then(res => console.log(res))
+        .then(res => {
+          console.log(res)
+          this.setState({ sentFeedback: true })
+        })
     }
   }
   render () {
@@ -154,9 +162,54 @@ class BlankTab extends React.Component {
           </div>
           <div
             className='col-sm-9 pl-5'
-            style={{ height: '500px', overflow: 'scroll' }}
+            style={{ height: '90vh', overflow: 'scroll' }}
           >
             <div className={this.state.active === 'settings' ? '' : 'd-none'}>
+              <h4
+                className={
+                  this.state.sentFeedback ? 'font-weight-light' : 'd-none'
+                }
+              >
+                Thanks!
+              </h4>
+              <div className={this.state.sentFeedback ? 'd-none' : ''}>
+                <h4 className='font-weight-light'>
+                  How can we improve Elza Browser?
+                </h4>
+                <br />
+                <div className='feedback rounded'>
+                  <form action=''>
+                    <textarea
+                      className='rounded textarea p-2'
+                      rows='2'
+                      cols='50'
+                      name='comment'
+                      form='usrform'
+                      onChange={this.onchangeHandler}
+                      placeholder='Description'
+                      onKeyDown={this.handleKeyDown}
+                    ></textarea>
+                    <hr style={{ borderColor: '#f3f3f3', margin: '0px' }} />
+                    <input
+                      style={{ width: '470px' }}
+                      type='text'
+                      name='email'
+                      className='rounded textarea pl-2'
+                      onChange={this.onchangeHandler}
+                      placeholder='Email or Name'
+                    ></input>
+                    <i
+                      className='fa fa-chevron-right'
+                      role='button'
+                      title='Send'
+                      onClick={this.submitFeedback}
+                    ></i>
+                  </form>
+                </div>
+              </div>
+              <br />
+              <hr style={{ borderColor: '#f3f3f3', margin: '0px' }} />
+              <br />
               <h4 className='font-weight-light'>Search Engine</h4>
               <div className='settings-search-engine-list-ctr'>
                 <div className='p-1 mr-3'>
@@ -334,33 +387,6 @@ class BlankTab extends React.Component {
                   <i className='fa fa-info-circle mr-2'></i>
                   Tor service must be running on 127.0.0.1:9050
                 </p>
-              </div>
-              <h4 className='font-weight-light'>Notes</h4>
-              <br />
-              <div className='feedback rounded'>
-                <form action=''>
-                  <textarea
-                    className='rounded textarea p-2'
-                    rows='4'
-                    cols='50'
-                    name='comment'
-                    form='usrform'
-                    placeholder='Do you have any suggestion to improve Elza Browser?'
-                    onKeyDown={this.handleKeyDown}
-                  ></textarea>
-                  <hr style={{ borderColor: 'white', margin: '0px' }} />
-                  <input
-                    style={{ width: '470px' }}
-                    type='text'
-                    className='rounded textarea pl-2'
-                    placeholder='email id or name (optional)'
-                  ></input>
-                  <i
-                    className='fa fa-chevron-right'
-                    role='button'
-                    title='Send'
-                  ></i>
-                </form>
               </div>
             </div>
             <div className={this.state.active === 'downloads' ? '' : 'd-none'}>

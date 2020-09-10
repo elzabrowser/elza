@@ -155,7 +155,7 @@
   width: 30px;
 }
 .feedback {
-  border: 2px solid #ffffff;
+  border: 1px solid var(--font-color-secondary);
   width: 500px;
 }
 .textarea {
