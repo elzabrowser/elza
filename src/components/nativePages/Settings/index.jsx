@@ -19,7 +19,7 @@ const configFilePath = app.getPath('userData') + '/preferences.json'
 const fs = window.require('fs')
 
 class BlankTab extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       pref: {
@@ -42,11 +42,11 @@ class BlankTab extends React.Component {
     pref.searchEngine = e
     this.setState({ pref }, this.savePreference)
   }
-  componentWillReceiveProps (props) {
+  componentWillReceiveProps(props) {
     if (props.tab.compProps.calledBy === 'downloadpopup')
       this.setState({ active: 'downloads' })
   }
-  componentWillMount () {
+  componentWillMount() {
     try {
       if (fs.existsSync(configFilePath)) {
         let cfile = window.require(configFilePath)
@@ -78,7 +78,7 @@ class BlankTab extends React.Component {
     ipcRenderer.send('change_download_setting', pref)
     this.setState({ pref }, this.savePreference)
   }
-  handleKeyDown (e) {
+  handleKeyDown(e) {
     e.target.style.height = 'inherit'
     e.target.style.height = `${e.target.scrollHeight}px`
   }
@@ -109,7 +109,7 @@ class BlankTab extends React.Component {
         })
     }
   }
-  render () {
+  render() {
     return (
       <div className='container-fluid settings-container h-100'>
         <div className='row pt-4'>
@@ -178,7 +178,8 @@ class BlankTab extends React.Component {
                 </h4>
                 <br />
                 <div className='feedback rounded'>
-                  <form action=''>
+                  <form onSubmit={this.submitFeedback}
+                  >
                     <textarea
                       className='rounded textarea p-2'
                       rows='2'
@@ -202,7 +203,7 @@ class BlankTab extends React.Component {
                       className='fa fa-chevron-right'
                       role='button'
                       title='Send'
-                      onClick={this.submitFeedback}
+                      type="submit"
                     ></i>
                   </form>
                 </div>
