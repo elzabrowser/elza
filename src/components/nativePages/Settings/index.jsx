@@ -184,7 +184,7 @@ class BlankTab extends React.Component {
                       className='rounded textarea p-2'
                       rows='2'
                       cols='50'
-                      name='comment'
+                      name='description'
                       form='usrform'
                       onChange={this.onchangeHandler}
                       placeholder='Description'
@@ -199,12 +199,14 @@ class BlankTab extends React.Component {
                       onChange={this.onchangeHandler}
                       placeholder='Email or Name'
                     ></input>
-                    <i
-                      className='fa fa-chevron-right'
+
+                    <button
                       role='button'
                       title='Send'
                       type="submit"
-                    ></i>
+                    >
+                      <i className='fa fa-chevron-right'></i>
+                    </button>
                   </form>
                 </div>
               </div>
