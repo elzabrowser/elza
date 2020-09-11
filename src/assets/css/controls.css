@@ -141,7 +141,7 @@
   border-top-color: var(--font-color-secondary);
   border-left-color: var(--font-color-secondary);
   /* Additional loader styles */
-  animation: loader 400ms ease-in-out infinite;
+  animation: loader 400ms linear infinite;
   border-bottom-color: transparent;
   border-right-color: transparent;
   border-style: solid;
@@ -156,10 +156,11 @@
   /* loader size and color */
   width: 1rem;
   height: 1rem;
+  opacity: .8;
   border-top-color: var(--font-color-secondary);
   border-left-color: var(--font-color-secondary);
   /* Additional loader styles */
-  animation: loader-rev 400ms ease-in-out infinite;
+  animation: loader-rev 1500ms linear infinite;
   border-bottom-color: transparent;
   border-right-color: transparent;
   border-style: solid;
