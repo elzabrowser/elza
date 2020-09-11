@@ -6,10 +6,18 @@ const contextMenu = require('electron-context-menu')
 const log = require('electron-log')
 const fs = require('fs')
 const path = require('path')
+const tor = require('./tor.js')
+const configFilePath = app.getPath('userData') + '/preferences.json'
+app.commandLine.appendSwitch('disable-features', 'OutOfBlinkCors')
+
 autoUpdater.logger = log
 autoUpdater.logger.transports.file.level = 'info'
 log.warn('test log')
-const configFilePath = app.getPath('userData') + '/preferences.json'
+let downloads = {}
+let askLocation
+Menu.setApplicationMenu(null)
+let mainWindow
+
 let initialConfig = {
   searchEngine: 'google',
   downloadLocation: app.getPath('downloads')
@@ -19,24 +27,22 @@ try {
     flag: 'wx'
   })
 } catch (error) {}
+
 let downloadLocation = require(configFilePath).downloadLocation
-let askLocation
 if (downloadLocation == 'ask') askLocation = true
 else askLocation = false
 app.on('window-all-closed', function () {
   app.quit()
 })
-let downloads = {}
-Menu.setApplicationMenu(null)
-let mainWindow
 updateDownload = () => {
   mainWindow.webContents.send('downloads_changed', downloads)
 }
 
+//if (process.platform === 'win32') tor.connect_tor()
 if (require(configFilePath).isTorEnabled) {
   app.commandLine.appendSwitch('proxy-server', 'socks5://127.0.0.1:9050')
 }
-app.commandLine.appendSwitch('disable-features', 'OutOfBlinkCors')
+
 app.on('ready', function () {
   mainWindow = new BrowserWindow({
     title: 'Elza Browser',
