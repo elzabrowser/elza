@@ -123,18 +123,21 @@ class Controls extends React.Component {
       this.setState({ isfullScreen: false })
       this.props.changeFullscreen()
     })
-    // tab.webview.addEventListener('did-fail-loadss', e => {
-    //   var data =
-    //     "'<h3>Error loading page</h3><p>" +
-    //     e.errorCode +
-    //     ': ' +
-    //     e.errorDescription +
-    //     "</p>'"
-    //   tab.webview.executeJavaScript('document.body.innerHTML+=' + data)
-    //   setTimeout(() => {
-    //     tab.setIcon('', 'fa fa-exclamation-circle')
-    //   }, 30)
-    // })
+    tab.webview.addEventListener('did-fail-load', e => {
+      var data =
+        "'<h3>Error loading page</h3><p>" +
+        e.errorCode +
+        ': ' +
+        e.errorDescription +
+        "</p>'"
+      console.log(e)
+      if (e.isMainFrame) {
+        tab.webview.executeJavaScript('document.body.innerHTML+=' + data)
+        setTimeout(() => {
+          tab.setIcon('', 'fa fa-exclamation-circle')
+        }, 30)
+      }
+    })
   }
   tabGroupEvents = tabGroup => {
     tabGroup.on('tab-added', (tab, tabGroup) => {
