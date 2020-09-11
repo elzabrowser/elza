@@ -15,7 +15,7 @@ module.exports = {
             'win',
             'tor'
           )
-        : path.join(root, './resources', 'win', 'tor')
+        : path.join(root, './resources', 'win', 'Tor')
     const execPath = path.resolve(path.join(binariesPath, './tor.exe'))
     spawn = require('child_process').spawn
     var child = spawn(execPath, {}, {})
