@@ -4,8 +4,7 @@
   background-color: var(--background-color-secondary);
 }
 
-#controls button,
-#controls button:focus {
+#controls button, #controls button:focus {
   width: 33px;
   height: 33px;
   margin: 0 5px;
@@ -22,8 +21,7 @@
 #controls button:hover {
   -webkit-text-stroke: 1px;
   font-weight: 900;
-  background: #424242b6 radial-gradient(circle, transparent 1%, #ecececb6 1%)
-    center/15000%;
+  background: #424242b6 radial-gradient(circle, transparent 1%, #ecececb6 1%) center/15000%;
 }
 
 #controls button:active {
@@ -48,7 +46,7 @@
   line-height: 26px;
 }
 
-#controls #urlInfo:focus > .urlInfoCtr {
+#controls #urlInfo:focus>.urlInfoCtr {
   visibility: visible;
 }
 
@@ -85,32 +83,34 @@
   font-family: Roboto;
   font-weight: 300;
   padding: 0 10px 0 10px;
-  height: 33px;
+  height: 28px;
   color: var(--font-color-secondary);
   font-size: 0.9em;
   text-align: center;
   border-radius: 5px;
   border: 0.5px solid var(--background-color-secondary);
   transition: border 1000ms ease-in-out;
+  font-weight: 500;
+  margin-top: 6px;
+  margin-bottom: 6px;
 }
 
 #location:focus {
   color: var(--font-color-primary);
-  font-weight: 500;
-  border: 0.5px solid #ffffff;
+  font-weight: 400;
+  border: 0.5px solid var(--border-color-primary);
   outline: none;
   text-align: left;
 }
 
 #location:hover:not(:focus) {
   color: var(--font-color-secondary);
-  font-weight: 500;
   border: 0.5px solid #858585;
   outline: none;
   transition: border 500ms ease-in-out;
 }
 
-#location:focus > #goButton {
+#location:focus>#goButton {
   color: var(--font-color-primary) !important;
   background-color: var(--background-color-urlbar) !important;
   outline: none;
