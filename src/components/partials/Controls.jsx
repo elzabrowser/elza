@@ -10,7 +10,7 @@ import validateElzaProtocol from '../../functions/validateElzaProtocol'
 import Settings from '../nativePages/Settings'
 import loadFavicon from '../../functions/loadFavicon'
 class Controls extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.openDownloadsPage = this.openDownloadsPage.bind(this)
     this.handleClick = this.handleClick.bind(this)
@@ -31,18 +31,18 @@ class Controls extends React.Component {
     }
   }
 
-  componentWillReceiveProps (newProps) {
+  componentWillReceiveProps(newProps) {
     this.setState({ tabGroup: newProps.tabGroup })
     this.tabGroupEvents(newProps.tabGroup)
   }
-  componentDidMount () {}
-  handleOutsideClick (e) {
+  componentDidMount() { }
+  handleOutsideClick(e) {
     if (this.node.contains(e.target)) {
       return
     }
     this.handleClick()
   }
-  handleClick () {
+  handleClick() {
     if (!this.state.popupVisible) {
       document.addEventListener('click', this.handleOutsideClick, false)
     } else {
@@ -67,18 +67,27 @@ class Controls extends React.Component {
   tabEvents = tab => {
     tab.webview.addEventListener('did-start-loading', () => {
       this.setState({ currentWebView: null })
-      tab.setIcon('', 'loader')
+      tab.setIcon('', 'loader-rev')
     })
     tab.webview.addEventListener('will-navigate', () => {
       this.setState({ currentWebView: null })
       tab.setIcon('', 'loader-rev')
+    })
+    tab.webview.addEventListener('load-commit', e => {
+      this.setState({ currentWebView: null })
+      tab.setIcon('', 'loader')
+
     })
     tab.webview.addEventListener('page-title-updated', () => {
       const newTitle = tab.webview.getTitle()
       tab.setTitle(newTitle)
     })
     loadFavicon(tab)
+
     tab.webview.addEventListener('did-stop-loading', () => {
+      if (tab.iconList.length) {
+        tab.setIcon(tab.iconList[0], '')
+      }
       let tabs = [...this.state.tabs]
       tabs[tab.id].url = tab.webview.src
       tabs[tab.id].inputURL = tab.webview.src
@@ -121,10 +130,13 @@ class Controls extends React.Component {
         ': ' +
         e.errorDescription +
         "</p>'"
-      tab.webview.executeJavaScript('document.body.innerHTML+=' + data)
-      setTimeout(() => {
-        tab.setIcon('', 'fa fa-exclamation-circle')
-      }, 30)
+      console.log(e)
+      if (e.isMainFrame) {
+        tab.webview.executeJavaScript('document.body.innerHTML+=' + data)
+        setTimeout(() => {
+          tab.setIcon('', 'fa fa-exclamation-circle')
+        }, 30)
+      }
     })
   }
   tabGroupEvents = tabGroup => {
@@ -270,7 +282,7 @@ class Controls extends React.Component {
       this.setState({ isSiteSecure: false })
     }
   }
-  openDownloadsPage () {
+  openDownloadsPage() {
     let newtab = this.state.tabGroup.addTab({
       src: '',
       title: 'Downloads',
@@ -281,7 +293,7 @@ class Controls extends React.Component {
     newtab.activate()
   }
 
-  render () {
+  render() {
     return (
       <>
         <div id='controls' className={this.state.isfullScreen ? 'd-none' : ''}>
@@ -316,8 +328,8 @@ class Controls extends React.Component {
                 {this.state.isSiteSecure ? (
                   <i className='fa fa-lock secure-site' />
                 ) : (
-                  <i className='fa fa-globe' />
-                )}
+                    <i className='fa fa-globe' />
+                  )}
               </button>
               <input
                 id='location'
@@ -333,8 +345,8 @@ class Controls extends React.Component {
               {this.state.webvIsLoading ? (
                 <div className='loader'></div>
               ) : (
-                <i className='fas fa-arrow-right' />
-              )}
+                  <i className='fas fa-arrow-right' />
+                )}
             </button>
           </form>
           <DownloadPopup openDownloadsPage={this.openDownloadsPage} />

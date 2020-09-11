@@ -198,6 +198,7 @@ class Tab extends EventEmitter {
     this.badge = args.badge
     this.iconURL = args.iconURL
     this.icon = args.icon
+    this.iconList = [] 
     this.isNative = args.isNative || false
     this.comp = args.comp
     this.compProps = args.compProps
@@ -262,7 +263,9 @@ class Tab extends EventEmitter {
     if (this.isClosed) return
     return this.badge
   }
-
+  setFavicon(iconList) {
+    this.iconList = iconList
+  }
   setIcon (iconURL, icon) {
     if (this.isClosed) return
     this.iconURL = iconURL

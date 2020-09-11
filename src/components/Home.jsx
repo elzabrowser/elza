@@ -8,7 +8,7 @@ import BlankTab from './nativePages/BlankTab'
 const { ipcRenderer, remote } = window.require('electron')
 
 class Home extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.tabGroup = null
     this.state = {
@@ -17,7 +17,7 @@ class Home extends React.Component {
       isFullScreen: false
     }
   }
-  componentDidMount () {
+  componentDidMount() {
     this.tabGroup = new TabGroup()
     this.setState({ tabGroup: this.tabGroup })
     ipcRenderer.on('update_available', () => {
@@ -46,6 +46,7 @@ class Home extends React.Component {
       title: title || 'Home',
       src: src || '',
       icon: 'fa fa-grip-horizontal' || icon,
+      iconURL: 'icon.png',
       isNative: true,
       comp: comp || BlankTab,
       webviewAttributes: {
@@ -68,7 +69,7 @@ class Home extends React.Component {
     this.loadStartingPage()
   }
 
-  render () {
+  render() {
     return (
       <>
         <div className='dark-theme'>

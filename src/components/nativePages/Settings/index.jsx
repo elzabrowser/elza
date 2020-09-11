@@ -113,7 +113,7 @@ class BlankTab extends React.Component {
     return (
       <div className='container-fluid settings-container h-100'>
         <div className='row pt-4'>
-          <div className='col-sm-3 vh-100 pl-5 pr-5 border-right border-white'>
+          <div className='col-sm-3 vh-100 pl-5 pr-5 pt-5 border-right border-white'>
             <div className='text-center'>
               <p
                 className={
@@ -164,7 +164,7 @@ class BlankTab extends React.Component {
             className='col-sm-9 pl-5'
             style={{ height: '90vh', overflow: 'scroll' }}
           >
-            <div className={this.state.active === 'settings' ? '' : 'd-none'}>
+            <div className={this.state.active === 'settings' ? 'p-5' : 'd-none'}>
               <h4
                 className={
                   this.state.sentFeedback ? 'font-weight-light' : 'd-none'
@@ -181,10 +181,10 @@ class BlankTab extends React.Component {
                   <form onSubmit={this.submitFeedback}
                   >
                     <textarea
-                      className='rounded textarea p-2'
+                      className='rounded textarea p-3'
                       rows='2'
                       cols='50'
-                      name='comment'
+                      name='description'
                       form='usrform'
                       onChange={this.onchangeHandler}
                       placeholder='Description'
@@ -195,23 +195,25 @@ class BlankTab extends React.Component {
                       style={{ width: '470px' }}
                       type='text'
                       name='email'
-                      className='rounded textarea pl-2'
+                      className='rounded textarea pl-3'
                       onChange={this.onchangeHandler}
                       placeholder='Email or Name'
                     ></input>
-                    <i
-                      className='fa fa-chevron-right'
+
+                    <button
                       role='button'
                       title='Send'
                       type="submit"
-                    ></i>
+                    >
+                      <i className='fa fa-chevron-right'></i>
+                    </button>
                   </form>
                 </div>
               </div>
               <br />
-              <hr style={{ borderColor: '#f3f3f3', margin: '0px' }} />
+              {/* <hr style={{ borderColor: '#f3f3f3', margin: '0px' }} /> */}
               <br />
-              <h4 className='font-weight-light'>Search Engine</h4>
+              <h4 className='font-weight-light mt-5'>Search Engine</h4>
               <div className='settings-search-engine-list-ctr'>
                 <div className='p-1 mr-3'>
                   <div className='settings-search-engine-list pt-3'>
@@ -299,7 +301,7 @@ class BlankTab extends React.Component {
               </div>
               <br />
               <br />
-              <h4 className='font-weight-light'>Download Location</h4>
+              <h4 className='font-weight-light mt-5'>Download Location</h4>
               <br />
               <button
                 className={
