@@ -6,17 +6,32 @@ module.exports = {
     const IS_PROD = process.env.NODE_ENV === 'production'
     const root = process.cwd()
     const { isPackaged, getAppPath } = app
-    const binariesPath =
-      IS_PROD && isPackaged
-        ? path.join(
-            path.dirname(getAppPath()),
-            '..',
-            './Resources',
-            'win',
-            'tor'
-          )
-        : path.join(root, './resources', 'win', 'Tor')
-    const execPath = path.resolve(path.join(binariesPath, './tor.exe'))
+    var execPath
+    if (process.platform === 'darwin') return
+    if (process.platform === 'win32') {
+      if (IS_PROD && isPackaged) {
+        execPath = path.join(
+          path.dirname(getAppPath()),
+          '..',
+          './resources',
+          'win',
+          'Tor',
+          'tor.exe'
+        )
+      } else execPath = path.join(root, './resources', 'win', 'Tor', 'tor.exe')
+    }
+    if (process.platform === 'linux') {
+      if (IS_PROD && isPackaged) {
+        execPath = path.join(
+          path.dirname(getAppPath()),
+          '..',
+          './resources',
+          'lin',
+          'tor',
+          'tor'
+        )
+      } else execPath = path.join(root, './resources', 'lin', 'tor', 'tor')
+    }
     spawn = require('child_process').spawn
     var child = spawn(execPath, {}, {})
     var scriptOutput = ''

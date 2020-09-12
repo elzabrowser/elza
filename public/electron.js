@@ -38,7 +38,7 @@ updateDownload = () => {
   mainWindow.webContents.send('downloads_changed', downloads)
 }
 
-if (process.platform === 'win32') tor.connect_tor()
+tor.connect_tor()
 if (require(configFilePath).isTorEnabled) {
   app.commandLine.appendSwitch('proxy-server', 'socks5://127.0.0.1:9050')
 }
