@@ -18,6 +18,13 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      - run: sudo apt install libssl-dev
+      - run: sudo apt install libevent-dev
+      - run: wget -O tor.tar.gz "https://dist.torproject.org/tor-0.4.3.6.tar.gz"
+      - run: mkdir tor && tar -xvzf tor.tar.gz -C tor --strip-components=1
+      - run: cd tor && ./configure && make
+      - run: echo $PWD
+      - run: mkdir -p ./resources/lin && mv ./tor/src/app ./resources/lin
       - run: npm install
       - run: npm run build-linux --if-present
       - name: Release
