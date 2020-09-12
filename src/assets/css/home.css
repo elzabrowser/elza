@@ -19,12 +19,12 @@
 .etabs-tab {
   color: var(--font-color-secondary);
   display: flex;
-  height: 37px;
+  height: 33px;
   align-items: center;
   padding: 0.5rem;
   flex: 1;
   overflow: hidden;
-  border-right: 1px solid var(--border-color-primary);
+  border-right: 0.1px solid rgb(58, 58, 58);
   border-top: 2px solid rgba(238, 238, 238, 0);
   border-bottom: 0px solid var(--border-color-primary);
 }
@@ -57,7 +57,7 @@
 }
 
 .etabs-tabs .active {
-  border-top: 3px solid var(--border-color-primary);
+  border-top: 2px solid var(--border-color-primary);
   background-color: var(--background-color-secondary);
   min-width: 90px;
   border-bottom: 1px solid rgba(0, 0, 0, 0);
@@ -69,8 +69,8 @@
   font-weight: 400;
   color: var(--font-color-secondary);
   border: none;
-  height: 37px;
-  width: 37px;
+  height: 33px;
+  width: 33px;
   background-color: rgba(221, 221, 221, 0);
 }
 
@@ -95,12 +95,10 @@
 
 .etabs-views {
   flex: 1;
-  height: 600px;
   overflow: hidden;
 }
 
 .etabs-view {
-  height: calc(100vh - 80px);
 }
 
 .nativeView {

@@ -18,7 +18,7 @@ const app = remote.app
 const configFilePath = app.getPath('userData') + '/preferences.json'
 const fs = window.require('fs')
 
-class BlankTab extends React.Component {
+class Settings extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -399,4 +399,4 @@ class BlankTab extends React.Component {
     )
   }
 }
-export default BlankTab
+export default Settings

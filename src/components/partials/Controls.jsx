@@ -9,6 +9,8 @@ import parseUrlInput from '../../functions/parseUrlInput'
 import validateElzaProtocol from '../../functions/validateElzaProtocol'
 import Settings from '../nativePages/Settings'
 import loadFavicon from '../../functions/loadFavicon'
+import USER_AGENT from '../../functions/getUserAgent'
+
 class Controls extends React.Component {
   constructor (props) {
     super(props)
@@ -67,6 +69,8 @@ class Controls extends React.Component {
     tab.webview.addEventListener('did-start-loading', () => {
       this.setState({ currentWebView: null })
       tab.setIcon('', 'loader-rev')
+      let tabs = [...this.state.tabs]
+      tabs[tab.id].isNative = false
     })
     tab.webview.addEventListener('will-navigate', () => {
       this.setState({ currentWebView: null })
@@ -162,7 +166,7 @@ class Controls extends React.Component {
           setTimeout(() => {
             this.setState({ isFirstRender: false })
             this.inputField.focus()
-          }, 1500)
+          }, 500)
         else this.inputField.focus()
       }
       document.getElementById('location').value =
@@ -187,14 +191,15 @@ class Controls extends React.Component {
     tabGroup.on('tab-removed', (tab, tabGroup) => {
       if (tabGroup.getTabs().length === 0) {
         let newtab = tabGroup.addTab({
+          title: 'Home',
           src: '',
           icon: 'fa fa-grip-horizontal',
-          title: 'Home',
+          iconURL: 'icon.png',
           isNative: true,
           comp: BlankTab,
           webviewAttributes: {
-            useragent:
-              'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0 Elza Browser'
+            plugins: null,
+            useragent: USER_AGENT
           }
         })
         newtab.activate()
@@ -348,32 +353,24 @@ class Controls extends React.Component {
             </button>
           </form>
           <DownloadPopup openDownloadsPage={this.openDownloadsPage} />
-
-          <div
-            className='dropdown'
-            ref={node => {
-              this.node = node
+          <button
+            id='menu'
+            title='Menu'
+            onClick={() => {
+              this.setState({ currentWebView: null })
+              let newtab = this.state.tabGroup.addTab({
+                title: 'Settings',
+                src: 'elza://settings',
+                icon: 'fa fa-cog',
+                isNative: true,
+                comp: Settings,
+                compProps: { calledBy: 'menu' }
+              })
+              newtab.activate()
             }}
           >
-            <button
-              id='menu'
-              title='Menu'
-              onClick={() => {
-                this.setState({ currentWebView: null })
-                let newtab = this.state.tabGroup.addTab({
-                  title: 'Settings',
-                  src: 'elza://settings',
-                  icon: 'fa fa-cog',
-                  isNative: true,
-                  comp: Settings,
-                  compProps: { calledBy: 'menu' }
-                })
-                newtab.activate()
-              }}
-            >
-              <i className='fas fa-ellipsis-v ' />
-            </button>
-          </div>
+            <i className='fas fa-ellipsis-v ' />
+          </button>
         </div>
       </>
     )

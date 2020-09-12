@@ -1,13 +1,15 @@
 #controls {
   display: flex;
-  padding: 2px;
+  padding: 0px 5px;
   background-color: var(--background-color-secondary);
 }
 
-#controls button, #controls button:focus {
+#controls button,
+#controls button:focus {
   width: 33px;
   height: 33px;
-  margin: 0 5px;
+  margin: auto;
+  margin-right: 10px;
   background-color: var(--background-color-secondary);
   border: none;
   user-select: none;
@@ -21,18 +23,12 @@
 #controls button:hover {
   -webkit-text-stroke: 1px;
   font-weight: 900;
-  background: #424242b6 radial-gradient(circle, transparent 1%, #ecececb6 1%) center/15000%;
-}
-
-#controls button:active {
-  background-color: #ecececb6;
-  background-size: 100%;
-  transition: background 0s;
 }
 
 #controls button:disabled {
   background: none;
   color: rgb(114, 114, 114);
+  display: none;
 }
 
 .urlInfo {
@@ -46,7 +42,7 @@
   line-height: 26px;
 }
 
-#controls #urlInfo:focus>.urlInfoCtr {
+#controls #urlInfo:focus > .urlInfoCtr {
   visibility: visible;
 }
 
@@ -74,15 +70,13 @@
   flex-grow: 1;
   display: grid;
   grid-template-columns: auto 3px;
-  margin: 0 16px;
 }
 
 #location {
   background-color: var(--background-color-secondary);
-  width: 80%;
+  width: 70%;
   font-family: Roboto;
   font-weight: 300;
-  padding: 0 10px 0 10px;
   height: 28px;
   color: var(--font-color-secondary);
   font-size: 0.9em;
@@ -91,8 +85,7 @@
   border: 0.5px solid var(--background-color-secondary);
   transition: border 1000ms ease-in-out;
   font-weight: 500;
-  margin-top: 6px;
-  margin-bottom: 6px;
+  margin: 1px;
 }
 
 #location:focus {
@@ -110,7 +103,7 @@
   transition: border 500ms ease-in-out;
 }
 
-#location:focus>#goButton {
+#location:focus > #goButton {
   color: var(--font-color-primary) !important;
   background-color: var(--background-color-urlbar) !important;
   outline: none;
@@ -156,7 +149,7 @@
   /* loader size and color */
   width: 1rem;
   height: 1rem;
-  opacity: .8;
+  opacity: 0.8;
   border-top-color: var(--font-color-secondary);
   border-left-color: var(--font-color-secondary);
   /* Additional loader styles */
