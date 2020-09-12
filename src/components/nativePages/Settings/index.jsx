@@ -19,7 +19,7 @@ const configFilePath = app.getPath('userData') + '/preferences.json'
 const fs = window.require('fs')
 
 class BlankTab extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       pref: {
@@ -42,11 +42,11 @@ class BlankTab extends React.Component {
     pref.searchEngine = e
     this.setState({ pref }, this.savePreference)
   }
-  componentWillReceiveProps(props) {
+  componentWillReceiveProps (props) {
     if (props.tab.compProps.calledBy === 'downloadpopup')
       this.setState({ active: 'downloads' })
   }
-  componentWillMount() {
+  componentWillMount () {
     try {
       if (fs.existsSync(configFilePath)) {
         let cfile = window.require(configFilePath)
@@ -78,7 +78,7 @@ class BlankTab extends React.Component {
     ipcRenderer.send('change_download_setting', pref)
     this.setState({ pref }, this.savePreference)
   }
-  handleKeyDown(e) {
+  handleKeyDown (e) {
     e.target.style.height = 'inherit'
     e.target.style.height = `${e.target.scrollHeight}px`
   }
@@ -109,7 +109,7 @@ class BlankTab extends React.Component {
         })
     }
   }
-  render() {
+  render () {
     return (
       <div className='container-fluid settings-container h-100'>
         <div className='row pt-4'>
@@ -164,7 +164,9 @@ class BlankTab extends React.Component {
             className='col-sm-9 pl-5'
             style={{ height: '90vh', overflow: 'scroll' }}
           >
-            <div className={this.state.active === 'settings' ? 'p-5' : 'd-none'}>
+            <div
+              className={this.state.active === 'settings' ? 'p-5' : 'd-none'}
+            >
               <h4
                 className={
                   this.state.sentFeedback ? 'font-weight-light' : 'd-none'
@@ -178,8 +180,7 @@ class BlankTab extends React.Component {
                 </h4>
                 <br />
                 <div className='feedback rounded'>
-                  <form onSubmit={this.submitFeedback}
-                  >
+                  <form onSubmit={this.submitFeedback}>
                     <textarea
                       className='rounded textarea p-3'
                       rows='2'
@@ -200,11 +201,7 @@ class BlankTab extends React.Component {
                       placeholder='Email or Name'
                     ></input>
 
-                    <button
-                      role='button'
-                      title='Send'
-                      type="submit"
-                    >
+                    <button role='button' title='Send' type='submit'>
                       <i className='fa fa-chevron-right'></i>
                     </button>
                   </form>
@@ -352,7 +349,7 @@ class BlankTab extends React.Component {
                 changes will be reflected on next start.
               </p>
               <br />
-              <div className='d-none'>
+              <div className=''>
                 <h4 className='font-weight-light'>Tor Proxy</h4>
                 <br />
                 <button
@@ -385,10 +382,6 @@ class BlankTab extends React.Component {
                 <p className='small font-weight-light'>
                   <i className='fa fa-info-circle mr-2'></i> Tor preference
                   changes will be reflected on next start.
-                </p>
-                <p className='small font-weight-light'>
-                  <i className='fa fa-info-circle mr-2'></i>
-                  Tor service must be running on 127.0.0.1:9050
                 </p>
               </div>
             </div>

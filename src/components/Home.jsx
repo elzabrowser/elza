@@ -8,21 +8,25 @@ import BlankTab from './nativePages/BlankTab'
 const { ipcRenderer, remote } = window.require('electron')
 
 class Home extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.tabGroup = null
     this.state = {
       tabGroup: null,
       theme: 'dark-theme',
-      isFullScreen: false
+      isFullScreen: false,
+      isFirstRender: true
     }
   }
-  componentDidMount() {
-    this.tabGroup = new TabGroup()
-    this.setState({ tabGroup: this.tabGroup })
+  componentDidMount () {
+    if (this.state.isFirstRender) {
+      this.tabGroup = new TabGroup()
+      this.setState({ tabGroup: this.tabGroup })
+      this.setState({ isFirstRender: false })
+    }
     ipcRenderer.on('update_available', () => {
       ipcRenderer.removeAllListeners('update_available')
-      alert('update available')
+      //alert('update available')
     })
     ipcRenderer.on('openin_newtab', (event, url) => {
       let tab = this.tabGroup.addTab({
@@ -69,7 +73,7 @@ class Home extends React.Component {
     this.loadStartingPage()
   }
 
-  render() {
+  render () {
     return (
       <>
         <div className='dark-theme'>
