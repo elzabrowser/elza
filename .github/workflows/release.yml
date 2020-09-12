@@ -24,7 +24,7 @@ jobs:
       - run: mkdir tor && tar -xvzf tor.tar.gz -C tor --strip-components=1
       - run: cd tor && ./configure && make
       - run: echo $PWD
-      - run: mkdir -p ./resources/lin && mv ./tor/src/app ./resources/lin
+      - run: mkdir -p ./resources/lin/tor && mv ./tor/src/app/* ./resources/lin/tor
       - run: npm install
       - run: npm run build-linux --if-present
       - name: Release
