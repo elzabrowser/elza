@@ -1,7 +1,7 @@
 {
   "name": "elza-browser",
   "description": "Elza incognito web browser",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "author": {
     "name": "ExpertEvidence.org",
     "email": "team@expertevidence.org",
@@ -94,8 +94,7 @@
   "scripts": {
     "electron-dev": "cross-env BROWSER=none concurrently \"react-scripts start\" \"wait-on http://localhost:3000 && electron .\"",
     "build-win": "cross-env CI= react-scripts build && electron-builder --win --publish never",
-    "build-linux": "cross-env CI= react-scripts build && electron-builder --linux --publish never",
-    "deploy": "react-scripts build && GH_TOKEN='' electron-builder --win --publish always"
+    "build-linux": "cross-env CI= react-scripts build && electron-builder --linux --publish never"
   },
   "eslintConfig": {
     "extends": "react-app"
