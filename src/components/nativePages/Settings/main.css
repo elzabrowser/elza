@@ -118,7 +118,7 @@
   font-style: normal;
   font-weight: 300;
   font-size: 14px;
-  width: 150px;
+  width: 160px;
   height: 33px;
   border: 0.1px solid #575757;
   box-sizing: border-box;
@@ -134,7 +134,7 @@
   font-style: normal;
   font-weight: 300;
   font-size: 14px;
-  width: 150px;
+  width: 160px;
   height: 33px;
   border: 0.1px solid #575757;
   box-sizing: border-box;
@@ -148,7 +148,7 @@
 
 #logo {
   position: fixed;
-  height: 50px;
+  height: 60px;
   bottom: 0;
 }
 
@@ -158,7 +158,8 @@
 
 .feedback {
   border: 1px solid var(--font-color-secondary);
-  width: 350px;
+  min-width: 350px;
+  width: 40vw;
 }
 
 .feedback button {

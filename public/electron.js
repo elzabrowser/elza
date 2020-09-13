@@ -53,7 +53,7 @@ app.on('ready', function () {
     width: 1000,
     height: 600,
     minWidth: 700,
-    minHeight: 300,
+    minHeight: 350,
     frame: false,
     webPreferences: {
       webSecurity: false,

@@ -99,7 +99,7 @@ class Downloads extends React.Component {
                 </b>
 
                 {this.state.downloads[key].status !== 'done' && (
-                  <div className='mt-1 mb-1 border'>
+                  <div className=' mb-1 border'>
                     <div
                       className='progress-bar bg-light'
                       style={{

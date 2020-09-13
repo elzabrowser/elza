@@ -28,7 +28,7 @@
 #controls button:disabled {
   background: none;
   color: rgb(114, 114, 114);
-  display: none;
+  visibility: hidden;
 }
 
 .urlInfo {

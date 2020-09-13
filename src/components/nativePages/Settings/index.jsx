@@ -27,6 +27,8 @@ class Settings extends React.Component {
         downloadLocation: app.getPath('downloads')
       },
       sentFeedback: 'no',
+      downloadPreferenceChanged: false,
+      torPreferenceChanged: false,
       active: 'settings',
       feedbackData: {},
       version: ''
@@ -69,6 +71,7 @@ class Settings extends React.Component {
     this.props.handleSearchEngineChange(this.state.pref.searchEngine)
   }
   selectDownloadLocation = async () => {
+    this.setState({ downloadPreferenceChanged: true })
     let pref = this.state.pref
     let path = await dialog.showOpenDialog({
       properties: ['openDirectory']
@@ -161,7 +164,10 @@ class Settings extends React.Component {
             </p>
             <div id='logo' className='text-center'>
               <img className='logo' src={elzaLogo} />
-              <p className='h6 font-weight-light d-inline'> Elza Browser</p>
+              <p className='h6 font-weight-light d-inline mb-0'>
+                {' '}
+                Elza Browser
+              </p>
             </div>
           </div>
           <div
@@ -179,7 +185,6 @@ class Settings extends React.Component {
                 <div className='feedback rounded'>
                   <form onSubmit={this.submitFeedback}>
                     <textarea
-                      style={{ width: 'calc(100% - 10px)' }}
                       className='rounded textarea p-3'
                       rows='2'
                       name='description'
@@ -232,7 +237,7 @@ class Settings extends React.Component {
                         this.state.pref.searchEngine === 'ddg' ? 'active' : null
                       }
                       onClick={() => this.searchEngineSelector('ddg')}
-                      title='DuckDuckGo'
+                      title='DuckDuckGo: Search engine that emphasizes protecting searchers privacy.'
                       src={duckImg}
                       alt='DuckDuckGo'
                     />
@@ -243,7 +248,7 @@ class Settings extends React.Component {
                           : null
                       }
                       onClick={() => this.searchEngineSelector('ecosia')}
-                      title='Ecosia'
+                      title='Ecosia: Search engine that donates 80% of its profits to nonprofit organizations that focus on reforestation.'
                       src={ecosiaImg}
                       alt='Ecosia'
                     />
@@ -254,7 +259,7 @@ class Settings extends React.Component {
                           : null
                       }
                       onClick={() => this.searchEngineSelector('google')}
-                      title='google'
+                      title='Google: Most used search engine on the World Wide Web.'
                       src={googleImg}
                       alt='Google'
                     />
@@ -333,6 +338,7 @@ class Settings extends React.Component {
                     : 'ml-4 download'
                 }
                 onClick={() => {
+                  this.setState({ downloadPreferenceChanged: true })
                   var pref = { ...this.state.pref }
                   pref.downloadLocation = 'ask'
                   ipcRenderer.send('change_download_setting', pref)
@@ -341,7 +347,6 @@ class Settings extends React.Component {
               >
                 Ask Everytime
               </button>
-              <br />
               <button
                 className={
                   this.state.pref.downloadLocation !== 'ask'
@@ -349,14 +354,20 @@ class Settings extends React.Component {
                     : 'd-none'
                 }
                 onClick={() => this.selectDownloadLocation()}
-                style={{ width: '350px', textAlign: 'left' }}
+                style={{ minWidth: '350px', width: '40vw', textAlign: 'left' }}
               >
                 {this.state.pref.downloadLocation}
               </button>
               <br />
-              <p className='small font-weight-light pt-1'>
-                <i className='fa fa-info-circle mr-2'></i> Download preference
-                changes will be reflected on next start.
+              <p
+                className={
+                  this.state.downloadPreferenceChanged
+                    ? 'small font-weight-light pt-1'
+                    : 'd-none'
+                }
+              >
+                <i className='fa fa-info-circle mr-2'></i> Restart for changes
+                to take effect.
               </p>
               <br />
               <br />
@@ -366,6 +377,7 @@ class Settings extends React.Component {
                   className='settings-tor-button mt-3'
                   onClick={() => {
                     var pref = { ...this.state.pref }
+                    this.setState({ torPreferenceChanged: true })
                     pref.isTorEnabled = !pref.isTorEnabled
                     this.setState({ pref }, this.savePreference)
                   }}
@@ -388,9 +400,15 @@ class Settings extends React.Component {
                     : 'Disabled'}
                 </small>
                 <br />
-                <p className='small font-weight-light mt-1'>
-                  <i className='fa fa-info-circle mr-2'></i> Restart browser
-                  after turning tor on/off.
+                <p
+                  className={
+                    this.state.torPreferenceChanged
+                      ? 'small font-weight-light mt-1'
+                      : 'd-none'
+                  }
+                >
+                  <i className='fa fa-info-circle mr-2'></i> Restart for changes
+                  to take effect.
                 </p>
                 <br />
                 <br />

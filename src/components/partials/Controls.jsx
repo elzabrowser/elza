@@ -24,12 +24,12 @@ class Controls extends React.Component {
       canGoBack: false,
       canGoForward: false,
       tabs: [],
-      currentWebView: null,
       popupVisible: false,
       searchEngine: null,
       isSiteSecure: true,
       isFirstRender: true,
-      isfullScreen: false
+      isfullScreen: false,
+      istabWebview: false
     }
   }
 
@@ -67,17 +67,14 @@ class Controls extends React.Component {
   }
   tabEvents = tab => {
     tab.webview.addEventListener('did-start-loading', () => {
-      this.setState({ currentWebView: null })
       tab.setIcon('', 'loader-rev')
       let tabs = [...this.state.tabs]
       tabs[tab.id].isNative = false
     })
     tab.webview.addEventListener('will-navigate', () => {
-      this.setState({ currentWebView: null })
       tab.setIcon('', 'loader-rev')
     })
     tab.webview.addEventListener('load-commit', e => {
-      this.setState({ currentWebView: null })
       tab.setIcon('', 'loader')
     })
     tab.webview.addEventListener('page-title-updated', () => {
@@ -103,7 +100,6 @@ class Controls extends React.Component {
           this.secureSiteCheck()
         }
       })
-      this.setState({ currentWebView: tab.webview })
     })
     tab.webview.addEventListener('new-window', e => {
       const url = e.url
@@ -161,6 +157,7 @@ class Controls extends React.Component {
     })
 
     tabGroup.on('tab-active', (tab, tabGroup) => {
+      this.setState({ istabWebview: tab.isNative })
       if (tab.src === '') {
         if (this.state.isFirstRender)
           setTimeout(() => {
@@ -242,7 +239,6 @@ class Controls extends React.Component {
     this.state.tabs[this.state.activeTab].tab.webview.goBack()
   }
   reloadWebv = () => {
-    if (this.state.currentWebView === null) return
     this.state.tabs[this.state.activeTab].tab.webview.reload()
   }
   zoomInWebv = () => {
@@ -273,10 +269,6 @@ class Controls extends React.Component {
   removeMenu = () => {
     document.getElementById('menuDropdown').classList.remove('show')
   }
-  istabWebview = () => {
-    if (this.state.tabs[this.state.activeTab].tab.isNative) return 0
-    return 1
-  }
   secureSiteCheck = () => {
     var url = document.getElementById('location').value
     if (url && (url.startsWith('https://') || url.startsWith('elza://'))) {
@@ -290,12 +282,13 @@ class Controls extends React.Component {
       src: '',
       title: 'Downloads',
       isNative: true,
+      iconURL: 'icon.png',
       comp: Settings,
       compProps: { calledBy: 'downloadpopup' }
     })
     newtab.activate()
   }
-
+  selectOnFocus = event => event.target.select()
   render () {
     return (
       <>
@@ -317,7 +310,12 @@ class Controls extends React.Component {
             <i className='fas fa-chevron-right' />
           </button>
           {/* <button id="home" onClick={this.goHome} title="Go Home"><i className="fas fa-home" /></button> */}
-          <button id='reload' title='Reload' onClick={this.reloadWebv}>
+          <button
+            id='reload'
+            title='Reload'
+            onClick={this.reloadWebv}
+            disabled={this.state.istabWebview}
+          >
             <i className='fas fa-redo' />
           </button>
 
@@ -339,7 +337,7 @@ class Controls extends React.Component {
                 type='text'
                 spellCheck='false'
                 ref={input => (this.inputField = input)}
-                // onFocus={() => (this.inputField.value = '')}
+                onFocus={this.selectOnFocus}
                 onChange={this.handleChange}
                 defaultValue={'loading'}
               />
@@ -356,12 +354,13 @@ class Controls extends React.Component {
           <button
             id='menu'
             title='Menu'
+            className='p-0 m-0'
             onClick={() => {
-              this.setState({ currentWebView: null })
               let newtab = this.state.tabGroup.addTab({
                 title: 'Settings',
                 src: 'elza://settings',
-                icon: 'fa fa-cog',
+                icon: 'fas fa-ellipsis-h',
+                iconURL: 'icon.png',
                 isNative: true,
                 comp: Settings,
                 compProps: { calledBy: 'menu' }
@@ -369,7 +368,7 @@ class Controls extends React.Component {
               newtab.activate()
             }}
           >
-            <i className='fas fa-ellipsis-v ' />
+            <i className='fas fa-ellipsis-h ' />
           </button>
         </div>
       </>
