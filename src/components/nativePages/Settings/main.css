@@ -148,7 +148,7 @@
 
 #logo {
   position: fixed;
-  height: 60px;
+  height: 65px;
   bottom: 0;
 }
 
@@ -181,7 +181,7 @@
   -moz-box-shadow: none;
   box-shadow: none;
   resize: none;
-  /*remove the resize handle on the bottom right*/
+  width: 100%;
 }
 .my-sidebar {
   -ms-flex: 0 0 230px;

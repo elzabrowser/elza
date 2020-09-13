@@ -162,9 +162,15 @@ class Settings extends React.Component {
             >
               About
             </p>
-            <div id='logo' className='text-center'>
+            <div
+              id='logo'
+              className='text-center'
+              onClick={() => {
+                //this.props.openElzaPage()
+              }}
+            >
               <img className='logo' src={elzaLogo} />
-              <p className='h6 font-weight-light d-inline mb-0'>
+              <p className='h6 font-weight-light d-inline mb-0 ml-2'>
                 {' '}
                 Elza Browser
               </p>
@@ -191,7 +197,7 @@ class Settings extends React.Component {
                       ref='description'
                       form='usrform'
                       onChange={this.onchangeHandler}
-                      placeholder='Description'
+                      placeholder='Congratulations and thanks for being our pre-release tester. Please tell us your thoughts...'
                       onKeyDown={this.handleKeyDown}
                       required
                     ></textarea>
@@ -203,8 +209,7 @@ class Settings extends React.Component {
                       ref='email'
                       className='rounded textarea pl-3'
                       onChange={this.onchangeHandler}
-                      placeholder='Email or Name'
-                      required
+                      placeholder='email or name'
                     ></input>
 
                     <button
@@ -228,6 +233,48 @@ class Settings extends React.Component {
               </div>
               {/*               <hr style={{ borderColor: '#f3f3f3', marginRight: '20%' }} />
                */}{' '}
+              <br />
+              <br />
+              <div className=''>
+                <h5 className='font-weight-light'>Onion Router</h5>
+                <button
+                  className='settings-tor-button mt-3'
+                  onClick={() => {
+                    var pref = { ...this.state.pref }
+                    this.setState({ torPreferenceChanged: true })
+                    pref.isTorEnabled = !pref.isTorEnabled
+                    this.setState({ pref }, this.savePreference)
+                  }}
+                >
+                  {this.state.pref.isTorEnabled ? 'Disable' : 'Enable'}
+                </button>
+                <img
+                  src={torImg}
+                  className={
+                    this.state.pref.isTorEnabled
+                      ? 'settings-tor-icon'
+                      : 'settings-tor-icon settings-tor-icon-inactive'
+                  }
+                />
+
+                <small className='ml-3 text-muted'>
+                  status:{' '}
+                  {this.state.pref.isTorEnabled
+                    ? 'Channeling traffic to Tor port 9050'
+                    : 'Disabled'}
+                </small>
+                <br />
+                <p
+                  className={
+                    this.state.torPreferenceChanged
+                      ? 'small font-weight-light mt-1'
+                      : 'd-none'
+                  }
+                >
+                  <i className='fa fa-info-circle mr-2'></i> Restart for changes
+                  to take effect.
+                </p>
+              </div>
               <h5 className='font-weight-light mt-5'>Search Engine</h5>
               <div className='settings-search-engine-list-ctr mt-2'>
                 <div className='mr-3'>
@@ -371,56 +418,29 @@ class Settings extends React.Component {
               </p>
               <br />
               <br />
-              <div className=''>
-                <h5 className='font-weight-light'>Onion Router</h5>
-                <button
-                  className='settings-tor-button mt-3'
-                  onClick={() => {
-                    var pref = { ...this.state.pref }
-                    this.setState({ torPreferenceChanged: true })
-                    pref.isTorEnabled = !pref.isTorEnabled
-                    this.setState({ pref }, this.savePreference)
-                  }}
-                >
-                  {this.state.pref.isTorEnabled ? 'Disable' : 'Enable'}
-                </button>
-                <img
-                  src={torImg}
-                  className={
-                    this.state.pref.isTorEnabled
-                      ? 'settings-tor-icon'
-                      : 'settings-tor-icon settings-tor-icon-inactive'
-                  }
-                />
-
-                <small className='ml-3 text-muted'>
-                  status:{' '}
-                  {this.state.pref.isTorEnabled
-                    ? 'Channeling traffic to Tor port 9050'
-                    : 'Disabled'}
-                </small>
-                <br />
-                <p
-                  className={
-                    this.state.torPreferenceChanged
-                      ? 'small font-weight-light mt-1'
-                      : 'd-none'
-                  }
-                >
-                  <i className='fa fa-info-circle mr-2'></i> Restart for changes
-                  to take effect.
-                </p>
-                <br />
-                <br />
-              </div>
             </div>
             <div className={this.state.active === 'downloads' ? '' : 'd-none'}>
               <Downloads calledBy='settings' />
             </div>
             <div className={this.state.active === 'about' ? '' : 'd-none'}>
-              <h5>Elza Browser</h5>
+              <h5 className='mb-1'>Elza Browser</h5>
+              <h6 style={{ fontSize: '11px' }}>
+                Version {this.state.version} (Prerelease)
+              </h6>
               <br />
-              <p className='small'>Version {this.state.version}</p>
+              <p className='small'>
+                Elza Browser is working on building a free and secure access
+                point to the (entire) internet for all needs and actualizing
+                users' rights to stay anonymous if they choose to.<br></br>
+                <br></br> Features: Always Incognito with Tor option to stay
+                truly anonymous with top benchmark performance.<br></br>
+                <br></br> Design: We intended to have a minimal design which
+                could also give space for creativity as we go on.<br></br>
+                <br></br> Privacy: We do not collect, view, store or process any
+                of your data.<br></br>
+                <br /> Security: The browser has been sandboxed with no access
+                to outside components.
+              </p>
             </div>
           </div>
           <div className='my-sidebar col-sm-2 col-xs-2'></div>
