@@ -58,9 +58,9 @@ class Downloads extends React.Component {
             <br />
             <br />
             <br />
-            <h6 className='font-weight-light'>
+            <h5 className='font-weight-light'>
               No downloads in the current session.
-            </h6>
+            </h5>
           </div>
           {Object.keys(this.state.downloads).map(key => (
             <div

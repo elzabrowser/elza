@@ -26,7 +26,7 @@ class Settings extends React.Component {
         searchEngine: 'google',
         downloadLocation: app.getPath('downloads')
       },
-      sentFeedback: false,
+      sentFeedback: 'no',
       active: 'settings',
       feedbackData: {},
       version: ''
@@ -90,6 +90,7 @@ class Settings extends React.Component {
     })
   }
   submitFeedback = e => {
+    this.setState({ sentFeedback: 'sending' })
     e.preventDefault()
     let feedback = this.state.feedbackData
     console.log(feedback)
@@ -105,7 +106,12 @@ class Settings extends React.Component {
         .then(res => res.json())
         .then(res => {
           console.log(res)
-          this.setState({ sentFeedback: true })
+          this.setState({ sentFeedback: 'yes' })
+          this.refs.email.value = ''
+          this.refs.description.value = ''
+          setTimeout(() => {
+            this.setState({ sentFeedback: 'no' })
+          }, 3000)
         })
     }
   }
@@ -113,68 +119,61 @@ class Settings extends React.Component {
     return (
       <div className='container-fluid settings-container h-100'>
         <div className='row pt-4'>
-          <div className='col-sm-3 vh-100 pl-5 pr-5 pt-5 border-right border-white'>
-            <div className='text-center'>
-              <p
-                className={
-                  this.state.active === 'settings'
-                    ? 'h4 mt-1'
-                    : 'font-weight-light h4 mt-1'
-                }
-                onClick={() => {
-                  this.setState({ active: 'settings' })
-                }}
-                role='button'
-              >
-                Settings
-              </p>
-              <p
-                className={
-                  this.state.active === 'downloads'
-                    ? 'h4 mt-4'
-                    : 'font-weight-light h4 mt-4'
-                }
-                onClick={() => {
-                  this.setState({ active: 'downloads' })
-                }}
-                role='button'
-              >
-                Downloads
-              </p>
-              <p
-                className={
-                  this.state.active === 'about'
-                    ? 'h4 mt-4'
-                    : 'font-weight-light h4 mt-4'
-                }
-                onClick={() => {
-                  this.setState({ active: 'about' })
-                }}
-                role='button'
-              >
-                About
-              </p>
-              <div id='logo'>
-                <img className='logo' src={elzaLogo} />
-                <p className='h6 font-weight-light d-inline'> Elza Browser</p>
-              </div>
+          <div className='col-sm-1 col-xs-1'></div>
+          <div className='col-sm-2 col-xs-3 vh-100 pt-2 border-right border-white'>
+            <p
+              className={
+                this.state.active === 'settings'
+                  ? 'h4 mt-1 scalefont'
+                  : 'font-weight-light h4 mt-1 scalefont'
+              }
+              onClick={() => {
+                this.setState({ active: 'settings' })
+              }}
+              role='button'
+            >
+              Settings
+            </p>
+            <p
+              className={
+                this.state.active === 'downloads'
+                  ? 'h4 pt-4 scalefont'
+                  : 'font-weight-light h4 pt-4 scalefont'
+              }
+              onClick={() => {
+                this.setState({ active: 'downloads' })
+              }}
+              role='button'
+            >
+              Downloads
+            </p>
+            <p
+              className={
+                this.state.active === 'about'
+                  ? 'h4 pt-4 scalefont'
+                  : 'font-weight-light h4 pt-4 scalefont'
+              }
+              onClick={() => {
+                this.setState({ active: 'about' })
+              }}
+              role='button'
+            >
+              About
+            </p>
+            <div id='logo' className='text-center'>
+              <img className='logo' src={elzaLogo} />
+              <br />
+              <p className='h5 font-weight-light d-inline'> Elza Browser</p>
             </div>
           </div>
           <div
-            className='col-sm-9 pl-5'
+            className='col-sm-7 col-xs-6'
             style={{ height: '90vh', overflow: 'scroll' }}
           >
             <div
-              className={this.state.active === 'settings' ? 'p-5' : 'd-none'}
+              className={this.state.active === 'settings' ? 'pl-4' : 'd-none'}
             >
-              <h4
-                className={
-                  this.state.sentFeedback ? 'font-weight-light' : 'd-none'
-                }
-              >
-                Thanks!
-              </h4>
-              <div className={this.state.sentFeedback ? 'd-none' : ''}>
+              <div>
                 <h4 className='font-weight-light'>
                   How can we improve Elza Browser?
                 </h4>
@@ -182,34 +181,51 @@ class Settings extends React.Component {
                 <div className='feedback rounded'>
                   <form onSubmit={this.submitFeedback}>
                     <textarea
+                      style={{ width: 'calc(100% - 10px)' }}
                       className='rounded textarea p-3'
                       rows='2'
-                      cols='50'
                       name='description'
+                      ref='description'
                       form='usrform'
                       onChange={this.onchangeHandler}
                       placeholder='Description'
                       onKeyDown={this.handleKeyDown}
+                      required
                     ></textarea>
                     <hr style={{ borderColor: '#f3f3f3', margin: '0px' }} />
                     <input
-                      style={{ width: '470px' }}
+                      style={{ width: 'calc(100% - 40px)' }}
                       type='text'
                       name='email'
+                      ref='email'
                       className='rounded textarea pl-3'
                       onChange={this.onchangeHandler}
                       placeholder='Email or Name'
+                      required
                     ></input>
 
-                    <button role='button' title='Send' type='submit'>
-                      <i className='fa fa-chevron-right'></i>
+                    <button
+                      className='mt-2 mr-2'
+                      role='button'
+                      title='Send'
+                      type='submit'
+                    >
+                      <i
+                        className={
+                          this.state.sentFeedback == 'no'
+                            ? 'fa fa-chevron-right'
+                            : this.state.sentFeedback == 'yes'
+                            ? 'fa fa-check'
+                            : 'fas fa-circle-notch fa-spin'
+                        }
+                      ></i>
                     </button>
                   </form>
                 </div>
               </div>
               <br />
-              {/* <hr style={{ borderColor: '#f3f3f3', margin: '0px' }} /> */}
-              <br />
+              {/*               <hr style={{ borderColor: '#f3f3f3', marginRight: '20%' }} />
+               */}{' '}
               <h4 className='font-weight-light mt-5'>Search Engine</h4>
               <div className='settings-search-engine-list-ctr'>
                 <div className='p-1 mr-3'>
@@ -296,8 +312,6 @@ class Settings extends React.Component {
                   </div>
                 </div>
               </div>
-              <br />
-              <br />
               <h4 className='font-weight-light mt-5'>Download Location</h4>
               <br />
               <button
@@ -349,8 +363,9 @@ class Settings extends React.Component {
                 changes will be reflected on next start.
               </p>
               <br />
+              <br />
               <div className=''>
-                <h4 className='font-weight-light'>Tor Proxy</h4>
+                <h4 className='font-weight-light'>Onion Router</h4>
                 <br />
                 <button
                   className='settings-tor-button'
@@ -380,9 +395,10 @@ class Settings extends React.Component {
                 <br />
                 <br />
                 <p className='small font-weight-light'>
-                  <i className='fa fa-info-circle mr-2'></i> Tor preference
-                  changes will be reflected on next start.
+                  <i className='fa fa-info-circle mr-2'></i> Restart browser
+                  after turning tor on/off.
                 </p>
+                <br />
               </div>
             </div>
             <div className={this.state.active === 'downloads' ? '' : 'd-none'}>
@@ -394,6 +410,7 @@ class Settings extends React.Component {
               <p className='small'>Version {this.state.version}</p>
             </div>
           </div>
+          <div className='col-sm-2 col-xs-2'></div>
         </div>
       </div>
     )

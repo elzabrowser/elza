@@ -52,8 +52,8 @@ app.on('ready', function () {
     resizable: true,
     width: 1000,
     height: 600,
-    minWidth: 800,
-    minHeight: 400,
+    minWidth: 600,
+    minHeight: 300,
     frame: false,
     webPreferences: {
       webSecurity: false,
