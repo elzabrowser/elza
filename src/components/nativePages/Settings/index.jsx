@@ -119,13 +119,12 @@ class Settings extends React.Component {
     return (
       <div className='container-fluid settings-container h-100'>
         <div className='row pt-4'>
-          <div className='col-sm-1 col-xs-1'></div>
-          <div className='col-sm-2 col-xs-3 vh-100 pt-2 border-right border-white'>
+          <div className='my-sidebar col-sm-3 col-xs-3 vh-100 pt-2 ml-5 pl-4 mr-3 border-right border-white'>
             <p
               className={
                 this.state.active === 'settings'
-                  ? 'h4 mt-1 scalefont'
-                  : 'font-weight-light h4 mt-1 scalefont'
+                  ? 'h5 mt-1 scalefont'
+                  : 'font-weight-light h5 mt-1 scalefont'
               }
               onClick={() => {
                 this.setState({ active: 'settings' })
@@ -137,8 +136,8 @@ class Settings extends React.Component {
             <p
               className={
                 this.state.active === 'downloads'
-                  ? 'h4 pt-4 scalefont'
-                  : 'font-weight-light h4 pt-4 scalefont'
+                  ? 'h5 pt-4 scalefont'
+                  : 'font-weight-light h5 pt-4 scalefont'
               }
               onClick={() => {
                 this.setState({ active: 'downloads' })
@@ -150,8 +149,8 @@ class Settings extends React.Component {
             <p
               className={
                 this.state.active === 'about'
-                  ? 'h4 pt-4 scalefont'
-                  : 'font-weight-light h4 pt-4 scalefont'
+                  ? 'h5 pt-4 scalefont'
+                  : 'font-weight-light h5 pt-4 scalefont'
               }
               onClick={() => {
                 this.setState({ active: 'about' })
@@ -162,8 +161,7 @@ class Settings extends React.Component {
             </p>
             <div id='logo' className='text-center'>
               <img className='logo' src={elzaLogo} />
-              <br />
-              <p className='h5 font-weight-light d-inline'> Elza Browser</p>
+              <p className='h6 font-weight-light d-inline'> Elza Browser</p>
             </div>
           </div>
           <div
@@ -174,9 +172,9 @@ class Settings extends React.Component {
               className={this.state.active === 'settings' ? 'pl-4' : 'd-none'}
             >
               <div>
-                <h4 className='font-weight-light'>
+                <h5 className='font-weight-light'>
                   How can we improve Elza Browser?
-                </h4>
+                </h5>
                 <br />
                 <div className='feedback rounded'>
                   <form onSubmit={this.submitFeedback}>
@@ -194,7 +192,7 @@ class Settings extends React.Component {
                     ></textarea>
                     <hr style={{ borderColor: '#f3f3f3', margin: '0px' }} />
                     <input
-                      style={{ width: 'calc(100% - 40px)' }}
+                      style={{ width: 'calc(100% - 40px)', height: '33px' }}
                       type='text'
                       name='email'
                       ref='email'
@@ -205,7 +203,7 @@ class Settings extends React.Component {
                     ></input>
 
                     <button
-                      className='mt-2 mr-2'
+                      className='mt-1 mr-2'
                       role='button'
                       title='Send'
                       type='submit'
@@ -223,12 +221,11 @@ class Settings extends React.Component {
                   </form>
                 </div>
               </div>
-              <br />
               {/*               <hr style={{ borderColor: '#f3f3f3', marginRight: '20%' }} />
                */}{' '}
-              <h4 className='font-weight-light mt-5'>Search Engine</h4>
-              <div className='settings-search-engine-list-ctr'>
-                <div className='p-1 mr-3'>
+              <h5 className='font-weight-light mt-5'>Search Engine</h5>
+              <div className='settings-search-engine-list-ctr mt-2'>
+                <div className='mr-3'>
                   <div className='settings-search-engine-list pt-3'>
                     <img
                       className={
@@ -312,7 +309,7 @@ class Settings extends React.Component {
                   </div>
                 </div>
               </div>
-              <h4 className='font-weight-light mt-5'>Download Location</h4>
+              <h5 className='font-weight-light mt-5'>Download Location</h5>
               <br />
               <button
                 className={
@@ -352,23 +349,21 @@ class Settings extends React.Component {
                     : 'd-none'
                 }
                 onClick={() => this.selectDownloadLocation()}
-                style={{ width: '80%', textAlign: 'left' }}
+                style={{ width: '350px', textAlign: 'left' }}
               >
                 {this.state.pref.downloadLocation}
               </button>
               <br />
-              <br />
-              <p className='small font-weight-light'>
+              <p className='small font-weight-light pt-1'>
                 <i className='fa fa-info-circle mr-2'></i> Download preference
                 changes will be reflected on next start.
               </p>
               <br />
               <br />
               <div className=''>
-                <h4 className='font-weight-light'>Onion Router</h4>
-                <br />
+                <h5 className='font-weight-light'>Onion Router</h5>
                 <button
-                  className='settings-tor-button'
+                  className='settings-tor-button mt-3'
                   onClick={() => {
                     var pref = { ...this.state.pref }
                     pref.isTorEnabled = !pref.isTorEnabled
@@ -393,11 +388,11 @@ class Settings extends React.Component {
                     : 'Disabled'}
                 </small>
                 <br />
-                <br />
-                <p className='small font-weight-light'>
+                <p className='small font-weight-light mt-1'>
                   <i className='fa fa-info-circle mr-2'></i> Restart browser
                   after turning tor on/off.
                 </p>
+                <br />
                 <br />
               </div>
             </div>
@@ -410,7 +405,7 @@ class Settings extends React.Component {
               <p className='small'>Version {this.state.version}</p>
             </div>
           </div>
-          <div className='col-sm-2 col-xs-2'></div>
+          <div className='my-sidebar col-sm-2 col-xs-2'></div>
         </div>
       </div>
     )

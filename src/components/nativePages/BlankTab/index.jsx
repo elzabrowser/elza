@@ -26,7 +26,7 @@ class BlankTab extends React.Component {
         style={{
           backgroundColor: 'var(--background-color-secondary)',
           display: 'flex',
-          height: '90vh',
+          height: '99vh',
           alignItems: 'center',
           justifyContent: 'center',
           userSelect: 'none'
@@ -37,7 +37,7 @@ class BlankTab extends React.Component {
             color: 'var(--font-color-secondary)',
             fontSize: '100px',
             fontWeight: '100',
-            marginBottom: '50px'
+            marginBottom: '100px'
           }}
         >
           {this.getTime()}

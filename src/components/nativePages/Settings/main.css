@@ -118,7 +118,7 @@
   font-style: normal;
   font-weight: 300;
   font-size: 14px;
-  width: 30%;
+  width: 150px;
   height: 33px;
   border: 0.1px solid #575757;
   box-sizing: border-box;
@@ -134,7 +134,7 @@
   font-style: normal;
   font-weight: 300;
   font-size: 14px;
-  width: 30%;
+  width: 150px;
   height: 33px;
   border: 0.1px solid #575757;
   box-sizing: border-box;
@@ -148,21 +148,17 @@
 
 #logo {
   position: fixed;
-  height: 100px;
+  height: 50px;
   bottom: 0;
 }
 
 #logo img {
   width: 35px;
-  margin-bottom: 5px;
 }
 
-#logo p {
-  font-size: 2.4vw;
-}
 .feedback {
   border: 1px solid var(--font-color-secondary);
-  width: 80%;
+  width: 350px;
 }
 
 .feedback button {
@@ -186,15 +182,13 @@
   resize: none;
   /*remove the resize handle on the bottom right*/
 }
-.scalefont {
-  font-size: 2.5vw;
+.my-sidebar {
+  -ms-flex: 0 0 230px;
+  flex: 0 0 230px;
 }
-@media screen and (min-width: 1000px) {
-  .scalefont {
-    font-size: 25px;
-  }
 
-  #logo p {
-    font-size: 25px;
+@media (max-width: 690px) {
+  .my-sidebar {
+    display: none;
   }
 }
