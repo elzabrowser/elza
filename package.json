@@ -1,7 +1,7 @@
 {
   "name": "elza-browser",
   "description": "Elza incognito web browser",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "author": {
     "name": "ExpertEvidence.org",
     "email": "team@expertevidence.org",
@@ -9,7 +9,7 @@
   },
   "homepage": "./",
   "main": "public/electron.js",
-  "productName": "Elza Browser",
+  "productName": "ElzaBrowser",
   "repository": {
     "type": "git",
     "url": "https://github.com/expertevidence/elza-browser-releases.git"
@@ -26,6 +26,7 @@
     "directories": {
       "buildResources": "build"
     },
+    "artifactName": "${productName}.Setup.${version}.${ext}",
     "linux": {
       "category": "Network",
       "synopsis": "Elza incognito web browser",
@@ -60,6 +61,9 @@
           ]
         }
       ]
+    },
+    "nsisWeb": {
+      "artifactName": "${productName}.WebSetup.${version}.${ext}"
     }
   },
   "dependencies": {
