@@ -95,10 +95,12 @@
 
 .etabs-views {
   flex: 1;
+  height: 600px;
   overflow: hidden;
 }
 
 .etabs-view {
+  height: calc(100vh - 70px);
 }
 
 .nativeView {
