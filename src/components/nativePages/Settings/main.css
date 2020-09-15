@@ -153,13 +153,16 @@
 }
 
 #logo img {
-  width: 35px;
+  width: 30px;
+}
+#logo p {
+  font-size: 17px;
 }
 
 .feedback {
   border: 1px solid var(--font-color-secondary);
   min-width: 350px;
-  width: 40vw;
+  width: 38vw;
 }
 
 .feedback button {
@@ -183,13 +186,17 @@
   resize: none;
   width: 100%;
 }
-.my-sidebar {
-  -ms-flex: 0 0 230px;
-  flex: 0 0 230px;
+.sidebar {
+  -ms-flex: 0 0 190px;
+  flex: 0 0 190px;
 }
 
+.sidebar-right {
+  -ms-flex: 0 0 0px;
+  flex: 0 0 0px;
+}
 @media (max-width: 690px) {
-  .my-sidebar {
+  .sidebar-right {
     display: none;
   }
 }

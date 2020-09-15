@@ -44,7 +44,16 @@ class Settings extends React.Component {
     pref.searchEngine = e
     this.setState({ pref }, this.savePreference)
   }
+  openUrl = url => {
+    let newtab = this.props.tabGroup.addTab({
+      src: url,
+      title: 'Loading...',
+      isNative: false
+    })
+    newtab.activate()
+  }
   componentWillReceiveProps (props) {
+    console.log(props)
     if (props.tab.compProps.calledBy === 'downloadpopup')
       this.setState({ active: 'downloads' })
   }
@@ -122,7 +131,7 @@ class Settings extends React.Component {
     return (
       <div className='container-fluid settings-container h-100'>
         <div className='row pt-4'>
-          <div className='my-sidebar col-sm-3 col-xs-3 vh-100 pt-2 ml-5 pl-4 mr-3 border-right border-white'>
+          <div className='sidebar col-sm-3 col-xs-3 vh-100 pt-2 ml-5 pl-4 mr-3 border-right border-white'>
             <p
               className={
                 this.state.active === 'settings'
@@ -164,13 +173,14 @@ class Settings extends React.Component {
             </p>
             <div
               id='logo'
+              role='button'
               className='text-center'
               onClick={() => {
-                //this.props.openElzaPage()
+                this.openUrl('https://elzabrowser.com/')
               }}
             >
               <img className='logo' src={elzaLogo} />
-              <p className='h6 font-weight-light d-inline mb-0 ml-2'>
+              <p className='h6 font-weight-light d-inline mb-0 ml-1'>
                 {' '}
                 Elza Browser
               </p>
@@ -401,7 +411,7 @@ class Settings extends React.Component {
                     : 'd-none'
                 }
                 onClick={() => this.selectDownloadLocation()}
-                style={{ minWidth: '350px', width: '40vw', textAlign: 'left' }}
+                style={{ minWidth: '350px', width: '38vw', textAlign: 'left' }}
               >
                 {this.state.pref.downloadLocation}
               </button>
@@ -421,6 +431,8 @@ class Settings extends React.Component {
             </div>
             <div className={this.state.active === 'downloads' ? '' : 'd-none'}>
               <Downloads calledBy='settings' />
+              <br />
+              <br />
             </div>
             <div className={this.state.active === 'about' ? '' : 'd-none'}>
               <h5 className='mb-1'>Elza Browser</h5>
@@ -441,9 +453,21 @@ class Settings extends React.Component {
                 <br /> Security: The browser has been sandboxed with no access
                 to outside components.
               </p>
+              <button
+                className='download'
+                onClick={() => {
+                  this.openUrl('https://rzp.io/l/elzabrowser')
+                }}
+              >
+                Donate
+              </button>
+              <br />
+              <br />
+              <br />
+              <br />
             </div>
           </div>
-          <div className='my-sidebar col-sm-2 col-xs-2'></div>
+          <div className='sidebar-right col-sm-2 col-xs-2'></div>
         </div>
       </div>
     )
