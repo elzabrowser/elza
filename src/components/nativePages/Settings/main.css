@@ -34,11 +34,11 @@
   transition: 0.3s;
 }
 
-.settings-container input:checked + label {
+.settings-container input:checked+label {
   background: #d1f8d1;
 }
 
-.settings-container input:checked + label:after {
+.settings-container input:checked+label:after {
   left: calc(100% - 5px);
   transform: translateX(-100%);
 }
@@ -134,7 +134,9 @@
   font-style: normal;
   font-weight: 300;
   font-size: 14px;
-  width: 160px;
+  min-width: 160px;
+  padding-left: 20px;
+  padding-right: 20px;
   height: 33px;
   border: 0.1px solid #575757;
   box-sizing: border-box;
@@ -155,6 +157,7 @@
 #logo img {
   width: 30px;
 }
+
 #logo p {
   font-size: 17px;
 }
@@ -186,6 +189,7 @@
   resize: none;
   width: 100%;
 }
+
 .sidebar {
   -ms-flex: 0 0 190px;
   flex: 0 0 190px;
@@ -195,6 +199,7 @@
   -ms-flex: 0 0 0px;
   flex: 0 0 0px;
 }
+
 @media (max-width: 690px) {
   .sidebar-right {
     display: none;

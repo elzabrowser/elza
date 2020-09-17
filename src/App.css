@@ -1,6 +1,4 @@
-html,
-body,
-#root {
+html, body, #root {
   height: 100%;
   overflow: hidden;
 }
@@ -19,12 +17,7 @@ body,
   --background-color-secondary: #eee;
   --border-color-primary: #ddd;
   --background-color-urlbar: #dddddd;
-  --accent-background-color: linear-gradient(
-    90deg,
-    rgba(28, 201, 144, 1) 0%,
-    rgba(39, 223, 119, 1) 48%,
-    rgba(39, 223, 119, 1) 48%
-  );
+  --accent-background-color: linear-gradient( 90deg, rgba(28, 201, 144, 1) 0%, rgba(39, 223, 119, 1) 48%, rgba(39, 223, 119, 1) 48%);
 }
 
 .dark-theme {
@@ -35,19 +28,24 @@ body,
   --border-color-primary: #bebebe;
   --background-color-urlbar: #2c2c2c;
   --border-color-urlbar: #575757;
-  --accent-background-color: linear-gradient(
-    90deg,
-    rgba(28, 201, 144, 1) 0%,
-    rgba(39, 223, 119, 1) 48%,
-    rgba(39, 223, 119, 1) 48%
-  );
+  --accent-background-color: linear-gradient( 90deg, rgba(28, 201, 144, 1) 0%, rgba(39, 223, 119, 1) 48%, rgba(39, 223, 119, 1) 48%);
 }
+
 button:focus {
   outline: none !important;
 }
+
 .native-header {
   color: #fff;
   font-size: large;
   width: 100%;
   font-weight: bold;
+}
+
+.text-color-primary {
+  color: var(--font-color-primary);
+}
+
+.text-color-secondary {
+  color: var(--font-color-secondary);
 }
