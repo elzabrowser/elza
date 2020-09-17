@@ -19,7 +19,7 @@ const configFilePath = app.getPath('userData') + '/preferences.json'
 const fs = window.require('fs')
 
 class Settings extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       pref: {
@@ -52,12 +52,12 @@ class Settings extends React.Component {
     })
     newtab.activate()
   }
-  componentWillReceiveProps(props) {
+  componentWillReceiveProps (props) {
     console.log(props)
     if (props.tab.compProps.calledBy === 'downloadpopup')
       this.setState({ active: 'downloads' })
   }
-  componentWillMount() {
+  componentWillMount () {
     try {
       if (fs.existsSync(configFilePath)) {
         let cfile = window.require(configFilePath)
@@ -90,7 +90,7 @@ class Settings extends React.Component {
     ipcRenderer.send('change_download_setting', pref)
     this.setState({ pref }, this.savePreference)
   }
-  handleKeyDown(e) {
+  handleKeyDown (e) {
     e.target.style.height = 'inherit'
     e.target.style.height = `${e.target.scrollHeight}px`
   }
@@ -127,7 +127,7 @@ class Settings extends React.Component {
         })
     }
   }
-  render() {
+  render () {
     return (
       <div className='container-fluid settings-container h-100'>
         <div className='row pt-4'>
@@ -233,8 +233,8 @@ class Settings extends React.Component {
                           this.state.sentFeedback == 'no'
                             ? 'fa fa-chevron-right'
                             : this.state.sentFeedback == 'yes'
-                              ? 'fa fa-check'
-                              : 'fas fa-circle-notch fa-spin'
+                            ? 'fa fa-check'
+                            : 'fas fa-circle-notch fa-spin'
                         }
                       ></i>
                     </button>
@@ -436,7 +436,7 @@ class Settings extends React.Component {
             </div>
             <div className={this.state.active === 'about' ? 'p-3' : 'd-none'}>
               <h5 className='mb-1'>Elza Browser</h5>
-              <p className="text-color-secondary">
+              <p className='text-color-secondary'>
                 Version: {this.state.version} (Prerelease)
               </p>
               <br />
@@ -447,10 +447,21 @@ class Settings extends React.Component {
                   this.openUrl('https://rzp.io/l/elzabrowser')
                 }}
               >
-                <i className="fa fa-heart mr-3"></i>Donate to keep this project alive
+                <i className='fa fa-heart mr-3'></i>Donate to keep this project
+                alive
               </button>
-              <div className="about-contribute" onClick={() => { this.openUrl("https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAANAAQUy0k5UMDAwTVgxUFo3WDBRWlgxR1VaSldVRzNRUi4u") }}>
-                <i className="fa fa-laptop-code mr-2" />  Do you speak our language? Join us on devloping Elza!
+              <br />
+              <br />
+              <div
+                className='about-contribute'
+                onClick={() => {
+                  this.openUrl(
+                    'https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAANAAQUy0k5UMDAwTVgxUFo3WDBRWlgxR1VaSldVRzNRUi4u'
+                  )
+                }}
+              >
+                <i className='fa fa-laptop-code mr-2' /> Do you speak our
+                language? Join us on devloping Elza!
               </div>
               <br />
               <br />
