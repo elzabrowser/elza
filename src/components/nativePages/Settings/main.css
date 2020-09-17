@@ -200,6 +200,15 @@
   flex: 0 0 0px;
 }
 
+.about-contribute {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  color: var(--font-color-secondary);
+  font-size: 12px;
+  cursor: pointer;
+}
+
 @media (max-width: 690px) {
   .sidebar-right {
     display: none;

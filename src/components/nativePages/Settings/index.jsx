@@ -449,6 +449,9 @@ class Settings extends React.Component {
               >
                 <i className="fa fa-donate mr-3"></i>Donate to keep this project alive
               </button>
+              <div className="about-contribute" onClick={() => { this.openUrl("https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAANAAQUy0k5UMDAwTVgxUFo3WDBRWlgxR1VaSldVRzNRUi4u") }}>
+                <i className="fa fa-laptop-code mr-2" />  Do you speak our language? Join us on devloping Elza!
+              </div>
               <br />
               <br />
               <br />
