@@ -207,6 +207,7 @@ class Tab extends EventEmitter {
     this.webviewAttributes.src = args.src
     this.webviewAttributes.partition = 'pvt'
     this.webviewAttributes.userAgent = getUserAgent
+    this.webviewAttributes.webpreferences = 'sandbox=true'
 
     // console.log(PARTITION)
     // if (PARTITION)
