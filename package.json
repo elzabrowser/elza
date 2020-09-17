@@ -12,7 +12,7 @@
   "productName": "ElzaBrowser",
   "repository": {
     "type": "git",
-    "url": "https://github.com/expertevidence/elza-browser-releases.git"
+    "url": "https://github.com/elzabrowser/elza.git"
   },
   "build": {
     "appId": "com.eeo.elzabrowser",
