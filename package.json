@@ -1,7 +1,7 @@
 {
   "name": "elza-browser",
   "description": "Elza incognito web browser",
-  "version": "0.1.16",
+  "version": "0.2.0",
   "author": {
     "name": "ExpertEvidence.org",
     "email": "team@expertevidence.org",
@@ -48,6 +48,7 @@
         }
       ]
     },
+    "nsis": { "deleteAppDataOnUninstall": true },
     "nsisWeb": {
       "artifactName": "${productName}.WebSetup.${version}.${ext}"
     }

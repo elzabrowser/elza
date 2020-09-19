@@ -3,19 +3,18 @@ const path = require('path')
 
 module.exports = {
   connect_tor: function () {
-    const IS_PROD = app.isPackaged
     const root = process.cwd()
-    const { isPackaged, getAppPath } = app
+    const { isPackaged } = app
     var execPath
-    console.log('isprod' + IS_PROD)
+    console.log('isprod' + isPackaged)
     if (process.platform === 'darwin') return
     if (process.platform === 'win32') {
-      if (IS_PROD && isPackaged)
+      if (isPackaged)
         execPath = path.join(process.resourcesPath, 'win', 'Tor', 'tor.exe')
       else execPath = path.join(root, './resources', 'win', 'Tor', 'tor.exe')
     }
     if (process.platform === 'linux') {
-      if (IS_PROD && isPackaged)
+      if (isPackaged)
         execPath = path.join(process.resourcesPath, 'lin', 'tor', 'tor')
       else execPath = path.join(root, './resources', 'lin', 'tor', 'tor')
     }
