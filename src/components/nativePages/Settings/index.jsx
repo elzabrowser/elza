@@ -281,8 +281,8 @@ class Settings extends React.Component {
                       : 'd-none'
                   }
                 >
-                  <i className='fa fa-info-circle mr-2'></i> Restart for changes
-                  to take effect.
+                  <i className='fa fa-info-circle mr-2'></i> Restart Elza for
+                  changes to take effect.
                 </p>
               </div>
               <h5 className='font-weight-light mt-5'>Search Engine</h5>
@@ -423,8 +423,8 @@ class Settings extends React.Component {
                     : 'd-none'
                 }
               >
-                <i className='fa fa-info-circle mr-2'></i> Restart for changes
-                to take effect.
+                <i className='fa fa-info-circle mr-2'></i> Restart Elza for
+                changes to take effect.
               </p>
               <br />
               <br />
