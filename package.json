@@ -48,7 +48,11 @@
         }
       ]
     },
-    "nsis": { "deleteAppDataOnUninstall": true },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": true
+    },
     "nsisWeb": {
       "artifactName": "${productName}.WebSetup.${version}.${ext}"
     }
