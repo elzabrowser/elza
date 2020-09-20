@@ -127,6 +127,33 @@ app.on('web-contents-created', (e, contents) => {
           click: () => {
             mainWindow.webContents.send('openin_newtab', params.srcURL)
           }
+        },
+        {
+          label: 'Open New Window',
+          visible: true,
+          click: () => {
+            newWindow = new BrowserWindow({
+              title: 'Elza Browser',
+              titleBarStyle: 'hidden',
+              show: false,
+              icon: path.join(__dirname, '/icon.png'),
+              resizable: true,
+              width: 1000,
+              height: 600,
+              minWidth: 700,
+              minHeight: 350,
+              frame: false,
+              webPreferences: {
+                webSecurity: false,
+                webviewTag: true,
+                nodeIntegration: true
+              }
+            })
+            newWindow.loadFile('./build/index.html')
+            newWindow.once('ready-to-show', () => {
+              newWindow.show()
+            })
+          }
         }
       ],
       labels: {
