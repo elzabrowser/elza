@@ -71,7 +71,7 @@ app.on('ready', function () {
   }
   mainWindow.once('ready-to-show', () => {
     mainWindow.show()
-    mainWindow.setFullScreen(true)
+    mainWindow.maximize()
   })
   electronDl({
     saveAs: askLocation,
@@ -153,7 +153,7 @@ app.on('web-contents-created', (e, contents) => {
             newWindow.loadFile('./build/index.html')
             newWindow.once('ready-to-show', () => {
               newWindow.show()
-              newWindow.setFullScreen(true)
+              newWindow.maximize()
             })
           }
         }

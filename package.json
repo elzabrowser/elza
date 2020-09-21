@@ -1,7 +1,7 @@
 {
   "name": "elza-browser",
   "description": "Elza incognito web browser",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "author": {
     "name": "ExpertEvidence.org",
     "email": "team@expertevidence.org",
@@ -16,8 +16,13 @@
   },
   "build": {
     "appId": "com.eeo.elzabrowser",
-    "files": ["build/**/*", "node_modules/**/*"],
-    "publish": ["github"],
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "publish": [
+      "github"
+    ],
     "directories": {
       "buildResources": "build"
     },
@@ -25,7 +30,9 @@
     "linux": {
       "category": "Network",
       "synopsis": "Elza incognito web browser",
-      "target": ["appImage"],
+      "target": [
+        "appImage"
+      ],
       "desktop": {
         "Name": "Elza",
         "Comment": "Elza incognito web browser"
@@ -34,17 +41,24 @@
         {
           "from": "resources/lin/tor",
           "to": "resources/lin/tor",
-          "filter": ["**/*"]
+          "filter": [
+            "**/*"
+          ]
         }
       ]
     },
     "win": {
-      "target": ["nsis", "nsis-web"],
+      "target": [
+        "nsis",
+        "nsis-web"
+      ],
       "extraFiles": [
         {
           "from": "resources/win/tor",
           "to": "resources/win/tor",
-          "filter": ["**/*"]
+          "filter": [
+            "**/*"
+          ]
         }
       ]
     },
@@ -95,7 +109,11 @@
     "extends": "react-app"
   },
   "browserslist": {
-    "production": [">0.2%", "not dead", "not op_mini all"],
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
