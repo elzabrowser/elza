@@ -1,7 +1,7 @@
 {
   "name": "elza-browser",
   "description": "Elza incognito web browser",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "author": {
     "name": "ExpertEvidence.org",
     "email": "team@expertevidence.org",
@@ -9,7 +9,7 @@
   },
   "homepage": "./",
   "main": "public/electron.js",
-  "productName": "ElzaBrowser",
+  "productName": "Elza Browser",
   "repository": {
     "type": "git",
     "url": "https://github.com/elzabrowser/elza.git"
@@ -26,7 +26,7 @@
     "directories": {
       "buildResources": "build"
     },
-    "artifactName": "${productName}.Setup.${version}.${ext}",
+    "artifactName": "ElzaBrowser.Setup.${version}.${ext}",
     "linux": {
       "category": "Network",
       "synopsis": "Elza incognito web browser",
@@ -68,7 +68,7 @@
       "deleteAppDataOnUninstall": true
     },
     "nsisWeb": {
-      "artifactName": "${productName}.WebSetup.${version}.${ext}"
+      "artifactName": "ElzaBrowser.WebSetup.${version}.${ext}"
     }
   },
   "dependencies": {
@@ -95,7 +95,7 @@
   },
   "devDependencies": {
     "concurrently": "^5.3.0",
-    "electron": "^9.2.1",
+    "electron": "^10.1.2",
     "electron-builder": "^22.8.0",
     "electron-packager": "^15.1.0",
     "wait-on": "^5.2.0"

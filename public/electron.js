@@ -17,6 +17,7 @@ let downloads = {}
 let askLocation
 Menu.setApplicationMenu(null)
 let mainWindow
+let newWindow
 
 let initialConfig = {
   searchEngine: 'google',
@@ -40,7 +41,7 @@ updateDownload = () => {
 
 tor.connect_tor()
 if (require(configFilePath).isTorEnabled) {
-  app.commandLine.appendSwitch('proxy-server', 'socks5://127.0.0.1:9050')
+  //app.commandLine.appendSwitch('proxy-server', 'socks5://127.0.0.1:9050')
 }
 
 app.on('ready', function () {
@@ -56,6 +57,7 @@ app.on('ready', function () {
     minHeight: 350,
     frame: false,
     webPreferences: {
+      enableRemoteModule: true,
       webSecurity: false,
       webviewTag: true,
       nodeIntegration: true
@@ -145,12 +147,14 @@ app.on('web-contents-created', (e, contents) => {
               minHeight: 350,
               frame: false,
               webPreferences: {
+                enableRemoteModule: true,
                 webSecurity: false,
                 webviewTag: true,
                 nodeIntegration: true
               }
             })
-            newWindow.loadFile('./build/index.html')
+            if (isDev) newWindow.loadURL('http://localhost:3000')
+            else newWindow.loadFile('./build/index.html')
             newWindow.once('ready-to-show', () => {
               newWindow.show()
               newWindow.maximize()
@@ -184,4 +188,34 @@ ipcMain.on('app_version', event => {
 })
 autoUpdater.on('error', error => {
   console.log(error)
+})
+ipcMain.on('torwindow', event => {
+  app.commandLine.appendSwitch('proxy-server', 'socks5://127.0.0.1:9050')
+  newWindow = new BrowserWindow({
+    title: 'Elza Browser',
+    titleBarStyle: 'hidden',
+    show: false,
+    icon: path.join(__dirname, '/icon.png'),
+    resizable: true,
+    width: 1000,
+    height: 600,
+    minWidth: 700,
+    minHeight: 350,
+    frame: false,
+    webPreferences: {
+      enableRemoteModule: true,
+      webSecurity: false,
+      webviewTag: true,
+      nodeIntegration: true
+    }
+  })
+  try {
+    mainWindow.close()
+  } catch (error) {}
+  if (isDev) newWindow.loadURL('http://localhost:3000')
+  else newWindow.loadFile('./build/index.html')
+  newWindow.once('ready-to-show', () => {
+    newWindow.show()
+    newWindow.maximize()
+  })
 })
