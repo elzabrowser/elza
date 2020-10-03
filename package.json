@@ -1,7 +1,7 @@
 {
   "name": "elza-browser",
   "description": "Elza incognito web browser",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "author": {
     "name": "ExpertEvidence.org",
     "email": "team@expertevidence.org",
@@ -47,6 +47,15 @@
         }
       ]
     },
+    "mac":{"extraFiles": [
+      {
+        "from": "resources/mac/tor",
+        "to": "resources/mac/tor",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ]},
     "win": {
       "target": [
         "nsis",
@@ -103,7 +112,8 @@
   "scripts": {
     "electron-dev": "cross-env BROWSER=none concurrently \"react-scripts start\" \"wait-on http://localhost:3000 && electron .\"",
     "build-win": "cross-env CI= react-scripts build && electron-builder --win --publish never",
-    "build-linux": "cross-env CI= react-scripts build && electron-builder --linux --publish never"
+    "build-linux": "cross-env CI= react-scripts build && electron-builder --linux --publish never",
+    "build-mac": "cross-env CI= react-scripts build && electron-builder --mac --publish never"
   },
   "eslintConfig": {
     "extends": "react-app"
