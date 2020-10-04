@@ -11,6 +11,7 @@ const tor = require('./tor.js')
 const configFilePath = app.getPath('userData') + '/preferences.json'
 app.commandLine.appendSwitch('disable-features', 'OutOfBlinkCors')
 
+global.platform=process.platform
 autoUpdater.logger = log
 autoUpdater.logger.transports.file.level = 'info'
 log.warn('test log')

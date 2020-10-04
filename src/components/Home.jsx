@@ -15,7 +15,8 @@ class Home extends React.Component {
       tabGroup: null,
       theme: 'dark-theme',
       isFullScreen: false,
-      isFirstRender: true
+      isFirstRender: true,
+      platfom:remote.getGlobal('platform')
     }
   }
   componentDidMount () {
@@ -84,11 +85,12 @@ class Home extends React.Component {
                 : 'etabs-tabgroup'
             }
           >
+            <div className={this.state.platfom==='darwin'?'mactrafficlight':'d-none'}></div>
             <div className='etabs-tabs'></div>
             <div className='etabs-buttons'>
               <button onClick={() => this.addNewNativeTab()}>+</button>
             </div>
-            <div className='windowactions'>
+            <div className={this.state.platfom==='darwin'?'d-none':'windowactions'}>
               <button
                 className='min'
                 onClick={() =>
