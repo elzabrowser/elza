@@ -1,0 +1,15 @@
+.justify{
+    background-color: var(--background-color-secondary);
+          display: flex;
+          height: 100vh;
+          align-items: center;
+          justify-content: center;
+          user-select: none
+}
+h1{
+    color: var(--font-color-secondary);
+            font-size: 11vh;
+            font-weight: 100;
+            margin-bottom: 100px;
+            
+}

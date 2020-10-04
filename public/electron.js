@@ -49,7 +49,7 @@ if (require(configFilePath).isTorEnabled) {
 app.on('ready', function () {
   mainWindow = new BrowserWindow({
     title: 'Elza Browser',
-    titleBarStyle: 'hidden',
+    titleBarStyle: 'hiddenInset',
     show: false,
     icon: path.join(__dirname, '/icon.png'),
     resizable: true,

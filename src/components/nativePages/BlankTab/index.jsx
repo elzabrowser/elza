@@ -1,4 +1,5 @@
 import React from 'react'
+import './main.css'
 class BlankTab extends React.Component {
   state = {
     time: ''
@@ -22,24 +23,8 @@ class BlankTab extends React.Component {
   }
   render () {
     return (
-      <div
-        style={{
-          backgroundColor: 'var(--background-color-secondary)',
-          display: 'flex',
-          height: '99vh',
-          alignItems: 'center',
-          justifyContent: 'center',
-          userSelect: 'none'
-        }}
-      >
-        <h1
-          style={{
-            color: 'var(--font-color-secondary)',
-            fontSize: '100px',
-            fontWeight: '100',
-            marginBottom: '100px'
-          }}
-        >
+      <div className='justify'>
+        <h1 >
           {this.getTime()}
         </h1>
       </div>
