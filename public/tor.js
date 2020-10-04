@@ -7,7 +7,11 @@ module.exports = {
     const { isPackaged } = app
     var execPath
     console.log('isprod' + isPackaged)
-    if (process.platform === 'darwin') return
+    if (process.platform === 'darwin') {
+      if (isPackaged)
+      execPath = path.join(process.resourcesPath, 'mac', 'tor', 'tor')
+    else execPath = path.join(root, './resources', 'mac', 'tor', 'tor')
+    }
     if (process.platform === 'win32') {
       if (isPackaged)
         execPath = path.join(process.resourcesPath, 'win', 'Tor', 'tor.exe')

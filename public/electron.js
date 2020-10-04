@@ -1,5 +1,6 @@
 const { app, BrowserWindow, Menu, ipcMain } = require('electron')
 const isDev = require('electron-is-dev')
+const electronDl = require('electron-dl')
 const { download } = require('electron-dl')
 const { autoUpdater } = require('electron-updater')
 const contextMenu = require('electron-context-menu')
@@ -41,7 +42,7 @@ updateDownload = () => {
 
 tor.connect_tor()
 if (require(configFilePath).isTorEnabled) {
-  //app.commandLine.appendSwitch('proxy-server', 'socks5://127.0.0.1:9050')
+  app.commandLine.appendSwitch('proxy-server', 'socks5://127.0.0.1:9050')
 }
 
 app.on('ready', function () {
@@ -173,6 +174,43 @@ app.on('web-contents-created', (e, contents) => {
       showSaveLinkAs: true,
       showSearchWithGoogle: false,
       window: contents
+    })
+  }
+})
+electronDl({
+  saveAs: askLocation,
+  showBadge: true,
+  directory: downloadLocation,
+  onStarted: function (item) {
+    var downloadItem = new Object()
+    downloadItem.name = item.getFilename()
+    downloadItem.totalBytes = item.getTotalBytes()
+    downloadItem.receivedBytes = 0
+    var d = new Date()
+    var downloadID = d.getTime()
+    downloadItem.status = 'started'
+    downloadItem.path = item.getSavePath()
+    downloads[downloadID] = downloadItem
+    updateDownload()
+    item.once('done', (event, state) => {
+      if (state === 'completed') {
+        downloads[downloadID].status = 'done'
+        updateDownload()
+      } else {
+        console.log(`Download failed: ${state}`)
+      }
+    })
+    item.on('updated', (event, state) => {
+      if (state === 'interrupted') {
+        console.log('Download is interrupted but can be resumed')
+      } else if (state === 'progressing') {
+        if (item.isPaused()) {
+          console.log('Download is paused')
+        } else {
+          downloads[downloadID].receivedBytes = item.getReceivedBytes()
+          updateDownload()
+        }
+      }
     })
   }
 })

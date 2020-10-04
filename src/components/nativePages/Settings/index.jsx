@@ -250,19 +250,40 @@ class Settings extends React.Component {
                 <button
                   className='settings-tor-button mt-3'
                   onClick={() => {
-                    ipcRenderer.send('torwindow')
+                    //ipcRenderer.send('torwindow')
                     var pref = { ...this.state.pref }
                     this.setState({ torPreferenceChanged: true })
                     pref.isTorEnabled = !pref.isTorEnabled
                     this.setState({ pref }, this.savePreference)
                   }}
                 >
-                  Open Tor Window
+                  {this.state.pref.isTorEnabled ? 'Disable' : 'Enable'}
                 </button>
+                <img
+                  src={torImg}
+                  className={
+                    this.state.pref.isTorEnabled
+                      ? 'settings-tor-icon'
+                      : 'settings-tor-icon settings-tor-icon-inactive'
+                  }
+                />
+
+                <small className='ml-3 text-muted'>
+                  status:{' '}
+                  {this.state.pref.isTorEnabled
+                    ? 'Channeling traffic to Tor port 9050'
+                    : 'Disabled'}
+                </small>
                 <br />
-                <p>
-                  <i className='fa fa-info-circle mr-2 mt-2'></i> This will
-                  close current window.
+                <p
+                  className={
+                    this.state.torPreferenceChanged
+                      ? 'small font-weight-light mt-1'
+                      : 'd-none'
+                  }
+                >
+                  <i className='fa fa-info-circle mr-2'></i> Restart Elza for
+                  changes to take effect.
                 </p>
               </div>
               <h5 className='font-weight-light mt-5'>Search Engine</h5>
