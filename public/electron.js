@@ -11,7 +11,7 @@ const tor = require('./tor.js')
 const configFilePath = app.getPath('userData') + '/preferences.json'
 app.commandLine.appendSwitch('disable-features', 'OutOfBlinkCors')
 
-global.platform=process.platform
+global.platform = process.platform
 autoUpdater.logger = log
 autoUpdater.logger.transports.file.level = 'info'
 log.warn('test log')
@@ -77,43 +77,6 @@ app.on('ready', function () {
     mainWindow.show()
     mainWindow.maximize()
   })
-  /*electronDl({
-    saveAs: askLocation,
-    showBadge: true,
-    directory: downloadLocation,
-    onStarted: function (item) {
-      var downloadItem = new Object()
-      downloadItem.name = item.getFilename()
-      downloadItem.totalBytes = item.getTotalBytes()
-      downloadItem.receivedBytes = 0
-      var d = new Date()
-      var downloadID = d.getTime()
-      downloadItem.status = 'started'
-      downloadItem.path = item.getSavePath()
-      downloads[downloadID] = downloadItem
-      updateDownload()
-      item.once('done', (event, state) => {
-        if (state === 'completed') {
-          downloads[downloadID].status = 'done'
-          updateDownload()
-        } else {
-          console.log(`Download failed: ${state}`)
-        }
-      })
-      item.on('updated', (event, state) => {
-        if (state === 'interrupted') {
-          console.log('Download is interrupted but can be resumed')
-        } else if (state === 'progressing') {
-          if (item.isPaused()) {
-            console.log('Download is paused')
-          } else {
-            downloads[downloadID].receivedBytes = item.getReceivedBytes()
-            updateDownload()
-          }
-        }
-      })
-    }
-  })*/
 })
 app.on('web-contents-created', (e, contents) => {
   if (contents.getType() == 'webview') {
