@@ -65,10 +65,6 @@ class Downloads extends React.Component {
           {Object.keys(this.state.downloads).map(key => (
             <div
               key={key}
-              onClick={() => {
-                if (this.state.downloads[key].status === 'done')
-                  this.openItem(this.state.downloads[key].path)
-              }}
               className={
                 this.state.renderLocation == 'popup'
                   ? 'row m-2 border border-secondary rounded'
@@ -88,7 +84,13 @@ class Downloads extends React.Component {
                   className='fa fa-file-download'
                 ></i>
               </div>
-              <div className='col-sm-10 p-2'>
+              <div
+                className='col-sm-8 p-2'
+                onClick={() => {
+                  if (this.state.downloads[key].status === 'done')
+                    this.openItem(this.state.downloads[key].path)
+                }}
+              >
                 <b className='downloadname'>
                   {this.state.downloads[key].name.length < 15
                     ? this.state.downloads[key].name
@@ -128,6 +130,25 @@ class Downloads extends React.Component {
                       ) +
                       ' MB'}
                 </div>
+              </div>
+              <div
+                className={
+                  this.state.renderLocation == 'popup'
+                    ? 'col-sm-2 p-2 border-right border-secondary text-center align-self-center'
+                    : 'col-sm-2 p-3 border-right border-secondary text-center align-self-center'
+                }
+                onClick={() => {
+                  if (this.state.downloads[key].status === 'done')
+                    shell.showItemInFolder(this.state.downloads[key].path)
+                }}
+              >
+                <i
+                  style={{
+                    fontSize: '23px',
+                    color: '#C4C4C4'
+                  }}
+                  className='fa fa-folder rounded-circle'
+                ></i>
               </div>
             </div>
           ))}

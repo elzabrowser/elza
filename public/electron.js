@@ -1,6 +1,6 @@
 const { app, BrowserWindow, Menu, ipcMain } = require('electron')
 const isDev = require('electron-is-dev')
-const electronDl = require('electron-dl')
+const { download } = require('electron-dl')
 const { autoUpdater } = require('electron-updater')
 const contextMenu = require('electron-context-menu')
 const log = require('electron-log')
@@ -75,7 +75,7 @@ app.on('ready', function () {
     mainWindow.show()
     mainWindow.maximize()
   })
-  electronDl({
+  /*electronDl({
     saveAs: askLocation,
     showBadge: true,
     directory: downloadLocation,
@@ -111,7 +111,7 @@ app.on('ready', function () {
         }
       })
     }
-  })
+  })*/
 })
 app.on('web-contents-created', (e, contents) => {
   if (contents.getType() == 'webview') {
@@ -186,36 +186,81 @@ ipcMain.on('change_download_setting', (event, pref) => {
 ipcMain.on('app_version', event => {
   event.sender.send('app_version', { version: app.getVersion() })
 })
+ipcMain.on('new_download', (event, argv) => {
+  console.log(argv)
+  download(mainWindow, argv.url, {
+    onProgress: function (item) {
+      console.log(item)
+    },
+    onStarted: function (item) {
+      var downloadItem = new Object()
+      downloadItem.name = item.getFilename()
+      downloadItem.totalBytes = item.getTotalBytes()
+      downloadItem.receivedBytes = 0
+      var d = new Date()
+      var downloadID = d.getTime()
+      downloadItem.status = 'started'
+      downloadItem.path = item.getSavePath()
+      downloads[downloadID] = downloadItem
+      updateDownload()
+      item.once('done', (event, state) => {
+        if (state === 'completed') {
+          downloads[downloadID].status = 'done'
+          updateDownload()
+        } else {
+          console.log(`Download failed: ${state}`)
+        }
+      })
+      item.on('updated', (event, state) => {
+        if (state === 'interrupted') {
+          console.log('Download is interrupted but can be resumed')
+        } else if (state === 'progressing') {
+          if (item.isPaused()) {
+            console.log('Download is paused')
+          } else {
+            downloads[downloadID].receivedBytes = item.getReceivedBytes()
+            updateDownload()
+          }
+        }
+      })
+    }
+  })
+  return () => {
+    electron.ipcRenderer.removeAllListeners('new_download')
+  }
+})
 autoUpdater.on('error', error => {
   console.log(error)
 })
 ipcMain.on('torwindow', event => {
   app.commandLine.appendSwitch('proxy-server', 'socks5://127.0.0.1:9050')
-  newWindow = new BrowserWindow({
-    title: 'Elza Browser',
-    titleBarStyle: 'hidden',
-    show: false,
-    icon: path.join(__dirname, '/icon.png'),
-    resizable: true,
-    width: 1000,
-    height: 600,
-    minWidth: 700,
-    minHeight: 350,
-    frame: false,
-    webPreferences: {
-      enableRemoteModule: true,
-      webSecurity: false,
-      webviewTag: true,
-      nodeIntegration: true
-    }
-  })
-  try {
-    mainWindow.close()
-  } catch (error) {}
-  if (isDev) newWindow.loadURL('http://localhost:3000')
-  else newWindow.loadFile('./build/index.html')
-  newWindow.once('ready-to-show', () => {
-    newWindow.show()
-    newWindow.maximize()
-  })
+  setTimeout(() => {
+    newWindow = new BrowserWindow({
+      title: 'Elza Browser',
+      titleBarStyle: 'hidden',
+      show: false,
+      icon: path.join(__dirname, '/icon.png'),
+      resizable: true,
+      width: 1000,
+      height: 600,
+      minWidth: 700,
+      minHeight: 350,
+      frame: false,
+      webPreferences: {
+        enableRemoteModule: true,
+        webSecurity: false,
+        webviewTag: true,
+        nodeIntegration: true
+      }
+    })
+    try {
+      mainWindow.close()
+    } catch (error) {}
+    if (isDev) newWindow.loadURL('http://localhost:3000')
+    else newWindow.loadFile('./build/index.html')
+    newWindow.once('ready-to-show', () => {
+      newWindow.show()
+      newWindow.maximize()
+    })
+  }, 1000)
 })

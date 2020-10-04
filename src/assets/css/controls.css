@@ -85,7 +85,6 @@
   border-radius: 5px;
   border: 0.5px solid var(--background-color-secondary);
   transition: border 1000ms ease-in-out;
-  font-weight: 500;
   margin: 1px;
 }
 

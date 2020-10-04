@@ -261,8 +261,8 @@ class Settings extends React.Component {
                 </button>
                 <br />
                 <p>
-                  <i className='fa fa-info-circle mr-2 mt-2'></i> This close the
-                  current window.
+                  <i className='fa fa-info-circle mr-2 mt-2'></i> This will
+                  close current window.
                 </p>
               </div>
               <h5 className='font-weight-light mt-5'>Search Engine</h5>
