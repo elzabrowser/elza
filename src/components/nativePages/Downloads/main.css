@@ -5,10 +5,10 @@
   overflow-y: scroll;
 }
 ::-webkit-scrollbar {
-  width: 0px; /* Remove scrollbar space */
-  background: transparent; /* Optional: just make scrollbar invisible */
+  width: 0px;
+  background: transparent;
 }
-/* Optional: show position indicator in red */
+
 ::-webkit-scrollbar-thumb {
   background: #ff0000;
 }
@@ -23,4 +23,8 @@
 .download-item {
   background-color: var(--background-color-primary);
   color: var(--font-color-primary);
+}
+.file-icon {
+  font-size: 30px;
+  color: #c4c4c4;
 }

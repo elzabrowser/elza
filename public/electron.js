@@ -14,13 +14,13 @@ app.commandLine.appendSwitch('disable-features', 'OutOfBlinkCors')
 global.platform = process.platform
 autoUpdater.logger = log
 autoUpdater.logger.transports.file.level = 'info'
-log.warn('test log')
 let downloads = {}
 let askLocation
 Menu.setApplicationMenu(null)
 let mainWindow
 let newWindow
 
+//write initial configuration
 let initialConfig = {
   searchEngine: 'google',
   downloadLocation: app.getPath('downloads')
@@ -37,17 +37,18 @@ else askLocation = false
 app.on('window-all-closed', function () {
   app.quit()
 })
-updateDownload = () => {
+updateDownloadList = () => {
   mainWindow.webContents.send('downloads_changed', downloads)
 }
 
+//start tor proxy on startup
 tor.connect_tor()
 if (require(configFilePath).isTorEnabled) {
   app.commandLine.appendSwitch('proxy-server', 'socks5://127.0.0.1:9050')
 }
 
-app.on('ready', function () {
-  mainWindow = new BrowserWindow({
+newwindow = type => {
+  newWindow = new BrowserWindow({
     title: 'Elza Browser',
     titleBarStyle: 'hiddenInset',
     show: false,
@@ -66,18 +67,27 @@ app.on('ready', function () {
     }
   })
   if (isDev) {
-    mainWindow.loadURL('http://localhost:3000')
-    mainWindow.openDevTools()
+    newWindow.loadURL('http://localhost:3000')
+    newWindow.openDevTools()
   } else {
-    mainWindow.loadFile('./build/index.html')
+    newWindow.loadFile('./build/index.html')
     autoUpdater.checkForUpdatesAndNotify()
-    //mainWindow.openDevTools()
+    autoUpdater.on('error', error => {
+      console.log(error)
+    })
+    //newWindow.openDevTools()
   }
-  mainWindow.once('ready-to-show', () => {
-    mainWindow.show()
-    mainWindow.maximize()
+  newWindow.once('ready-to-show', () => {
+    newWindow.show()
+    newWindow.maximize()
   })
+  return newWindow
+}
+app.on('ready', function () {
+  mainWindow= newwindow()
 })
+
+//electron-context-menu options
 app.on('web-contents-created', (e, contents) => {
   if (contents.getType() == 'webview') {
     contextMenu({
@@ -100,30 +110,7 @@ app.on('web-contents-created', (e, contents) => {
           label: 'Open New Window',
           visible: true,
           click: () => {
-            newWindow = new BrowserWindow({
-              title: 'Elza Browser',
-              titleBarStyle: 'hidden',
-              show: false,
-              icon: path.join(__dirname, '/icon.png'),
-              resizable: true,
-              width: 1000,
-              height: 600,
-              minWidth: 700,
-              minHeight: 350,
-              frame: false,
-              webPreferences: {
-                enableRemoteModule: true,
-                webSecurity: false,
-                webviewTag: true,
-                nodeIntegration: true
-              }
-            })
-            if (isDev) newWindow.loadURL('http://localhost:3000')
-            else newWindow.loadFile('./build/index.html')
-            newWindow.once('ready-to-show', () => {
-              newWindow.show()
-              newWindow.maximize()
-            })
+            newwindow()
           }
         }
       ],
@@ -141,6 +128,8 @@ app.on('web-contents-created', (e, contents) => {
     })
   }
 })
+
+//manage downloads.
 electronDl({
   saveAs: askLocation,
   showBadge: true,
@@ -155,11 +144,11 @@ electronDl({
     downloadItem.status = 'started'
     downloadItem.path = item.getSavePath()
     downloads[downloadID] = downloadItem
-    updateDownload()
+    updateDownloadList()
     item.once('done', (event, state) => {
       if (state === 'completed') {
         downloads[downloadID].status = 'done'
-        updateDownload()
+        updateDownloadList()
       } else {
         console.log(`Download failed: ${state}`)
       }
@@ -172,7 +161,7 @@ electronDl({
           console.log('Download is paused')
         } else {
           downloads[downloadID].receivedBytes = item.getReceivedBytes()
-          updateDownload()
+          updateDownloadList()
         }
       }
     })
@@ -204,11 +193,11 @@ ipcMain.on('new_download', (event, argv) => {
       downloadItem.status = 'started'
       downloadItem.path = item.getSavePath()
       downloads[downloadID] = downloadItem
-      updateDownload()
+      updateDownloadList()
       item.once('done', (event, state) => {
         if (state === 'completed') {
           downloads[downloadID].status = 'done'
-          updateDownload()
+          updateDownloadList()
         } else {
           console.log(`Download failed: ${state}`)
         }
@@ -221,7 +210,7 @@ ipcMain.on('new_download', (event, argv) => {
             console.log('Download is paused')
           } else {
             downloads[downloadID].receivedBytes = item.getReceivedBytes()
-            updateDownload()
+            updateDownloadList()
           }
         }
       })
@@ -231,40 +220,9 @@ ipcMain.on('new_download', (event, argv) => {
     electron.ipcRenderer.removeAllListeners('new_download')
   }
 })
-autoUpdater.on('error', error => {
-  console.log(error)
-})
+
 ipcMain.on('torwindow', event => {
   app.commandLine.appendSwitch('proxy-server', 'socks5://127.0.0.1:9050')
   app.relaunch({ args: process.argv.slice(1).concat(['--relaunch']) })
   app.exit(0)
-  setTimeout(() => {
-    newWindow = new BrowserWindow({
-      title: 'Elza Browser',
-      titleBarStyle: 'hidden',
-      show: false,
-      icon: path.join(__dirname, '/icon.png'),
-      resizable: true,
-      width: 1000,
-      height: 600,
-      minWidth: 700,
-      minHeight: 350,
-      frame: false,
-      webPreferences: {
-        enableRemoteModule: true,
-        webSecurity: false,
-        webviewTag: true,
-        nodeIntegration: true
-      }
-    })
-    try {
-      mainWindow.close()
-    } catch (error) {}
-    if (isDev) newWindow.loadURL('http://localhost:3000')
-    else newWindow.loadFile('./build/index.html')
-    newWindow.once('ready-to-show', () => {
-      newWindow.show()
-      newWindow.maximize()
-    })
-  }, 1000)
 })

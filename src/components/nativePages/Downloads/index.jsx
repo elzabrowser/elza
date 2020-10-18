@@ -40,6 +40,32 @@ class Downloads extends React.Component {
       return ((receivedBytes / totalBytes) * 100).toFixed(2) + '%'
     }
   }
+  getProgressText = key => {
+    if (this.state.downloads[key].status === 'done')
+      return (
+        'Completed - ' +
+        (this.state.downloads[key].totalBytes / 1048576).toFixed(2) +
+        ' MB'
+      )
+    else
+      return (
+        (this.state.downloads[key].receivedBytes / 1048576).toFixed(2) +
+        ' of ' +
+        (this.state.downloads[key].totalBytes / 1048576).toFixed(2) +
+        ' MB'
+      )
+  }
+  getDownloadName = key => {
+    if (this.state.downloads[key].name.length < 15)
+      return this.state.downloads[key].name
+    else
+      return (
+        this.state.downloads[key].name
+          .split('')
+          .splice(0, 15)
+          .join('') + '...'
+      )
+  }
   openItem = path => {
     shell.openPath(path)
   }
@@ -79,10 +105,7 @@ class Downloads extends React.Component {
                     : 'col-sm-2 p-3 border-right border-secondary text-center align-self-center'
                 }
               >
-                <i
-                  style={{ fontSize: '30px', color: '#C4C4C4' }}
-                  className='fa fa-file-download'
-                ></i>
+                <i className='fa fa-file-download file-icon'></i>
               </div>
               <div
                 className='col-sm-8 p-2'
@@ -91,45 +114,26 @@ class Downloads extends React.Component {
                     this.openItem(this.state.downloads[key].path)
                 }}
               >
-                <b className='downloadname'>
-                  {this.state.downloads[key].name.length < 15
-                    ? this.state.downloads[key].name
-                    : this.state.downloads[key].name
-                        .split('')
-                        .splice(0, 15)
-                        .join('') + '...'}
-                </b>
-
-                {this.state.downloads[key].status !== 'done' && (
-                  <div className=' mb-1 border'>
-                    <div
-                      className='progress-bar bg-light'
-                      style={{
-                        width: this.getProgress(
-                          this.state.downloads[key].receivedBytes,
-                          this.state.downloads[key].totalBytes
-                        ),
-                        height: '5px'
-                      }}
-                    ></div>
-                  </div>
-                )}
-                <div className='progressinfo'>
-                  {this.state.downloads[key].status === 'done'
-                    ? 'Completed - ' +
-                      (this.state.downloads[key].totalBytes / 1048576).toFixed(
-                        2
-                      ) +
-                      ' MB'
-                    : (
-                        this.state.downloads[key].receivedBytes / 1048576
-                      ).toFixed(2) +
-                      ' of ' +
-                      (this.state.downloads[key].totalBytes / 1048576).toFixed(
-                        2
-                      ) +
-                      ' MB'}
+                <b className='downloadname'>{this.getDownloadName(key)}</b>
+                <div
+                  className={
+                    this.state.downloads[key].status !== 'done'
+                      ? ' mb-1 border'
+                      : 'd-none'
+                  }
+                >
+                  <div
+                    className='progress-bar bg-light'
+                    style={{
+                      width: this.getProgress(
+                        this.state.downloads[key].receivedBytes,
+                        this.state.downloads[key].totalBytes
+                      ),
+                      height: '5px'
+                    }}
+                  ></div>
                 </div>
+                <div className='progressinfo'>{this.getProgressText(key)}</div>
               </div>
               <div
                 className={

@@ -181,15 +181,11 @@ class Settings extends React.Component {
             >
               <img className='logo' src={elzaLogo} />
               <p className='h6 font-weight-light d-inline mb-0 ml-1'>
-                {' '}
                 Elza Browser
               </p>
             </div>
           </div>
-          <div
-            className='col-sm-7 col-xs-6'
-            style={{ height: '90vh', overflow: 'scroll' }}
-          >
+          <div className='col-sm-7 col-xs-6 right-container'>
             <div
               className={this.state.active === 'settings' ? 'pl-4' : 'd-none'}
             >
@@ -211,13 +207,12 @@ class Settings extends React.Component {
                       onKeyDown={this.handleKeyDown}
                       required
                     ></textarea>
-                    <hr style={{ borderColor: '#f3f3f3', margin: '0px' }} />
+                    <hr />
                     <input
-                      style={{ width: 'calc(100% - 40px)', height: '33px' }}
                       type='text'
                       name='email'
                       ref='email'
-                      className='rounded textarea pl-3'
+                      className='rounded textarea pl-3 feedback-email'
                       onChange={this.onchangeHandler}
                       placeholder='email or name'
                     ></input>
@@ -240,7 +235,7 @@ class Settings extends React.Component {
                     </button>
                   </form>
                 </div>
-re              </div>
+              </div>
               <br />
               <br />
               <div className=''>
@@ -406,11 +401,10 @@ re              </div>
               <button
                 className={
                   this.state.pref.downloadLocation !== 'ask'
-                    ? 'mt-3 download'
+                    ? 'mt-3 download download-location'
                     : 'd-none'
                 }
                 onClick={() => this.selectDownloadLocation()}
-                style={{ minWidth: '350px', width: '38vw', textAlign: 'left' }}
               >
                 {this.state.pref.downloadLocation}
               </button>

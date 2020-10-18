@@ -4,6 +4,7 @@ import binglogo from './bing.png'
 import googlelogo from './google.png'
 import ducklogo from './duck.png'
 import Sharing from '../Sharing'
+import USER_AGENT from '../../functions/getUserAgent'
 import { Dropdown } from 'react-bootstrap'
 class NewTab extends React.Component {
   constructor (props) {
@@ -23,8 +24,7 @@ class NewTab extends React.Component {
       comp: comp || Sharing,
       webviewAttributes: {
         plugins: null,
-        useragent:
-          'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0 Elza Browser'
+        useragent: USER_AGENT
       }
     })
     this.props.tab.close()

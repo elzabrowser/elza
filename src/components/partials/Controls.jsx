@@ -3,14 +3,11 @@ import ReactDOM from 'react-dom'
 import DownloadPopup from './DownloadPopup'
 import BlankTab from '../nativePages/BlankTab'
 import '../../assets/css/controls.css'
-import '../../assets/css/menu.css'
-import 'bootstrap/dist/css/bootstrap.min.css'
 import parseUrlInput from '../../functions/parseUrlInput'
 import validateElzaProtocol from '../../functions/validateElzaProtocol'
 import Settings from '../nativePages/Settings'
 import loadFavicon from '../../functions/loadFavicon'
 import USER_AGENT from '../../functions/getUserAgent'
-const { ipcRenderer } = window.require('electron')
 const remote = window.require('electron').remote
 const session = remote.session
 session.defaultSession.on('will-download', (event, item, webContents) => {
@@ -123,8 +120,7 @@ class Controls extends React.Component {
         src: url,
         isNative: false,
         webviewAttributes: {
-          useragent:
-            'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0 Elza Browser'
+          useragent: USER_AGENT
         }
       })
       newtab.activate()

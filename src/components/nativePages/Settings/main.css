@@ -206,7 +206,23 @@
   font-size: 12px;
   cursor: pointer;
 }
-
+.right-container {
+  height: 90vh;
+  overflow: scroll;
+}
+.feedback-email {
+  width: calc(100% - 40px);
+  height: 33px;
+}
+.download-location {
+  min-width: 350px;
+  width: 38vw;
+  text-align: left;
+}
+hr {
+  border-color: #f3f3f3;
+  margin: '0px';
+}
 @media (max-width: 690px) {
   .sidebar-right {
     display: none;
