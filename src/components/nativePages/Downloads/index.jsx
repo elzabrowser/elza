@@ -92,7 +92,7 @@ class Downloads extends React.Component {
             <div
               key={key}
               className={
-                this.state.renderLocation == 'popup'
+                this.state.renderLocation === 'popup'
                   ? 'row m-2 border border-secondary rounded'
                   : 'row m-2 mt-3 border border-secondary rounded'
               }
@@ -100,7 +100,7 @@ class Downloads extends React.Component {
             >
               <div
                 className={
-                  this.state.renderLocation == 'popup'
+                  this.state.renderLocation === 'popup'
                     ? 'col-sm-2 p-2 border-right border-secondary text-center align-self-center'
                     : 'col-sm-2 p-3 border-right border-secondary text-center align-self-center'
                 }
@@ -137,7 +137,7 @@ class Downloads extends React.Component {
               </div>
               <div
                 className={
-                  this.state.renderLocation == 'popup'
+                  this.state.renderLocation === 'popup'
                     ? 'col-sm-2 p-2 border-right border-secondary text-center align-self-center'
                     : 'col-sm-2 p-3 border-right border-secondary text-center align-self-center'
                 }

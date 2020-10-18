@@ -179,7 +179,7 @@ class Settings extends React.Component {
                 this.openUrl('https://elzabrowser.com/')
               }}
             >
-              <img className='logo' src={elzaLogo} />
+              <img className='logo' src={elzaLogo} alt='elzalogo' />
               <p className='h6 font-weight-light d-inline mb-0 ml-1'>
                 Elza Browser
               </p>
@@ -219,15 +219,14 @@ class Settings extends React.Component {
 
                     <button
                       className='mt-1 mr-2'
-                      role='button'
                       title='Send'
                       type='submit'
                     >
                       <i
                         className={
-                          this.state.sentFeedback == 'no'
+                          this.state.sentFeedback === 'no'
                             ? 'fa fa-chevron-right'
-                            : this.state.sentFeedback == 'yes'
+                            : this.state.sentFeedback === 'yes'
                             ? 'fa fa-check'
                             : 'fas fa-circle-notch fa-spin'
                         }
@@ -254,6 +253,7 @@ class Settings extends React.Component {
                 </button>
                 <img
                   src={torImg}
+                  alt='tor'
                   className={
                     this.state.pref.isTorEnabled
                       ? 'settings-tor-icon'

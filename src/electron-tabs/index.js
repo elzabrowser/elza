@@ -1,22 +1,5 @@
 import getUserAgent from '../functions/getUserAgent'
 const EventEmitter = require('events')
-const remote = window.require('electron').remote
-const app = remote.app
-const configFilePath = app.getPath('userData') + '/preferences.json'
-const fs = window.require('fs')
-var PARTITION = null
-try {
-  if (fs.existsSync(configFilePath)) {
-    let cfile = window.require(configFilePath)
-    if (cfile.privateMode) {
-      PARTITION = null
-    } else {
-      PARTITION = 'persist:elzawindow'
-    }
-  }
-} catch (err) {
-  console.error(err)
-}
 
 if (!document) {
   throw Error('electron-tabs module must be called in renderer process')
@@ -208,11 +191,6 @@ class Tab extends EventEmitter {
     this.webviewAttributes.partition = 'pvt'
     this.webviewAttributes.userAgent = getUserAgent
     this.webviewAttributes.webpreferences = 'sandbox=true'
-
-    // console.log(PARTITION)
-    // if (PARTITION)
-    //   this.webviewAttributes.partition = PARTITION
-    // console.log(this.webviewAttributes)
     this.src = args.src
     this.tabElements = {}
     TabPrivate.initTab.bind(this)()

@@ -60,6 +60,7 @@ newwindow = type => {
     minHeight: 350,
     frame: false,
     webPreferences: {
+      worldSafeExecuteJavaScript: true,
       enableRemoteModule: true,
       webSecurity: false,
       webviewTag: true,
@@ -84,7 +85,7 @@ newwindow = type => {
   return newWindow
 }
 app.on('ready', function () {
-  mainWindow= newwindow()
+  mainWindow = newwindow()
 })
 
 //electron-context-menu options
