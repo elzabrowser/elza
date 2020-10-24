@@ -54,7 +54,10 @@ jobs:
       - run: iwr -outf tor.zip https://www.torproject.org/dist/torbrowser/10.0.1/tor-win32-0.4.4.5.zip
       - run: Expand-Archive -Path tor.zip -DestinationPath .\resources\win
       - run: ls .\resources\win
-      - run: npm run build-win --if-present
+      - env:
+          CSC_LINK: ${{ secrets.CSC_LINK }}
+          CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
+        run: npm run build-win --if-present
       - run: move .\dist\nsis-web\*.exe .\dist\
       - run: move .\dist\nsis-web\*.7z .\dist\
       - name: Release
@@ -66,8 +69,6 @@ jobs:
             dist/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CSC_LINK: ${{ secrets.CSC_LINK }}
-          CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
 
   build-mac:
     runs-on: macos-latest
