@@ -21,8 +21,7 @@
 }
 
 #controls button:hover {
-  -webkit-text-stroke: 1px;
-  font-weight: 900;
+  -webkit-text-stroke: 0.5px;
 }
 
 #controls button:disabled {
