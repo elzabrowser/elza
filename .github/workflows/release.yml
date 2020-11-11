@@ -51,7 +51,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
-      - run: iwr -outf tor.zip https://www.torproject.org/dist/torbrowser/10.0.1/tor-win32-0.4.4.5.zip
+      - run: iwr -outf tor.zip https://www.torproject.org/dist/torbrowser/10.0.4/tor-win32-0.4.4.5.zip
       - run: Expand-Archive -Path tor.zip -DestinationPath .\resources\win
       - run: ls .\resources\win
       - env:
