@@ -35,7 +35,8 @@ function updateConfig () {
   try {
     if (fs.existsSync(configFilePath)) {
       let cfile = window.require(configFilePath)
-      defaultSearchEngine = cfile.searchEngine
+      if (cfile.isTorEnabled) defaultSearchEngine = 'ddg'
+      else defaultSearchEngine = cfile.searchEngine
     }
   } catch (err) {
     console.error(err)

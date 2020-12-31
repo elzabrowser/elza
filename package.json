@@ -31,7 +31,7 @@
       "category": "Network",
       "synopsis": "Elza incognito web browser",
       "target": [
-        "appImage"
+        "deb"
       ],
       "desktop": {
         "Name": "Elza",
@@ -82,6 +82,9 @@
     },
     "nsisWeb": {
       "artifactName": "ElzaBrowser.WebSetup.${version}.${ext}"
+    },
+    "deb":{
+      "icon":"public/icon32x32.png"
     }
   },
   "dependencies": {
