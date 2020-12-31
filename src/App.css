@@ -22,7 +22,7 @@ html, body, #root {
 
 .dark-theme {
   --font-color-primary: #f3f3f3;
-  --font-color-secondary: rgb(196, 196, 196);
+  --font-color-secondary: rgb(185, 185, 185);
   --background-color-primary: rgb(54, 54, 54);
   --background-color-secondary: rgb(12, 12, 12);
   --border-color-primary: #bebebe;

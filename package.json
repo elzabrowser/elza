@@ -1,7 +1,7 @@
 {
   "name": "elza-browser",
   "description": "Elza incognito web browser",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "author": {
     "name": "ExpertEvidence.org",
     "email": "elzabrowser@gmail.com",
@@ -31,7 +31,8 @@
       "category": "Network",
       "synopsis": "Elza incognito web browser",
       "target": [
-        "deb"
+        "deb",
+        "appImage"
       ],
       "desktop": {
         "Name": "Elza",
@@ -60,7 +61,6 @@
     },
     "win": {
       "publisherName": "ExpertEvidence.org",
-      "forceCodeSigning": true,
       "target": [
         "nsis",
         "nsis-web"
@@ -83,8 +83,8 @@
     "nsisWeb": {
       "artifactName": "ElzaBrowser.WebSetup.${version}.${ext}"
     },
-    "deb":{
-      "icon":"public/icon32x32.png"
+    "deb": {
+      "icon": "public/icon32x32.png"
     }
   },
   "dependencies": {
@@ -102,13 +102,13 @@
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",
     "react-dom": "^17.0.1",
-    "react-scripts": "4.0.0"
+    "react-scripts": "4.0.1"
   },
   "devDependencies": {
     "concurrently": "^5.3.0",
-    "electron": "^9.3.3",
+    "electron": "^9.4.0",
     "electron-builder": "^22.9.1",
-    "electron-packager": "^15.1.0",
+    "electron-packager": "^15.2.0",
     "wait-on": "^5.2.0"
   },
   "scripts": {

@@ -366,7 +366,7 @@ class Controls extends React.Component {
           <button
             id='menu'
             title='Menu'
-            className='p-0 m-0'
+            className='p-0 m-0 menuicon'
             onClick={() => {
               let newtab = this.state.tabGroup.addTab({
                 title: 'Settings',
@@ -380,7 +380,6 @@ class Controls extends React.Component {
               newtab.activate()
             }}
           >
-            <i className='fas fa-ellipsis-h ' />
           </button>
         </div>
       </>
