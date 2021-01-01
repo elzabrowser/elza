@@ -28,6 +28,7 @@
     },
     "artifactName": "ElzaBrowser.Setup.${version}.${ext}",
     "linux": {
+      "icon":"build",
       "category": "Network",
       "synopsis": "Elza incognito web browser",
       "target": [
