@@ -64,7 +64,8 @@ newwindow = type => {
       enableRemoteModule: true,
       webSecurity: false,
       webviewTag: true,
-      nodeIntegration: true
+      nodeIntegration: true,
+      contextIsolation: false
     }
   })
   if (isDev) {
@@ -92,6 +93,14 @@ app.on('ready', function () {
 app.on('web-contents-created', (e, contents) => {
   if (contents.getType() == 'webview') {
     contextMenu({
+      /**
+       * Work-around issue with passing `WebContents` to `electron-context-menu` in Electron 11
+       * @see https://github.com/sindresorhus/electron-context-menu/issues/123
+       */
+      window: {
+        webContents: contents,
+        inspectElement: contents.inspectElement.bind(contents)
+      },
       prepend: (defaultActions, params, browserWindow) => [
         {
           label: 'Open in New Tab',
@@ -124,8 +133,7 @@ app.on('web-contents-created', (e, contents) => {
       showCopyImageAddress: true,
       showCopyImage: true,
       showSaveLinkAs: true,
-      showSearchWithGoogle: false,
-      window: contents
+      showSearchWithGoogle: false
     })
   }
 })

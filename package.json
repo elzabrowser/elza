@@ -64,7 +64,8 @@
       "publisherName": "ExpertEvidence.org",
       "target": [
         "nsis",
-        "nsis-web"
+        "nsis-web",
+        "msi"
       ],
       "extraFiles": [
         {
@@ -92,25 +93,25 @@
     "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^11.1.1",
     "@testing-library/user-event": "^12.2.0",
-    "bootstrap": "^4.5.3",
-    "cross-env": "^7.0.2",
-    "electron-context-menu": "^2.3.0",
-    "electron-dl": "^3.0.2",
-    "electron-is-dev": "^1.2.0",
-    "electron-log": "^4.3.0",
-    "electron-updater": "^4.3.5",
+    "bootstrap": "^4.6.0",
+    "cross-env": "^7.0.3",
+    "electron-context-menu": "^2.5.0",
+    "electron-dl": "^3.2.1",
+    "electron-is-dev": "^2.0.0",
+    "electron-log": "^4.3.2",
+    "electron-updater": "^4.3.8",
     "font-awesome": "^4.7.0",
-    "react": "^17.0.1",
-    "react-bootstrap": "^1.4.0",
-    "react-dom": "^17.0.1",
-    "react-scripts": "4.0.1"
+    "react": "^17.0.2",
+    "react-bootstrap": "^1.5.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "4.0.3"
   },
   "devDependencies": {
-    "concurrently": "^5.3.0",
-    "electron": "^9.4.0",
-    "electron-builder": "^22.9.1",
+    "concurrently": "^6.0.0",
+    "electron": "^12.0.2",
+    "electron-builder": "^22.10.5",
     "electron-packager": "^15.2.0",
-    "wait-on": "^5.2.0"
+    "wait-on": "^5.3.0"
   },
   "scripts": {
     "electron-dev": "cross-env BROWSER=none concurrently \"react-scripts start\" \"wait-on http://localhost:3000 && electron .\"",
