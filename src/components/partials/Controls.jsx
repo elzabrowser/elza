@@ -365,7 +365,7 @@ class Controls extends React.Component {
           <DownloadPopup openDownloadsPage={this.openDownloadsPage} />
           <button
             id='menu'
-            title='Menu'
+            title='Options'
             className='p-0 m-0 menuicon'
             onClick={() => {
               let newtab = this.state.tabGroup.addTab({
