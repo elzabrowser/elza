@@ -11,19 +11,12 @@ import yandexImg from '../../../assets/images/yandex-icon.png'
 import qwantImg from '../../../assets/images/qwant-icon.png'
 import torImg from '../../../assets/images/tor.png'
 
-//const { dialog } = window.require('electron').remote
-//const { ipcRenderer } = window.require('electron')
-/* const remote = window.require('electron').remote
-const app = remote.app
-const configFilePath = app.getPath('userData') + '/preferences.json'
-const fs = window.require('fs') */
-
 class Settings extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
       pref: {
-        searchEngine: 'google',
+        searchEngine: 'google'
         //downloadLocation: app.getPath('downloads')
       },
       sentFeedback: 'no',
@@ -53,33 +46,23 @@ class Settings extends React.Component {
     newtab.activate()
   }
   componentWillReceiveProps (props) {
-   /* console.log(props)
+    /* console.log(props)
     if (props.tab.compProps.calledBy === 'downloadpopup')
       this.setState({ active: 'downloads' })*/
   }
-  componentWillMount () {/*
-    try {
-      if (fs.existsSync(configFilePath)) {
-        let cfile = window.require(configFilePath)
-        if (cfile.privateMode) this.toggleCheck = true
-        this.setState({ pref: cfile })
-      }
-    } catch (err) {
-      console.error(err)
-    }*/
+  componentWillMount () {
+    this.setState({ pref: window.preloadAPI.getPreference('all') })
     window.preloadAPI.getversion()
-    window.preloadAPI.receiveversion("app_version", (data) => {
+    window.preloadAPI.receiveversion('app_version', data => {
       this.setState({ version: data.version })
     })
-
   }
   savePreference = () => {
-   /*  fs.writeFile(configFilePath, JSON.stringify(this.state.pref), err => {
-      if (err) throw err
-    }) */
+    window.preloadAPI.setPreference('all', this.state.pref)
     this.props.handleSearchEngineChange(this.state.pref.searchEngine)
   }
-  selectDownloadLocation = async () => {/*
+  selectDownloadLocation = async () => {
+    /*
     this.setState({ downloadPreferenceChanged: true })
     let pref = this.state.pref
     let path = await dialog.showOpenDialog({
@@ -217,11 +200,7 @@ class Settings extends React.Component {
                       placeholder='email or name'
                     ></input>
 
-                    <button
-                      className='mt-1 mr-2'
-                      title='Send'
-                      type='submit'
-                    >
+                    <button className='mt-1 mr-2' title='Send' type='submit'>
                       <i
                         className={
                           this.state.sentFeedback === 'no'
@@ -246,7 +225,7 @@ class Settings extends React.Component {
                     this.setState({ torPreferenceChanged: true })
                     pref.isTorEnabled = !pref.isTorEnabled
                     this.setState({ pref }, this.savePreference)
-                    //ipcRenderer.send('torwindow')
+                    window.preloadAPI.torWindow()
                   }}
                 >
                   {this.state.pref.isTorEnabled ? 'Disable' : 'Enable'}

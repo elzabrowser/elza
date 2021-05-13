@@ -8,6 +8,8 @@ const log = require('electron-log')
 const fs = require('fs')
 const path = require('path')
 const tor = require('./tor.js')
+const preferences = require('./config.js')
+const events = require('./events.js')
 const configFilePath = app.getPath('userData') + '/preferences.json'
 app.commandLine.appendSwitch('disable-features', 'OutOfBlinkCors')
 
@@ -43,7 +45,7 @@ updateDownloadList = () => {
 
 //start tor proxy on startup
 tor.connect_tor()
-if (require(configFilePath).isTorEnabled) {
+if (preferences.preferences.isTorEnabled) {
   app.commandLine.appendSwitch('proxy-server', 'socks5://127.0.0.1:9050')
 }
 
@@ -65,7 +67,7 @@ newwindow = type => {
       enableRemoteModule: true,
       webSecurity: false,
       webviewTag: true,
-      nodeIntegration: true,
+      nodeIntegration: false,
       contextIsolation: true
     }
   })
@@ -229,10 +231,4 @@ ipcMain.on('new_download', (event, argv) => {
   return () => {
     electron.ipcRenderer.removeAllListeners('new_download')
   }
-})
-
-ipcMain.on('torwindow', event => {
-  app.commandLine.appendSwitch('proxy-server', 'socks5://127.0.0.1:9050')
-  app.relaunch({ args: process.argv.slice(1).concat(['--relaunch']) })
-  app.exit(0)
 })

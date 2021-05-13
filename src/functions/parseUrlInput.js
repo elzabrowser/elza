@@ -1,8 +1,3 @@
-//const remote = window.require('electron').remote
-//const app = remote.app
-//const configFilePath = app.getPath('userData') + '/preferences.json'
-//const fs = window.require('fs')
-
 var defaultSearchEngine = 'google'
 var SEurl = {
   google: 'https://www.google.com/search?q=SEARCH_KW',
@@ -31,16 +26,8 @@ function addhttp (url) {
   }
   return url
 }
-function updateConfig () {/*
-  try {
-    if (fs.existsSync(configFilePath)) {
-      let cfile = window.require(configFilePath)
-      if (cfile.isTorEnabled) defaultSearchEngine = 'ddg'
-      else defaultSearchEngine = cfile.searchEngine
-    }
-  } catch (err) {
-    console.error(err)
-  }*/
+function updateConfig () {
+  defaultSearchEngine = window.preloadAPI.getSearchEngine()
 }
 updateConfig()
 

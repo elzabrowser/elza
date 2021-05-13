@@ -10,6 +10,19 @@ contextBridge.exposeInMainWorld('preloadAPI', {
   openinNewTab: (channel, func) => {
     ipcRenderer.on('openin_newtab', (event, url) => func(url))
   },
+  getSearchEngine: (channel, func) => {
+    return ipcRenderer.sendSync('getSearchEngine')
+  },
+  setSearchEngine: (channel, func) => {
+    return ipcRenderer.send('setSearchEngine', searchEngine)
+  },
+  getPreference: arg => {
+    return ipcRenderer.sendSync('getPreference', arg)
+  },
+  setPreference: (arg, value) => {
+    return ipcRenderer.send('setPreference', arg, value)
+  },
+  torWindow: () => {return ipcRenderer.send('torwindow')},
   maxmin: () => {
     var window = remote.BrowserWindow.getFocusedWindow()
     remote.BrowserWindow.getFocusedWindow().isMaximized()
