@@ -11,12 +11,12 @@ import yandexImg from '../../../assets/images/yandex-icon.png'
 import qwantImg from '../../../assets/images/qwant-icon.png'
 import torImg from '../../../assets/images/tor.png'
 
-const { dialog } = window.require('electron').remote
-const { ipcRenderer } = window.require('electron')
-const remote = window.require('electron').remote
+//const { dialog } = window.require('electron').remote
+//const { ipcRenderer } = window.require('electron')
+/* const remote = window.require('electron').remote
 const app = remote.app
 const configFilePath = app.getPath('userData') + '/preferences.json'
-const fs = window.require('fs')
+const fs = window.require('fs') */
 
 class Settings extends React.Component {
   constructor (props) {
@@ -24,7 +24,7 @@ class Settings extends React.Component {
     this.state = {
       pref: {
         searchEngine: 'google',
-        downloadLocation: app.getPath('downloads')
+        //downloadLocation: app.getPath('downloads')
       },
       sentFeedback: 'no',
       downloadPreferenceChanged: false,
@@ -53,11 +53,11 @@ class Settings extends React.Component {
     newtab.activate()
   }
   componentWillReceiveProps (props) {
-    console.log(props)
+   /* console.log(props)
     if (props.tab.compProps.calledBy === 'downloadpopup')
-      this.setState({ active: 'downloads' })
+      this.setState({ active: 'downloads' })*/
   }
-  componentWillMount () {
+  componentWillMount () {/*
     try {
       if (fs.existsSync(configFilePath)) {
         let cfile = window.require(configFilePath)
@@ -66,20 +66,20 @@ class Settings extends React.Component {
       }
     } catch (err) {
       console.error(err)
-    }
-    ipcRenderer.send('app_version')
-    ipcRenderer.on('app_version', (event, arg) => {
-      ipcRenderer.removeAllListeners('app_version')
-      this.setState({ version: arg.version })
+    }*/
+    window.preloadAPI.getversion()
+    window.preloadAPI.receiveversion("app_version", (data) => {
+      this.setState({ version: data.version })
     })
+
   }
   savePreference = () => {
-    fs.writeFile(configFilePath, JSON.stringify(this.state.pref), err => {
+   /*  fs.writeFile(configFilePath, JSON.stringify(this.state.pref), err => {
       if (err) throw err
-    })
+    }) */
     this.props.handleSearchEngineChange(this.state.pref.searchEngine)
   }
-  selectDownloadLocation = async () => {
+  selectDownloadLocation = async () => {/*
     this.setState({ downloadPreferenceChanged: true })
     let pref = this.state.pref
     let path = await dialog.showOpenDialog({
@@ -88,7 +88,7 @@ class Settings extends React.Component {
     if (!path.filePaths[0]) return
     pref.downloadLocation = path.filePaths[0]
     ipcRenderer.send('change_download_setting', pref)
-    this.setState({ pref }, this.savePreference)
+    this.setState({ pref }, this.savePreference)*/
   }
   handleKeyDown (e) {
     e.target.style.height = 'inherit'
@@ -246,7 +246,7 @@ class Settings extends React.Component {
                     this.setState({ torPreferenceChanged: true })
                     pref.isTorEnabled = !pref.isTorEnabled
                     this.setState({ pref }, this.savePreference)
-                    ipcRenderer.send('torwindow')
+                    //ipcRenderer.send('torwindow')
                   }}
                 >
                   {this.state.pref.isTorEnabled ? 'Disable' : 'Enable'}
@@ -375,8 +375,8 @@ class Settings extends React.Component {
                 }
                 onClick={() => {
                   var pref = { ...this.state.pref }
-                  pref.downloadLocation = app.getPath('downloads')
-                  ipcRenderer.send('change_download_setting', pref)
+                  //pref.downloadLocation = app.getPath('downloads')
+                  //ipcRenderer.send('change_download_setting', pref)
                   this.setState({ pref }, this.savePreference)
                 }}
               >
@@ -392,7 +392,7 @@ class Settings extends React.Component {
                   this.setState({ downloadPreferenceChanged: true })
                   var pref = { ...this.state.pref }
                   pref.downloadLocation = 'ask'
-                  ipcRenderer.send('change_download_setting', pref)
+                  //ipcRenderer.send('change_download_setting', pref)
                   this.setState({ pref }, this.savePreference)
                 }}
               >

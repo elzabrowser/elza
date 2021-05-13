@@ -1,7 +1,7 @@
-const remote = window.require('electron').remote
-const app = remote.app
-const configFilePath = app.getPath('userData') + '/preferences.json'
-const fs = window.require('fs')
+//const remote = window.require('electron').remote
+//const app = remote.app
+//const configFilePath = app.getPath('userData') + '/preferences.json'
+//const fs = window.require('fs')
 
 var defaultSearchEngine = 'google'
 var SEurl = {
@@ -31,7 +31,7 @@ function addhttp (url) {
   }
   return url
 }
-function updateConfig () {
+function updateConfig () {/*
   try {
     if (fs.existsSync(configFilePath)) {
       let cfile = window.require(configFilePath)
@@ -40,7 +40,7 @@ function updateConfig () {
     }
   } catch (err) {
     console.error(err)
-  }
+  }*/
 }
 updateConfig()
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import Downloads from '../nativePages/Downloads'
 import '../../assets/css/downloadpopup.css'
-const { ipcRenderer } = window.require('electron')
+//const { ipcRenderer } = window.require('electron')
 class DownloadPopup extends React.Component {
   constructor (props) {
     super(props)
@@ -13,7 +13,7 @@ class DownloadPopup extends React.Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount () {/*
     ipcRenderer.on('senddownloads', (event, arg) => {
       this.setState({
         downloads: arg
@@ -24,7 +24,7 @@ class DownloadPopup extends React.Component {
       this.setState({
         downloads: downloads
       })
-    })
+    })*/
   }
   getProgress = (receivedBytes, totalBytes) => {
     if (totalBytes === 0) return 0

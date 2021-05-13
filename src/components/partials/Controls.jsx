@@ -8,11 +8,11 @@ import validateElzaProtocol from '../../functions/validateElzaProtocol'
 import Settings from '../nativePages/Settings'
 import loadFavicon from '../../functions/loadFavicon'
 import USER_AGENT from '../../functions/getUserAgent'
-const remote = window.require('electron').remote
+/*const remote = window.require('electron').remote
 const session = remote.session
 session.defaultSession.on('will-download', (event, item, webContents) => {
   event.preventDefault()
-})
+})*/
 
 class Controls extends React.Component {
   constructor (props) {
@@ -72,12 +72,12 @@ class Controls extends React.Component {
   tabEvents = tab => {
     tab.webview.addEventListener('did-start-loading', () => {
       if (!this.downloadEventRegistered) {
-        remote.webContents
+        /*remote.webContents
           .fromId(tab.webview.getWebContentsId())
           .session.on('will-download', (event, item, webContents) => {
             //event.preventDefault()
             //ipcRenderer.send('new_download', { url: item.getURL() })
-          })
+          })*/
         this.downloadEventRegistered = true
       }
       tab.setIcon('', 'loader-rev')

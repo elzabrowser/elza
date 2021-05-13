@@ -5,7 +5,6 @@ import TabGroup from '../electron-tabs'
 //const TabGroup = require("../electron-tabs");
 import USER_AGENT from '../functions/getUserAgent'
 import BlankTab from './nativePages/BlankTab'
-const { ipcRenderer, remote } = window.require('electron')
 
 class Home extends React.Component {
   constructor (props) {
@@ -16,7 +15,7 @@ class Home extends React.Component {
       theme: 'dark-theme',
       isFullScreen: false,
       isFirstRender: true,
-      platfom:remote.getGlobal('platform')
+      platfom:window.preloadAPI.getPlatform()
     }
   }
   componentDidMount () {
@@ -25,11 +24,13 @@ class Home extends React.Component {
       this.setState({ tabGroup: this.tabGroup })
       this.setState({ isFirstRender: false })
     }
-    ipcRenderer.on('update_available', () => {
+    /*ipcRenderer.on('update_available', () => {
       ipcRenderer.removeAllListeners('update_available')
       //alert('update available')
     })
-    ipcRenderer.on('openin_newtab', (event, url) => {
+    */
+    window.preloadAPI.openinNewTab('openin_newtab', url => {
+      console.log(url)
       let tab = this.tabGroup.addTab({
         title: 'Loading...',
         src: url,
@@ -85,34 +86,41 @@ class Home extends React.Component {
                 : 'etabs-tabgroup'
             }
           >
-            <div className={this.state.platfom==='darwin'?'mactrafficlight':'d-none'}></div>
+            <div
+              className={
+                this.state.platfom === 'darwin' ? 'mactrafficlight' : 'd-none'
+              }
+            ></div>
             <div className='etabs-tabs'></div>
             <div className='etabs-buttons'>
               <button onClick={() => this.addNewNativeTab()}>+</button>
             </div>
-            <div className={this.state.platfom==='darwin'?'d-none':'windowactions'}>
+            <div
+              className={
+                this.state.platfom === 'darwin' ? 'd-none' : 'windowactions'
+              }
+            >
               <button
                 className='min'
-                onClick={() =>
-                  remote.BrowserWindow.getFocusedWindow().minimize()
-                }
+                onClick={() => {
+                  window.preloadAPI.minimize()
+                }}
               >
                 <i className='fas fa-window-minimize'></i>
               </button>
               <button
                 className='max'
                 onClick={() => {
-                  var window = remote.BrowserWindow.getFocusedWindow()
-                  remote.BrowserWindow.getFocusedWindow().isMaximized()
-                    ? window.unmaximize()
-                    : window.maximize()
+                  window.preloadAPI.maxmin()
                 }}
               >
                 <i className='far fa-window-maximize'></i>
               </button>
               <button
                 className='cls'
-                onClick={() => remote.BrowserWindow.getFocusedWindow().close()}
+                onClick={() => {
+                  window.preloadAPI.close()
+                }}
               >
                 <i className='fas fa-times'></i>
               </button>
