@@ -1,4 +1,4 @@
-const { ipcMain, app } = require('electron')
+const { ipcMain, app, dialog } = require('electron')
 const Store = require('electron-store')
 const store = new Store()
 setPrefs()
@@ -13,6 +13,19 @@ ipcMain.on('setPreference', (event, arg, value) => {
   else store.set('prefs.' + arg, value)
   event.returnValue = true
 })
+ipcMain.on('setDownloadPath', async (event, arg, value) => {
+  let path = await dialog.showOpenDialog({
+    properties: ['openDirectory']
+  })
+  if (!path.filePaths[0]) return
+  store.set('prefs.downloadLocation', path.filePaths[0])
+  console.log(path.filePaths[0])
+  event.returnValue = path.filePaths[0]
+})
+
+ipcMain.on('getDownloadsDirectory', (event, arg, value) => {
+  event.returnValue = app.getPath('downloads')
+})
 
 function setPrefs () {
   prefs = {
@@ -24,4 +37,8 @@ function setPrefs () {
     if (!store.get('prefs.' + pref)) store.set('prefs.' + pref, prefs[pref])
   })
 }
-module.exports = store.get('prefs')
+module.exports = {
+  getPreference: () => {
+    return store.get('prefs')
+  }
+}

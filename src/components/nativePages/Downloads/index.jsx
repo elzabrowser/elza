@@ -1,6 +1,5 @@
 import React from 'react'
 import './main.css'
-//const { shell, ipcRenderer } = window.require('electron')
 class Downloads extends React.Component {
   constructor (props) {
     super(props)
@@ -13,7 +12,14 @@ class Downloads extends React.Component {
     if (props.calledBy === 'settings')
       this.setState({ renderLocation: 'settings' })
   }
-  componentDidMount () {/*
+  componentDidMount () {
+    window.preloadAPI.getDownloads(arg => {
+      console.log(arg)
+      this.setState({
+        downloads: arg
+      })
+    })
+    /*
     ipcRenderer.on('senddownloads', (event, arg) => {
       this.setState({
         downloads: arg
@@ -67,7 +73,7 @@ class Downloads extends React.Component {
       )
   }
   openItem = path => {
-   // shell.openPath(path)
+    // shell.openPath(path)
   }
 
   render () {
@@ -142,8 +148,10 @@ class Downloads extends React.Component {
                     : 'col-sm-2 p-3 border-right border-secondary text-center align-self-center'
                 }
                 onClick={() => {
-                  //if (this.state.downloads[key].status === 'done')
-                   // shell.showItemInFolder(this.state.downloads[key].path)
+                  if (this.state.downloads[key].status === 'done')
+                    window.preloadAPI.showItemInFolder(
+                      this.state.downloads[key].path
+                    )
                 }}
               >
                 <i

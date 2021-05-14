@@ -1,7 +1,19 @@
-const { ipcRenderer, contextBridge, remote } = require('electron')
+const { ipcRenderer, contextBridge, remote, shell } = require('electron')
 contextBridge.exposeInMainWorld('preloadAPI', {
+  getDownloads: callback => {
+    ipcRenderer.on('downloads_changed', (event, downloads) => {
+      console.log('download changed')
+      console.log(downloads)
+      var sortedDownloads = {}
+      Object.keys(downloads)
+        .sort((a, b) => b - a)
+        .forEach(function (key) {
+          sortedDownloads[key] = downloads[key]
+        })
+      callback(sortedDownloads)
+    })
+  },
   getversion: () => {
-    console.log('received')
     ipcRenderer.send('app_version')
   },
   receiveversion: (channel, func) => {
@@ -13,16 +25,25 @@ contextBridge.exposeInMainWorld('preloadAPI', {
   getSearchEngine: (channel, func) => {
     return ipcRenderer.sendSync('getSearchEngine')
   },
-  setSearchEngine: (channel, func) => {
-    return ipcRenderer.send('setSearchEngine', searchEngine)
-  },
   getPreference: arg => {
     return ipcRenderer.sendSync('getPreference', arg)
   },
   setPreference: (arg, value) => {
-    return ipcRenderer.send('setPreference', arg, value)
+    console.log(value)
+    ipcRenderer.sendSync('setPreference', arg, value)
   },
-  torWindow: () => {return ipcRenderer.send('torwindow')},
+  selectDownloadPath: () => {
+    return ipcRenderer.sendSync('setDownloadPath')
+  },
+  torWindow: () => {
+    return ipcRenderer.send('torwindow')
+  },
+  showItemInFolder: path => {
+    shell.showItemInFolder(path)
+  },
+  getDownloadsDirectory: path => {
+    return ipcRenderer.sendSync('getDownloadsDirectory')
+  },
   maxmin: () => {
     var window = remote.BrowserWindow.getFocusedWindow()
     remote.BrowserWindow.getFocusedWindow().isMaximized()

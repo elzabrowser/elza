@@ -13,7 +13,14 @@ class DownloadPopup extends React.Component {
     }
   }
 
-  componentDidMount () {/*
+  componentDidMount () {
+    window.preloadAPI.getDownloads(arg => {
+      console.log(arg)
+      this.setState({
+        downloads: arg
+      })
+    })
+    /*
     ipcRenderer.on('senddownloads', (event, arg) => {
       this.setState({
         downloads: arg

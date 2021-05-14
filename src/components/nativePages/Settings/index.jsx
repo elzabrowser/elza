@@ -16,8 +16,8 @@ class Settings extends React.Component {
     super(props)
     this.state = {
       pref: {
-        searchEngine: 'google'
-        //downloadLocation: app.getPath('downloads')
+        searchEngine: 'google',
+        downloadLocation: window.preloadAPI.getPreference('downloadLocation')
       },
       sentFeedback: 'no',
       downloadPreferenceChanged: false,
@@ -46,9 +46,9 @@ class Settings extends React.Component {
     newtab.activate()
   }
   componentWillReceiveProps (props) {
-    /* console.log(props)
+     console.log(props)
     if (props.tab.compProps.calledBy === 'downloadpopup')
-      this.setState({ active: 'downloads' })*/
+      this.setState({ active: 'downloads' })
   }
   componentWillMount () {
     this.setState({ pref: window.preloadAPI.getPreference('all') })
@@ -62,8 +62,12 @@ class Settings extends React.Component {
     this.props.handleSearchEngineChange(this.state.pref.searchEngine)
   }
   selectDownloadLocation = async () => {
+    var pref = { ...this.state.pref }
+    pref.downloadLocation = window.preloadAPI.selectDownloadPath()
+    console.log(pref.downloadLocation)
+    //ipcRenderer.send('change_download_setting', pref)
+    this.setState({ pref }, this.savePreference)
     /*
-    this.setState({ downloadPreferenceChanged: true })
     let pref = this.state.pref
     let path = await dialog.showOpenDialog({
       properties: ['openDirectory']
@@ -354,7 +358,10 @@ class Settings extends React.Component {
                 }
                 onClick={() => {
                   var pref = { ...this.state.pref }
-                  //pref.downloadLocation = app.getPath('downloads')
+                  pref.downloadLocation = window.preloadAPI.getDownloadsDirectory(
+                    'getDownloadsDirectory'
+                  )
+                  console.log(pref.downloadLocation)
                   //ipcRenderer.send('change_download_setting', pref)
                   this.setState({ pref }, this.savePreference)
                 }}
