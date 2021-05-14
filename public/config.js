@@ -26,7 +26,9 @@ ipcMain.on('setDownloadPath', async (event, arg, value) => {
 ipcMain.on('getDownloadsDirectory', (event, arg, value) => {
   event.returnValue = app.getPath('downloads')
 })
-
+ipcMain.on('getPlatform', (event) => {
+  event.returnValue = process.platform 
+})
 function setPrefs () {
   prefs = {
     searchEngine: 'ddg',

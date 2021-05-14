@@ -13,7 +13,6 @@ const events = require('./events.js')
 const configFilePath = app.getPath('userData') + '/preferences.json'
 app.commandLine.appendSwitch('disable-features', 'OutOfBlinkCors')
 
-global.platform = process.platform
 autoUpdater.logger = log
 autoUpdater.logger.transports.file.level = 'info'
 let downloads = {}
@@ -64,12 +63,7 @@ newwindow = type => {
     frame: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      worldSafeExecuteJavaScript: true,
-      enableRemoteModule: true,
-      webSecurity: false,
-      webviewTag: true,
-      nodeIntegration: false,
-      contextIsolation: true
+      webviewTag: true
     }
   })
   if (isDev) {

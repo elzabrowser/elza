@@ -45,7 +45,7 @@ contextBridge.exposeInMainWorld('preloadAPI', {
     return ipcRenderer.sendSync('getDownloadsDirectory')
   },
   getPlatform: () => {
-    return remote.getGlobal('platform')
+    return ipcRenderer.sendSync('getPlatform')
   },
   windowAction: arg => {
     ipcRenderer.send('windowAction', arg)
