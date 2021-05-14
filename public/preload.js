@@ -44,19 +44,10 @@ contextBridge.exposeInMainWorld('preloadAPI', {
   getDownloadsDirectory: path => {
     return ipcRenderer.sendSync('getDownloadsDirectory')
   },
-  maxmin: () => {
-    var window = remote.BrowserWindow.getFocusedWindow()
-    remote.BrowserWindow.getFocusedWindow().isMaximized()
-      ? window.unmaximize()
-      : window.maximize()
-  },
-  minimize: () => {
-    remote.BrowserWindow.getFocusedWindow().minimize()
-  },
-  close: () => {
-    remote.BrowserWindow.getFocusedWindow().close()
-  },
   getPlatform: () => {
     return remote.getGlobal('platform')
+  },
+  windowAction: arg => {
+    ipcRenderer.send('windowAction', arg)
   }
 })

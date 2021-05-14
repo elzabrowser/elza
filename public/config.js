@@ -1,4 +1,4 @@
-const { ipcMain, app, dialog } = require('electron')
+const { ipcMain, app, dialog, BrowserWindow } = require('electron')
 const Store = require('electron-store')
 const store = new Store()
 setPrefs()
@@ -37,6 +37,20 @@ function setPrefs () {
     if (!store.get('prefs.' + pref)) store.set('prefs.' + pref, prefs[pref])
   })
 }
+ipcMain.on('windowAction', (event, arg) => {
+  if (arg == 'maxmin') {
+    var window = BrowserWindow.getFocusedWindow()
+    BrowserWindow.getFocusedWindow().isMaximized()
+      ? window.unmaximize()
+      : window.maximize()
+  }
+  if (arg == 'minimize') {
+    BrowserWindow.getFocusedWindow().minimize()
+  }
+  if (arg == 'close') {
+    BrowserWindow.getFocusedWindow().close()
+  }
+})
 module.exports = {
   getPreference: () => {
     return store.get('prefs')

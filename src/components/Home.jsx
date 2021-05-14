@@ -103,7 +103,7 @@ class Home extends React.Component {
               <button
                 className='min'
                 onClick={() => {
-                  window.preloadAPI.minimize()
+                  window.preloadAPI.windowAction('minimize')
                 }}
               >
                 <i className='fas fa-window-minimize'></i>
@@ -111,7 +111,7 @@ class Home extends React.Component {
               <button
                 className='max'
                 onClick={() => {
-                  window.preloadAPI.maxmin()
+                  window.preloadAPI.windowAction('maxmin')
                 }}
               >
                 <i className='far fa-window-maximize'></i>
@@ -119,7 +119,7 @@ class Home extends React.Component {
               <button
                 className='cls'
                 onClick={() => {
-                  window.preloadAPI.close()
+                  window.preloadAPI.windowAction('close')
                 }}
               >
                 <i className='fas fa-times'></i>
