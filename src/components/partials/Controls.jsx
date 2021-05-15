@@ -355,7 +355,7 @@ class Controls extends React.Component {
           <button
             id='menu'
             title='Options'
-            className='p-0 m-0 menuicon'
+            className='p-0 m-0 fas fa-ellipsis-h'
             onClick={() => {
               let newtab = this.state.tabGroup.addTab({
                 title: 'Settings',

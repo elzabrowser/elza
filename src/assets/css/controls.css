@@ -200,10 +200,3 @@
   border-left-color: #09d;
 }
 
-.menuicon {
-  background-image: url("data:image/svg+xml;charset=UTF-8, %3csvg xmlns:dc='http://purl.org/dc/elements/1.1/' xmlns:cc='http://creativecommons.org/ns%23' xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns%23' xmlns:svg='http://www.w3.org/2000/svg' xmlns='http://www.w3.org/2000/svg' id='svg6' version='1.1' viewBox='0 0 28 15' height='15' width='28'%3e%3cmetadata id='metadata12'%3e%3crdf:RDF%3e%3ccc:Work rdf:about=''%3e%3cdc:format%3eimage/svg+xml%3c/dc:format%3e%3cdc:type rdf:resource='http://purl.org/dc/dcmitype/StillImage' /%3e%3cdc:title%3e%3c/dc:title%3e%3c/cc:Work%3e%3c/rdf:RDF%3e%3c/metadata%3e%3cdefs id='defs10' /%3e%3cg transform='translate(2.5,2.5)' data-name='Group 546' id='Group_546'%3e%3cline style='stroke:%23b9b9b9;stroke-opacity:1' y2='4.5822339' y1='4.5822339' x1='12.049253' stroke-width='5' stroke-linecap='round' stroke='%23003777' fill='none' x2='23.049253' data-name='Line 2' id='Line_2' /%3e%3cline style='stroke:%23b9b9b9;stroke-opacity:1' y2='4.5822339' y1='4.5822339' x1='0.04925238' stroke-width='5' stroke-linecap='round' stroke='%23003777' fill='none' x2='2.0492523' data-name='Line 3' id='Line_3' /%3e%3c/g%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-	background-size: 23px;
-	width: 23px;
-	height: 23px;
-}

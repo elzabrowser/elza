@@ -12,6 +12,7 @@ contextBridge.exposeInMainWorld('preloadAPI', {
         })
       callback(sortedDownloads)
     })
+    ipcRenderer.send('getdownloads')
   },
   getversion: () => {
     ipcRenderer.send('app_version')

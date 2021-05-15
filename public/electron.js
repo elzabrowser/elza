@@ -1,50 +1,30 @@
-const { app, BrowserWindow, Menu } = require('electron')
+const { app, BrowserWindow, Menu, ipcMain } = require('electron')
 const isDev = require('electron-is-dev')
-const electronDl = require('electron-dl')
-const { download } = require('electron-dl')
 const { autoUpdater } = require('electron-updater')
 const contextMenu = require('electron-context-menu')
+const unusedFilename = require('unused-filename')
 const log = require('electron-log')
-const fs = require('fs')
 const path = require('path')
-const tor = require('./tor.js')
-const preference = require('./config.js')
-const events = require('./events.js')
-const configFilePath = app.getPath('userData') + '/preferences.json'
-app.commandLine.appendSwitch('disable-features', 'OutOfBlinkCors')
+const preference = require('./config')
+require('./events')
+require('./tor')
 
 autoUpdater.logger = log
 autoUpdater.logger.transports.file.level = 'info'
 let downloads = {}
-let askLocation
-Menu.setApplicationMenu(null)
-let mainWindow
-let newWindow
+let mainWindow, newWindow
 
-//write initial configuration
-let initialConfig = {
-  searchEngine: 'google',
-  downloadLocation: app.getPath('downloads')
-}
-try {
-  fs.writeFileSync(configFilePath, JSON.stringify(initialConfig), {
-    flag: 'wx'
-  })
-} catch (error) {}
-
-let downloadLocation = require(configFilePath).downloadLocation
-if (downloadLocation == 'ask') askLocation = true
-else askLocation = false
 app.on('window-all-closed', function () {
   app.quit()
 })
+
 updateDownloadList = () => {
   mainWindow.webContents.send('downloads_changed', downloads)
 }
+ipcMain.on('getdownloads', event => {
+  updateDownloadList()
+})
 
-//start tor proxy on startup
-tor.connect_tor()
-pref=preference.getPreference()
 if (preference.getPreference().isTorEnabled) {
   app.commandLine.appendSwitch('proxy-server', 'socks5://127.0.0.1:9050')
 }
@@ -83,45 +63,45 @@ newwindow = type => {
   })
   return newWindow
 }
+
 app.on('ready', function () {
   mainWindow = newwindow()
   mainWindow.webContents.session.on(
     'will-download',
     (event, item, webContents) => {
-      console.log('new download')
-      if (preference.getPreference().downloadLocation != 'ask')
-        item.setSavePath(
-          path.join(preference.getPreference().downloadLocation, item.getFilename())
+      if (preference.getPreference().downloadLocation != 'ask') {
+        var filepath = unusedFilename.sync(
+          path.join(
+            preference.getPreference().downloadLocation,
+            item.getFilename()
+          )
         )
-      var downloadItem = new Object()
-      downloadItem.name = item.getFilename()
-      downloadItem.totalBytes = item.getTotalBytes()
-      downloadItem.receivedBytes = 0
-      var d = new Date()
-      var downloadID = d.getTime()
-      downloadItem.status = 'started'
-      downloadItem.path = item.getSavePath()
+        item.setSavePath(filepath)
+      }
+      var downloadItem = {
+        name: item.getFilename(),
+        totalBytes: item.getTotalBytes(),
+        receivedBytes: 0,
+        status: 'started'
+      }
+      var downloadID = new Date().getTime()
       downloads[downloadID] = downloadItem
-      updateDownloadList()
       item.once('done', (event, state) => {
         if (state === 'completed') {
+          downloadItem.path = item.getSavePath()
           downloads[downloadID].status = 'done'
-          updateDownloadList()
         } else {
-          console.log(`Download failed: ${state}`)
-        }
-      })
-      item.on('updated', (event, state) => {
-        if (state === 'interrupted') {
-          console.log('Download is interrupted but can be resumed')
-        } else if (state === 'progressing') {
-          if (item.isPaused()) {
-            console.log('Download is paused')
-          } else {
-            downloads[downloadID].receivedBytes = item.getReceivedBytes()
-            updateDownloadList()
+          if (state == 'cancelled') {
+            delete downloads[downloadID]
           }
         }
+        updateDownloadList()
+      })
+      item.on('updated', (event, state) => {
+        if (state === 'progressing') {
+          downloads[downloadID].receivedBytes = item.getReceivedBytes()
+        }
+        updateDownloadList()
       })
     }
   )
@@ -131,14 +111,6 @@ app.on('ready', function () {
 app.on('web-contents-created', (e, contents) => {
   if (contents.getType() == 'webview') {
     contextMenu({
-      /**
-       * Work-around issue with passing `WebContents` to `electron-context-menu` in Electron 11
-       * @see https://github.com/sindresorhus/electron-context-menu/issues/123
-       */
-      window: {
-        webContents: contents,
-        inspectElement: contents.inspectElement.bind(contents)
-      },
       prepend: (defaultActions, params, browserWindow) => [
         {
           label: 'Open in New Tab',
@@ -174,98 +146,4 @@ app.on('web-contents-created', (e, contents) => {
       showSearchWithGoogle: false
     })
   }
-}) /*
-ipcMain.on('getdownloads', event => {
-  event.reply('senddownloads', downloads)
 })
-ipcMain.on('change_download_setting', (event, pref) => {
-  downloadLocation = pref.downloadLocation
-  if (downloadLocation == 'ask') askLocation = true
-})
-ipcMain.on('app_version', event => {
-  event.sender.send('app_version', { version: app.getVersion() })
-})
-ipcMain.on('new_download', (event, argv) => {
-  console.log(argv)
-  download(mainWindow, argv.url, {
-    onProgress: function (item) {
-      console.log(item)
-    },
-    onStarted: function (item) {
-      var downloadItem = new Object()
-      downloadItem.name = item.getFilename()
-      downloadItem.totalBytes = item.getTotalBytes()
-      downloadItem.receivedBytes = 0
-      var d = new Date()
-      var downloadID = d.getTime()
-      downloadItem.status = 'started'
-      downloadItem.path = item.getSavePath()
-      downloads[downloadID] = downloadItem
-      updateDownloadList()
-      item.once('done', (event, state) => {
-        if (state === 'completed') {
-          downloads[downloadID].status = 'done'
-          updateDownloadList()
-        } else {
-          console.log(`Download failed: ${state}`)
-        }
-      })
-      item.on('updated', (event, state) => {
-        if (state === 'interrupted') {
-          console.log('Download is interrupted but can be resumed')
-        } else if (state === 'progressing') {
-          if (item.isPaused()) {
-            console.log('Download is paused')
-          } else {
-            downloads[downloadID].receivedBytes = item.getReceivedBytes()
-            updateDownloadList()
-          }
-        }
-      })
-    }
-  })
-  return () => {
-    electron.ipcRenderer.removeAllListeners('new_download')
-  }
-})
-*/
-/*
-//manage downloads.
-electronDl({
-  saveAs: askLocation,
-  showBadge: true,
-  directory: downloadLocation,
-  onStarted: function (item) {
-    var downloadItem = new Object()
-    downloadItem.name = item.getFilename()
-    downloadItem.totalBytes = item.getTotalBytes()
-    downloadItem.receivedBytes = 0
-    var d = new Date()
-    var downloadID = d.getTime()
-    downloadItem.status = 'started'
-    downloadItem.path = item.getSavePath()
-    downloads[downloadID] = downloadItem
-    updateDownloadList()
-    item.once('done', (event, state) => {
-      if (state === 'completed') {
-        downloads[downloadID].status = 'done'
-        updateDownloadList()
-      } else {
-        console.log(`Download failed: ${state}`)
-      }
-    })
-    item.on('updated', (event, state) => {
-      if (state === 'interrupted') {
-        console.log('Download is interrupted but can be resumed')
-      } else if (state === 'progressing') {
-        if (item.isPaused()) {
-          console.log('Download is paused')
-        } else {
-          downloads[downloadID].receivedBytes = item.getReceivedBytes()
-          updateDownloadList()
-        }
-      }
-    })
-  }
-})
-*/
