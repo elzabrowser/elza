@@ -20,7 +20,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: sudo apt install libssl-dev
       - run: sudo apt install libevent-dev
-      - run: wget -O tor.tar.gz "https://dist.torproject.org/tor-0.4.5.7.tar.gz"
+      - run: wget -O tor.tar.gz "https://dist.torproject.org/tor-0.4.5.8.tar.gz"
       - run: mkdir tor && tar -xvzf tor.tar.gz -C tor --strip-components=1
       - run: cd tor && ./configure && make
       - run: mkdir -p ./resources/lin/tor && mv ./tor/src/app/* ./resources/lin/tor
@@ -51,7 +51,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
-      - run: iwr -outf tor.zip https://www.torproject.org/dist/torbrowser/10.0.15/tor-win32-0.4.5.7.zip
+      - run: iwr -outf tor.zip https://www.torproject.org/dist/torbrowser/10.0.16/tor-win32-0.4.5.7.zip
       - run: Expand-Archive -Path tor.zip -DestinationPath .\resources\win
       - run: ls .\resources\win
       - run: npm run build-win --if-present
