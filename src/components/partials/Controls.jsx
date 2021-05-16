@@ -15,7 +15,6 @@ class Controls extends React.Component {
     this.openDownloadsPage = this.openDownloadsPage.bind(this)
     this.handleClick = this.handleClick.bind(this)
     this.handleOutsideClick = this.handleOutsideClick.bind(this)
-    this.downloadEventRegistered = false
     this.state = {
       tabGroup: null,
       activeTab: 0,
@@ -31,10 +30,17 @@ class Controls extends React.Component {
       istabWebview: false
     }
   }
-
-  componentWillReceiveProps (newProps) {
-    this.setState({ tabGroup: newProps.tabGroup })
-    this.tabGroupEvents(newProps.tabGroup)
+  static getDerivedStateFromProps (nextProps, prevState) {
+    if (nextProps.tabGroup !== prevState.tabGroup) {
+      return { tabGroup: nextProps.tabGroup }
+    }
+    return null
+  }
+  componentDidUpdate (prevProps) {
+    if (prevProps.tabGroup !== this.props.tabGroup) {
+      this.setState({ tabGroup: this.props.tabGroup })
+      this.tabGroupEvents(this.state.tabGroup)
+    }
   }
   handleOutsideClick (e) {
     if (this.node.contains(e.target)) {
@@ -66,9 +72,6 @@ class Controls extends React.Component {
   }
   tabEvents = tab => {
     tab.webview.addEventListener('did-start-loading', () => {
-      if (!this.downloadEventRegistered) {
-        this.downloadEventRegistered = true
-      }
       tab.setIcon('', 'loader-rev')
       let tabs = [...this.state.tabs]
       tabs[tab.id].isNative = false
@@ -364,8 +367,7 @@ class Controls extends React.Component {
               })
               newtab.activate()
             }}
-          >
-          </button>
+          ></button>
         </div>
       </>
     )

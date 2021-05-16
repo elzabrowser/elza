@@ -15,16 +15,12 @@ class Settings extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      pref: {
-        searchEngine: 'google',
-        downloadLocation: window.preloadAPI.getPreference('downloadLocation')
-      },
+      pref: window.preloadAPI.getPreference('toMain', 'all'),
       sentFeedback: 'no',
-      downloadPreferenceChanged: false,
       torPreferenceChanged: false,
       active: 'settings',
       feedbackData: {},
-      version: ''
+      version: window.preloadAPI.getVersion('toMain')
     }
   }
   privateToggleChange = e => {
@@ -45,37 +41,22 @@ class Settings extends React.Component {
     })
     newtab.activate()
   }
-  componentWillReceiveProps (props) {
-     console.log(props)
-    if (props.tab.compProps.calledBy === 'downloadpopup')
-      this.setState({ active: 'downloads' })
+  static getDerivedStateFromProps(props, state) {
+    if (props.tab.compProps.calledBy === 'downloadpopup') {
+      return { active: 'downloads' };
+    }
+    // Return null to indicate no change to state.
+    return null;
   }
-  componentWillMount () {
-    this.setState({ pref: window.preloadAPI.getPreference('all') })
-    window.preloadAPI.getversion()
-    window.preloadAPI.receiveversion('app_version', data => {
-      this.setState({ version: data.version })
-    })
-  }
+  
   savePreference = () => {
-    window.preloadAPI.setPreference('all', this.state.pref)
+    window.preloadAPI.setPreference('toMain', 'all', this.state.pref)
     this.props.handleSearchEngineChange(this.state.pref.searchEngine)
   }
   selectDownloadLocation = async () => {
     var pref = { ...this.state.pref }
-    pref.downloadLocation = window.preloadAPI.selectDownloadPath()
-    console.log(pref.downloadLocation)
-    //ipcRenderer.send('change_download_setting', pref)
+    pref.downloadLocation = window.preloadAPI.selectDownloadPath('toMain')
     this.setState({ pref }, this.savePreference)
-    /*
-    let pref = this.state.pref
-    let path = await dialog.showOpenDialog({
-      properties: ['openDirectory']
-    })
-    if (!path.filePaths[0]) return
-    pref.downloadLocation = path.filePaths[0]
-    ipcRenderer.send('change_download_setting', pref)
-    this.setState({ pref }, this.savePreference)*/
   }
   handleKeyDown (e) {
     e.target.style.height = 'inherit'
@@ -92,7 +73,6 @@ class Settings extends React.Component {
     this.setState({ sentFeedback: 'sending' })
     e.preventDefault()
     let feedback = this.state.feedbackData
-    console.log(feedback)
     if (feedback) {
       fetch('https://feedback.api.elzabrowser.com/feedback', {
         method: 'post',
@@ -104,7 +84,6 @@ class Settings extends React.Component {
       })
         .then(res => res.json())
         .then(res => {
-          console.log(res)
           this.setState({ sentFeedback: 'yes' })
           this.refs.email.value = ''
           this.refs.description.value = ''
@@ -194,7 +173,7 @@ class Settings extends React.Component {
                       onKeyDown={this.handleKeyDown}
                       required
                     ></textarea>
-                    <hr />
+                    <hr className='mb-0' />
                     <input
                       type='text'
                       name='email'
@@ -229,10 +208,10 @@ class Settings extends React.Component {
                     this.setState({ torPreferenceChanged: true })
                     pref.isTorEnabled = !pref.isTorEnabled
                     this.setState({ pref }, this.savePreference)
-                    window.preloadAPI.torWindow()
+                    window.preloadAPI.torWindow('toMain')
                   }}
                 >
-                  {this.state.pref.isTorEnabled ? 'Disable' : 'Enable'}
+                  {this.state.pref.isTorEnabled ? 'Deactivate' : 'Activate'}
                 </button>
                 <img
                   src={torImg}
@@ -245,10 +224,7 @@ class Settings extends React.Component {
                 />
 
                 <small className='ml-3 text-muted'>
-                  status:{' '}
-                  {this.state.pref.isTorEnabled
-                    ? 'Channeling traffic to Tor port 9050'
-                    : 'Disabled'}
+                  {this.state.pref.isTorEnabled ? 'Active' : ''}
                 </small>
                 <br />
                 <p
@@ -359,10 +335,8 @@ class Settings extends React.Component {
                 onClick={() => {
                   var pref = { ...this.state.pref }
                   pref.downloadLocation = window.preloadAPI.getDownloadsDirectory(
-                    'getDownloadsDirectory'
+                    'toMain'
                   )
-                  console.log(pref.downloadLocation)
-                  //ipcRenderer.send('change_download_setting', pref)
                   this.setState({ pref }, this.savePreference)
                 }}
               >
@@ -375,10 +349,8 @@ class Settings extends React.Component {
                     : 'ml-4 download'
                 }
                 onClick={() => {
-                  this.setState({ downloadPreferenceChanged: true })
                   var pref = { ...this.state.pref }
                   pref.downloadLocation = 'ask'
-                  //ipcRenderer.send('change_download_setting', pref)
                   this.setState({ pref }, this.savePreference)
                 }}
               >
@@ -394,17 +366,6 @@ class Settings extends React.Component {
               >
                 {this.state.pref.downloadLocation}
               </button>
-              <br />
-              <p
-                className={
-                  this.state.downloadPreferenceChanged
-                    ? 'small font-weight-light pt-1'
-                    : 'd-none'
-                }
-              >
-                <i className='fa fa-info-circle mr-2'></i> Restart Elza for
-                changes to take effect.
-              </p>
               <br />
               <br />
             </div>

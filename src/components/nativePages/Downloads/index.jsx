@@ -8,10 +8,13 @@ class Downloads extends React.Component {
       renderLocation: 'popup'
     }
   }
-  componentWillReceiveProps (props) {
-    if (props.calledBy === 'settings')
-      this.setState({ renderLocation: 'settings' })
+  static getDerivedStateFromProps (props, state) {
+    if (props.calledBy === 'settings') {
+      return { renderLocation: 'settings' }
+    }
+    return null
   }
+  
   componentDidMount () {
     window.preloadAPI.getDownloads('fromMain', arg => {
       this.setState({
