@@ -1,4 +1,4 @@
-const { ipcMain, app, dialog, BrowserWindow } = require('electron')
+const { ipcMain, dialog } = require('electron')
 const Store = require('electron-store')
 const store = new Store()
 setPrefs()
@@ -24,15 +24,6 @@ ipcMain.on('selectDownloadPath', async (event, arg, value) => {
   event.returnValue = path.filePaths[0]
 })
 
-//get system downloads directory path
-ipcMain.on('getDownloadsDirectory', (event, arg, value) => {
-  event.returnValue = app.getPath('downloads')
-})
-
-ipcMain.on('getPlatform', event => {
-  event.returnValue = process.platform
-})
-
 function setPrefs () {
   prefs = {
     searchEngine: 'ddg',
@@ -43,21 +34,6 @@ function setPrefs () {
     if (!store.get('prefs.' + pref)) store.set('prefs.' + pref, prefs[pref])
   })
 }
-
-ipcMain.on('windowAction', (event, arg) => {
-  if (arg == 'maxmin') {
-    var window = BrowserWindow.getFocusedWindow()
-    BrowserWindow.getFocusedWindow().isMaximized()
-      ? window.unmaximize()
-      : window.maximize()
-  }
-  if (arg == 'minimize') {
-    BrowserWindow.getFocusedWindow().minimize()
-  }
-  if (arg == 'close') {
-    BrowserWindow.getFocusedWindow().close()
-  }
-})
 
 module.exports = {
   getPreference: () => {

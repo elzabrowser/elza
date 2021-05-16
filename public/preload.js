@@ -1,4 +1,4 @@
-const { ipcRenderer, contextBridge, shell } = require('electron')
+const { ipcRenderer, contextBridge } = require('electron')
 contextBridge.exposeInMainWorld('preloadAPI', {
   send: (channel, data, sendsync) => {
     // whitelist channels
@@ -13,7 +13,8 @@ contextBridge.exposeInMainWorld('preloadAPI', {
       'showItemInFolder',
       'torWindow',
       'selectDownloadPath',
-      'getDownloads'
+      'getDownloads',
+      'windowAction'
     ]
     if (validChannels.includes(channel)) {
       if (sendsync) return ipcRenderer.sendSync(channel, data)
