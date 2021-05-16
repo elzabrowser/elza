@@ -1,54 +1,78 @@
-const { ipcRenderer, contextBridge, remote, shell } = require('electron')
+const { ipcRenderer, contextBridge, shell } = require('electron')
 contextBridge.exposeInMainWorld('preloadAPI', {
-  getDownloads: callback => {
-    ipcRenderer.on('downloads_changed', (event, downloads) => {
-      console.log('download changed')
-      console.log(downloads)
-      var sortedDownloads = {}
-      Object.keys(downloads)
-        .sort((a, b) => b - a)
-        .forEach(function (key) {
-          sortedDownloads[key] = downloads[key]
-        })
-      callback(sortedDownloads)
-    })
-    ipcRenderer.send('getdownloads')
+  getDownloads: (channel, func) => {
+    let validChannels = ['fromMain']
+    if (validChannels.includes(channel)) {
+      ipcRenderer.on('downloadsChanged', (event, downloads) => {
+        var sortedDownloads = {}
+        Object.keys(downloads)
+          .sort((a, b) => b - a)
+          .forEach(function (key) {
+            sortedDownloads[key] = downloads[key]
+          })
+        func(sortedDownloads)
+      })
+      ipcRenderer.send('getDownloads')
+    }
   },
-  getversion: () => {
-    ipcRenderer.send('app_version')
-  },
-  receiveversion: (channel, func) => {
-    ipcRenderer.on('app_version', (event, ...args) => func(...args))
+  getVersion: channel => {
+    let validChannels = ['toMain']
+    if (validChannels.includes(channel)) {
+      return ipcRenderer.sendSync('appVersion')
+    }
   },
   openinNewTab: (channel, func) => {
-    ipcRenderer.on('openin_newtab', (event, url) => func(url))
+    let validChannels = ['fromMain']
+    if (validChannels.includes(channel)) {
+      ipcRenderer.on('openInNewtab', (event, url) => func(url))
+    }
   },
-  getSearchEngine: (channel, func) => {
-    return ipcRenderer.sendSync('getSearchEngine')
+  getPreference: (channel, arg) => {
+    let validChannels = ['toMain']
+    if (validChannels.includes(channel)) {
+      return ipcRenderer.sendSync('getPreference', arg)
+    }
   },
-  getPreference: arg => {
-    return ipcRenderer.sendSync('getPreference', arg)
+  setPreference: (channel, arg, value) => {
+    let validChannels = ['toMain']
+    if (validChannels.includes(channel)) {
+      ipcRenderer.sendSync('setPreference', arg, value)
+    }
   },
-  setPreference: (arg, value) => {
-    console.log(value)
-    ipcRenderer.sendSync('setPreference', arg, value)
+  selectDownloadPath: channel => {
+    let validChannels = ['toMain']
+    if (validChannels.includes(channel)) {
+      return ipcRenderer.sendSync('setDownloadPath')
+    }
   },
-  selectDownloadPath: () => {
-    return ipcRenderer.sendSync('setDownloadPath')
+  torWindow: channel => {
+    let validChannels = ['toMain']
+    if (validChannels.includes(channel)) {
+      return ipcRenderer.send('torwindow')
+    }
   },
-  torWindow: () => {
-    return ipcRenderer.send('torwindow')
+  showItemInFolder: (channel, path) => {
+    let validChannels = ['toMain']
+    if (validChannels.includes(channel)) {
+      shell.showItemInFolder(path)
+    }
   },
-  showItemInFolder: path => {
-    shell.showItemInFolder(path)
+  getDownloadsDirectory: channel => {
+    let validChannels = ['toMain']
+    if (validChannels.includes(channel)) {
+      return ipcRenderer.sendSync('getDownloadsDirectory')
+    }
   },
-  getDownloadsDirectory: path => {
-    return ipcRenderer.sendSync('getDownloadsDirectory')
+  getPlatform: () => channel => {
+    let validChannels = ['toMain']
+    if (validChannels.includes(channel)) {
+      return ipcRenderer.sendSync('getPlatform')
+    }
   },
-  getPlatform: () => {
-    return ipcRenderer.sendSync('getPlatform')
-  },
-  windowAction: arg => {
-    ipcRenderer.send('windowAction', arg)
+  windowAction: (channel, arg) => {
+    let validChannels = ['toMain']
+    if (validChannels.includes(channel)) {
+      ipcRenderer.send('windowAction', arg)
+    }
   }
 })
