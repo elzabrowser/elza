@@ -27,9 +27,10 @@ function addhttp (url) {
   return url
 }
 function updateConfig () {
-  defaultSearchEngine = window.preloadAPI.getPreference(
-    'toMain',
-    'searchEngine'
+  defaultSearchEngine = window.preloadAPI.send(
+    'getPreference',
+    'searchEngine',
+    true
   )
 }
 updateConfig()

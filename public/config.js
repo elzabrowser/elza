@@ -8,13 +8,14 @@ ipcMain.on('getPreference', (event, arg) => {
   else event.returnValue = store.get('prefs.' + arg)
 })
 
-ipcMain.on('setPreference', (event, arg, value) => {
-  if (arg == 'all') store.set('prefs', value)
-  else store.set('prefs.' + arg, value)
+ipcMain.on('setPreference', (event, prefs, value) => {
+  Object.keys(prefs).forEach(function (pref) {
+    store.set('prefs.' + pref, prefs[pref])
+  })
   event.returnValue = true
 })
 
-ipcMain.on('setDownloadPath', async (event, arg, value) => {
+ipcMain.on('selectDownloadPath', async (event, arg, value) => {
   let path = await dialog.showOpenDialog({
     properties: ['openDirectory']
   })

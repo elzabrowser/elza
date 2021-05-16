@@ -15,12 +15,12 @@ class Settings extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      pref: window.preloadAPI.getPreference('toMain', 'all'),
+      pref: window.preloadAPI.send('getPreference', 'all', true),
       sentFeedback: 'no',
       torPreferenceChanged: false,
       active: 'settings',
       feedbackData: {},
-      version: window.preloadAPI.getVersion('toMain')
+      version: window.preloadAPI.send('appVersion', '', true)
     }
   }
   privateToggleChange = e => {
@@ -41,22 +41,25 @@ class Settings extends React.Component {
     })
     newtab.activate()
   }
-  static getDerivedStateFromProps(props, state) {
-    if (props.tab.compProps.calledBy === 'downloadpopup') {
-      return { active: 'downloads' };
-    }
-    // Return null to indicate no change to state.
-    return null;
-  }
   
+  componentDidMount () {
+    if (this.props.tab.compProps.calledBy === 'downloadpopup') {
+      this.setState({ active: 'downloads' })
+    }
+  }
+
   savePreference = () => {
-    window.preloadAPI.setPreference('toMain', 'all', this.state.pref)
+    window.preloadAPI.send('setPreference', this.state.pref, true)
     this.props.handleSearchEngineChange(this.state.pref.searchEngine)
   }
   selectDownloadLocation = async () => {
     var pref = { ...this.state.pref }
-    pref.downloadLocation = window.preloadAPI.selectDownloadPath('toMain')
-    this.setState({ pref }, this.savePreference)
+    pref.downloadLocation = window.preloadAPI.send(
+      'selectDownloadPath',
+      '',
+      true
+    )
+    this.setState({ pref })
   }
   handleKeyDown (e) {
     e.target.style.height = 'inherit'
@@ -208,7 +211,7 @@ class Settings extends React.Component {
                     this.setState({ torPreferenceChanged: true })
                     pref.isTorEnabled = !pref.isTorEnabled
                     this.setState({ pref }, this.savePreference)
-                    window.preloadAPI.torWindow('toMain')
+                    window.preloadAPI.send('torWindow', '', false)
                   }}
                 >
                   {this.state.pref.isTorEnabled ? 'Deactivate' : 'Activate'}
@@ -334,8 +337,10 @@ class Settings extends React.Component {
                 }
                 onClick={() => {
                   var pref = { ...this.state.pref }
-                  pref.downloadLocation = window.preloadAPI.getDownloadsDirectory(
-                    'toMain'
+                  pref.downloadLocation = window.preloadAPI.send(
+                    'getDownloadsDirectory',
+                    '',
+                    true
                   )
                   this.setState({ pref }, this.savePreference)
                 }}

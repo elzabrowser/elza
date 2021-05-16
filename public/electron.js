@@ -41,7 +41,7 @@ newwindow = type => {
   })
   if (isDev) {
     newWindow.loadURL('http://localhost:3000')
-    newWindow.openDevTools()
+    newWindow.openDevTools({ mode: 'detach' })
   } else {
     newWindow.loadFile('./build/index.html')
     autoUpdater.checkForUpdatesAndNotify()
@@ -58,7 +58,13 @@ newwindow = type => {
 }
 
 updateDownloadList = () => {
-  mainWindow.webContents.send('downloadsChanged', downloads)
+  let sortedDownloads = {}
+  Object.keys(downloads)
+    .sort((a, b) => b - a)
+    .forEach(function (key) {
+      sortedDownloads[key] = downloads[key]
+    })
+  mainWindow.webContents.send('downloadsChanged', sortedDownloads)
 }
 ipcMain.on('getDownloads', event => {
   updateDownloadList()

@@ -14,7 +14,7 @@ class Home extends React.Component {
       theme: 'dark-theme',
       isFullScreen: false,
       isFirstRender: true,
-      platfom: window.preloadAPI.getPlatform('toMain')
+      platfom: window.preloadAPI.send('getPlatform', '', true)
     }
   }
   componentDidMount () {
@@ -23,7 +23,7 @@ class Home extends React.Component {
       this.setState({ tabGroup: this.tabGroup })
       this.setState({ isFirstRender: false })
     }
-    window.preloadAPI.openinNewTab('fromMain', url => {
+    window.preloadAPI.receive('openInNewtab', url => {
       let tab = this.tabGroup.addTab({
         title: 'Loading...',
         src: url,
@@ -96,7 +96,7 @@ class Home extends React.Component {
               <button
                 className='min'
                 onClick={() => {
-                  window.preloadAPI.windowAction('toMain', 'minimize')
+                  window.preloadAPI.send('windowAction', 'minimize', false)
                 }}
               >
                 <i className='fas fa-window-minimize'></i>
@@ -104,7 +104,7 @@ class Home extends React.Component {
               <button
                 className='max'
                 onClick={() => {
-                  window.preloadAPI.windowAction('toMain', 'maxmin')
+                  window.preloadAPI.send('windowAction', 'maxmin', false)
                 }}
               >
                 <i className='far fa-window-maximize'></i>
@@ -112,7 +112,7 @@ class Home extends React.Component {
               <button
                 className='cls'
                 onClick={() => {
-                  window.preloadAPI.windowAction('toMain', 'close')
+                  window.preloadAPI.send('windowAction', 'close', false)
                 }}
               >
                 <i className='fas fa-times'></i>

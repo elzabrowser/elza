@@ -13,7 +13,7 @@ class DownloadPopup extends React.Component {
   }
 
   componentDidMount () {
-    window.preloadAPI.getDownloads('fromMain', arg => {
+    window.preloadAPI.receive('downloadsChanged', arg => {
       this.setState({
         downloads: arg
       })

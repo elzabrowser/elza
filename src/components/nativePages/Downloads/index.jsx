@@ -12,11 +12,12 @@ class Downloads extends React.Component {
     if (props.calledBy === 'settings') {
       return { renderLocation: 'settings' }
     }
-    return null
+    return { renderLocation: 'popup' }
   }
-  
+
   componentDidMount () {
-    window.preloadAPI.getDownloads('fromMain', arg => {
+    window.preloadAPI.send('getDownloads', '', '')
+    window.preloadAPI.receive('downloadsChanged', arg => {
       this.setState({
         downloads: arg
       })
@@ -123,9 +124,10 @@ class Downloads extends React.Component {
                 }
                 onClick={() => {
                   if (this.state.downloads[key].status === 'done')
-                    window.preloadAPI.showItemInFolder(
-                      'toMain',
-                      this.state.downloads[key].path
+                    window.preloadAPI.send(
+                      'showItemInFolder',
+                      this.state.downloads[key].path,
+                      false
                     )
                 }}
               >
