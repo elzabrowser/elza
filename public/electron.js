@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const isDev = require('electron-is-dev')
 const { autoUpdater } = require('electron-updater')
 const contextMenu = require('electron-context-menu')
@@ -14,20 +14,13 @@ autoUpdater.logger.transports.file.level = 'info'
 let downloads = {}
 let mainWindow, newWindow
 
-app.on('window-all-closed', function () {
-  app.quit()
-})
-
-updateDownloadList = () => {
-  mainWindow.webContents.send('downloads_changed', downloads)
-}
-ipcMain.on('getdownloads', event => {
-  updateDownloadList()
-})
-
 if (preference.getPreference().isTorEnabled) {
   app.commandLine.appendSwitch('proxy-server', 'socks5://127.0.0.1:9050')
 }
+
+app.on('window-all-closed', function () {
+  app.quit()
+})
 
 newwindow = type => {
   newWindow = new BrowserWindow({
@@ -63,6 +56,13 @@ newwindow = type => {
   })
   return newWindow
 }
+
+updateDownloadList = () => {
+  mainWindow.webContents.send('downloadsChanged', downloads)
+}
+ipcMain.on('getDownloads', event => {
+  updateDownloadList()
+})
 
 app.on('ready', function () {
   mainWindow = newwindow()
@@ -111,19 +111,23 @@ app.on('ready', function () {
 app.on('web-contents-created', (e, contents) => {
   if (contents.getType() == 'webview') {
     contextMenu({
+      window: {
+        webContents: contents,
+        inspectElement: contents.inspectElement.bind(contents)
+      },
       prepend: (defaultActions, params, browserWindow) => [
         {
           label: 'Open in New Tab',
           visible: params.linkURL.trim().length > 0,
           click: () => {
-            mainWindow.webContents.send('openin_newtab', params.linkURL)
+            mainWindow.webContents.send('openInNewtab', params.linkURL)
           }
         },
         {
           label: 'Open Image in New Tab',
           visible: params.mediaType === 'image',
           click: () => {
-            mainWindow.webContents.send('openin_newtab', params.srcURL)
+            mainWindow.webContents.send('openInNewtab', params.srcURL)
           }
         },
         {

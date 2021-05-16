@@ -2,7 +2,6 @@ import React from 'react'
 import '../assets/css/home.css'
 import Controls from './partials/Controls'
 import TabGroup from '../electron-tabs'
-//const TabGroup = require("../electron-tabs");
 import USER_AGENT from '../functions/getUserAgent'
 import BlankTab from './nativePages/BlankTab'
 
@@ -15,7 +14,7 @@ class Home extends React.Component {
       theme: 'dark-theme',
       isFullScreen: false,
       isFirstRender: true,
-      platfom:window.preloadAPI.getPlatform()
+      platfom: window.preloadAPI.getPlatform('toMain')
     }
   }
   componentDidMount () {
@@ -24,13 +23,7 @@ class Home extends React.Component {
       this.setState({ tabGroup: this.tabGroup })
       this.setState({ isFirstRender: false })
     }
-    /*ipcRenderer.on('update_available', () => {
-      ipcRenderer.removeAllListeners('update_available')
-      //alert('update available')
-    })
-    */
-    window.preloadAPI.openinNewTab('openin_newtab', url => {
-      console.log(url)
+    window.preloadAPI.openinNewTab('fromMain', url => {
       let tab = this.tabGroup.addTab({
         title: 'Loading...',
         src: url,
@@ -103,7 +96,7 @@ class Home extends React.Component {
               <button
                 className='min'
                 onClick={() => {
-                  window.preloadAPI.windowAction('minimize')
+                  window.preloadAPI.windowAction('toMain', 'minimize')
                 }}
               >
                 <i className='fas fa-window-minimize'></i>
@@ -111,7 +104,7 @@ class Home extends React.Component {
               <button
                 className='max'
                 onClick={() => {
-                  window.preloadAPI.windowAction('maxmin')
+                  window.preloadAPI.windowAction('toMain', 'maxmin')
                 }}
               >
                 <i className='far fa-window-maximize'></i>
@@ -119,7 +112,7 @@ class Home extends React.Component {
               <button
                 className='cls'
                 onClick={() => {
-                  window.preloadAPI.windowAction('close')
+                  window.preloadAPI.windowAction('toMain', 'close')
                 }}
               >
                 <i className='fas fa-times'></i>

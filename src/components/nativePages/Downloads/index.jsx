@@ -13,31 +13,11 @@ class Downloads extends React.Component {
       this.setState({ renderLocation: 'settings' })
   }
   componentDidMount () {
-    window.preloadAPI.getDownloads(arg => {
-      console.log(arg)
+    window.preloadAPI.getDownloads('fromMain', arg => {
       this.setState({
         downloads: arg
       })
     })
-    /*
-    ipcRenderer.on('senddownloads', (event, arg) => {
-      this.setState({
-        downloads: arg
-      })
-    })
-    ipcRenderer.send('getdownloads')
-    ipcRenderer.on('downloads_changed', (event, downloads) => {
-      console.log(downloads)
-      const sortedDownloads = {}
-      Object.keys(downloads)
-        .sort((a, b) => b - a)
-        .forEach(function (key) {
-          sortedDownloads[key] = downloads[key]
-        })
-      this.setState({
-        downloads: sortedDownloads
-      })
-    })*/
   }
 
   getProgress = (receivedBytes, totalBytes) => {
@@ -71,9 +51,6 @@ class Downloads extends React.Component {
           .splice(0, 15)
           .join('') + '...'
       )
-  }
-  openItem = path => {
-    // shell.openPath(path)
   }
 
   render () {
@@ -113,13 +90,7 @@ class Downloads extends React.Component {
               >
                 <i className='fa fa-file-download file-icon'></i>
               </div>
-              <div
-                className='col-sm-8 p-2'
-                onClick={() => {
-                  if (this.state.downloads[key].status === 'done')
-                    this.openItem(this.state.downloads[key].path)
-                }}
-              >
+              <div className='col-sm-8 p-2'>
                 <b className='downloadname'>{this.getDownloadName(key)}</b>
                 <div
                   className={
@@ -150,6 +121,7 @@ class Downloads extends React.Component {
                 onClick={() => {
                   if (this.state.downloads[key].status === 'done')
                     window.preloadAPI.showItemInFolder(
+                      'toMain',
                       this.state.downloads[key].path
                     )
                 }}

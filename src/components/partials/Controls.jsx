@@ -129,7 +129,6 @@ class Controls extends React.Component {
         ': ' +
         e.errorDescription +
         "</p>'"
-      console.log(e)
       if (e.isMainFrame) {
         tab.webview.executeJavaScript('document.body.innerHTML+=' + data)
         setTimeout(() => {
@@ -263,9 +262,6 @@ class Controls extends React.Component {
   activeWebView = () => {
     if (this.state.tabs[this.state.activeTab].tab.isNative) return
     this.state.tabs[this.state.activeTab].tab.webview.setZoomLevel(0)
-  }
-  toggleMainMenu = () => {
-    //document.getElementById('menuDropdown').classList.toggle('show')
   }
   removeMenu = () => {
     document.getElementById('menuDropdown').classList.remove('show')
