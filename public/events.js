@@ -1,9 +1,15 @@
 const { app, ipcMain, shell, BrowserWindow } = require('electron')
 
 ipcMain.on('torWindow', event => {
-  app.commandLine.appendSwitch('proxy-server', 'socks5://127.0.0.1:9050')
-  app.relaunch({ args: process.argv.slice(1).concat(['--relaunch']) })
-  app.exit(0)
+  //https://github.com/electron-userland/electron-builder/issues/1727
+  if (process.env.APPIMAGE) {
+    app.relaunch({
+      execPath: process.env.APPIMAGE,
+      args: ['--appimage-extract-and-run']
+    })
+  }
+  app.relaunch()
+  app.quit(0)
 })
 
 ipcMain.on('appVersion', event => {

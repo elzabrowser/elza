@@ -7,7 +7,6 @@ contextBridge.exposeInMainWorld('preloadAPI', {
       'getPreference',
       'setPreference',
       'setDownloadPath',
-      'torwindow',
       'getDownloadsDirectory',
       'getPlatform',
       'showItemInFolder',
