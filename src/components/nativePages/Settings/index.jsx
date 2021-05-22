@@ -355,6 +355,43 @@ class Settings extends React.Component {
               >
                 Deactivate
               </button>
+              <h5 className='font-weight-light mt-5'>Special Permissions</h5>
+              <br />
+              <button
+                className={
+                  this.state.pref.blockSpecialPermissions
+                    ? 'preference-button preference-button-active'
+                    : 'preference-button'
+                }
+                onClick={() => {
+                  var pref = { ...this.state.pref }
+                  if (!pref.blockSpecialPermissions) {
+                    pref.blockSpecialPermissions = true
+                    this.setState({ pref }, this.savePreference)
+                  }
+                }}
+              >
+                Allow
+              </button>
+              <button
+                className={
+                  !this.state.pref.blockSpecialPermissions
+                    ? 'ml-4 preference-button preference-button-active'
+                    : 'ml-4 preference-button'
+                }
+                onClick={() => {
+                  var pref = { ...this.state.pref }
+                  if (pref.blockSpecialPermissions) {
+                    pref.blockSpecialPermissions = false
+                    this.setState({ pref }, this.savePreference)
+                  }
+                }}
+              >
+                Deny
+              </button>
+              <p className={'small font-weight-light mt-1'}>
+                  <i className='fa fa-info-circle mr-2'></i> Allow or deny access to camera, mic, location etc.
+                </p>
               <h5 className='font-weight-light mt-5'>Download Location</h5>
               <br />
               <button

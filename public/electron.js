@@ -123,6 +123,24 @@ app.on('ready', function () {
       blocker.enableBlockingInSession(mainWindow.webContents.session)
     })
   })
+
+  mainWindow.webContents.session.setPermissionRequestHandler(
+    (webContents, permission, callback) => {
+      if (!preference.getPreference().blockSpecialPermissions) {
+        return callback(false)
+      }
+      return callback(true)
+    }
+  )
+
+  mainWindow.webContents.session.setPermissionCheckHandler(
+    (webContents, permission) => {
+      if (!preference.getPreference().blockSpecialPermissions) {
+        return false
+      }
+      return false
+    }
+  )
 })
 
 //electron-context-menu options
