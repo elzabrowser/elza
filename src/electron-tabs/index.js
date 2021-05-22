@@ -188,7 +188,7 @@ class Tab extends EventEmitter {
     this.closable = args.closable === false ? false : true
     this.webviewAttributes = args.webviewAttributes || {}
     this.webviewAttributes.src = args.src
-    this.webviewAttributes.partition = 'temp'
+    this.webviewAttributes.partition = 'temp-in-memory'
     this.webviewAttributes.userAgent = getUserAgent
     this.webviewAttributes.webpreferences = 'sandbox=true'
     this.src = args.src

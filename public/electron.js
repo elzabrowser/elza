@@ -38,7 +38,7 @@ newwindow = type => {
     frame: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      webviewTag: true,
+      webviewTag: true
     }
   })
   if (isDev) {
@@ -113,6 +113,9 @@ app.on('ready', function () {
       })
     }
   )
+  ipcMain.on('downloadURL', (event, url) => {
+    mainWindow.webContents.downloadURL(url)
+  })
   ElectronBlocker.fromPrebuiltAdsAndTracking(fetch).then(blocker => {
     if (preference.getPreference().isAdblockEnabled)
       blocker.enableBlockingInSession(mainWindow.webContents.session)

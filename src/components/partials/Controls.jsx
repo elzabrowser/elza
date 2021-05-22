@@ -92,7 +92,11 @@ class Controls extends React.Component {
         tab.setIcon(tab.iconList[0], '')
       }
       let tabs = [...this.state.tabs]
-      tabs[tab.id].url = tab.webview.src
+      let url = tab.webview.src
+      tabs[tab.id].url = url
+      if (url.endsWith('.pdf')) {
+        window.preloadAPI.send('downloadURL', url, false)
+      }
       tabs[tab.id].inputURL = tab.webview.src
       tabs[tab.id].canGoBack = tab.webview.canGoBack()
       tabs[tab.id].canGoForward = tab.webview.canGoForward()
