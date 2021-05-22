@@ -17,7 +17,6 @@ class Settings extends React.Component {
     this.state = {
       pref: window.preloadAPI.send('getPreference', 'all', true),
       sentFeedback: 'no',
-      torPreferenceChanged: false,
       active: 'settings',
       feedbackData: {},
       version: window.preloadAPI.send('appVersion', '', true)
@@ -41,7 +40,7 @@ class Settings extends React.Component {
     })
     newtab.activate()
   }
-  
+
   componentDidMount () {
     if (this.props.tab.compProps.calledBy === 'downloadpopup') {
       this.setState({ active: 'downloads' })
@@ -208,7 +207,6 @@ class Settings extends React.Component {
                   className='settings-tor-button mt-3'
                   onClick={() => {
                     var pref = { ...this.state.pref }
-                    this.setState({ torPreferenceChanged: true })
                     pref.isTorEnabled = !pref.isTorEnabled
                     this.setState({ pref }, this.savePreference)
                     window.preloadAPI.send('torWindow', '', false)
@@ -230,13 +228,7 @@ class Settings extends React.Component {
                   {this.state.pref.isTorEnabled ? 'Active' : ''}
                 </small>
                 <br />
-                <p
-                  className={
-                    true || this.state.torPreferenceChanged
-                      ? 'small font-weight-light mt-1'
-                      : 'd-none'
-                  }
-                >
+                <p className={'small font-weight-light mt-1'}>
                   <i className='fa fa-info-circle mr-2'></i> This will close
                   your current window.
                 </p>
@@ -327,13 +319,49 @@ class Settings extends React.Component {
                   </div>
                 </div>
               </div>
+              <h5 className='font-weight-light mt-5'>Ad Block</h5>
+              <br />
+              <button
+                className={
+                  this.state.pref.isAdblockEnabled
+                    ? 'preference-button preference-button-active'
+                    : 'preference-button'
+                }
+                onClick={() => {
+                  var pref = { ...this.state.pref }
+                  if (!pref.isAdblockEnabled) {
+                    pref.isAdblockEnabled = true
+                    this.setState({ pref }, this.savePreference)
+                    window.preloadAPI.send('enableAdblocker', '', false)
+                  }
+                }}
+              >
+                Activate
+              </button>
+              <button
+                className={
+                  !this.state.pref.isAdblockEnabled
+                    ? 'ml-4 preference-button preference-button-active'
+                    : 'ml-4 preference-button'
+                }
+                onClick={() => {
+                  var pref = { ...this.state.pref }
+                  if (pref.isAdblockEnabled) {
+                    pref.isAdblockEnabled = false
+                    this.setState({ pref }, this.savePreference)
+                    window.preloadAPI.send('disableAdblocker', '', false)
+                  }
+                }}
+              >
+                Deactivate
+              </button>
               <h5 className='font-weight-light mt-5'>Download Location</h5>
               <br />
               <button
                 className={
                   this.state.pref.downloadLocation !== 'ask'
-                    ? 'download download-active'
-                    : 'download'
+                    ? 'preference-button preference-button-active'
+                    : 'preference-button'
                 }
                 onClick={() => {
                   var pref = { ...this.state.pref }
@@ -350,8 +378,8 @@ class Settings extends React.Component {
               <button
                 className={
                   this.state.pref.downloadLocation === 'ask'
-                    ? 'ml-4 download download-active'
-                    : 'ml-4 download'
+                    ? 'ml-4 preference-button preference-button-active'
+                    : 'ml-4 preference-button'
                 }
                 onClick={() => {
                   var pref = { ...this.state.pref }
@@ -364,7 +392,7 @@ class Settings extends React.Component {
               <button
                 className={
                   this.state.pref.downloadLocation !== 'ask'
-                    ? 'mt-3 download download-location'
+                    ? 'mt-3 preference-button download-location'
                     : 'd-none'
                 }
                 onClick={() => this.selectDownloadLocation()}
@@ -387,7 +415,7 @@ class Settings extends React.Component {
               <br />
 
               <button
-                className='download'
+                className='preference-button'
                 onClick={() => {
                   this.openUrl('https://rzp.io/l/elzabrowser')
                 }}

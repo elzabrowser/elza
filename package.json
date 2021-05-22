@@ -3,9 +3,9 @@
   "description": "Elza incognito web browser",
   "version": "0.4.2",
   "author": {
-    "name": "ExpertEvidence.org",
+    "name": "ElzaBrowserAuthers",
     "email": "elzabrowser@gmail.com",
-    "url": "https://www.expertevidence.org/"
+    "url": "https://elzabrowser.com/"
   },
   "homepage": "./",
   "main": "public/electron.js",
@@ -90,11 +90,13 @@
     }
   },
   "dependencies": {
+    "@cliqz/adblocker-electron": "^1.20.6",
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^13.1.9",
     "bootstrap": "^4.6.0",
     "cross-env": "^7.0.3",
+    "cross-fetch": "^3.1.4",
     "electron-context-menu": "^3.0.0",
     "electron-is-dev": "^2.0.0",
     "electron-log": "^4.3.5",

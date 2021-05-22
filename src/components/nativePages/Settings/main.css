@@ -127,7 +127,7 @@
   margin-right: 30px;
 }
 
-.download {
+.preference-button {
   color: var(--font-color-primary);
   background-color: transparent;
   font-family: Roboto;
@@ -144,7 +144,7 @@
   border-radius: 6px;
 }
 
-.download-active {
+.preference-button-active {
   border: 2px solid #ffffff;
 }
 

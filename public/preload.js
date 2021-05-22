@@ -13,7 +13,9 @@ contextBridge.exposeInMainWorld('preloadAPI', {
       'torWindow',
       'selectDownloadPath',
       'getDownloads',
-      'windowAction'
+      'windowAction',
+      'enableAdblocker',
+      'disableAdblocker'
     ]
     if (validChannels.includes(channel)) {
       if (sendsync) return ipcRenderer.sendSync(channel, data)

@@ -28,10 +28,13 @@ function setPrefs () {
   prefs = {
     searchEngine: 'ddg',
     isTorEnabled: false,
-    downloadLocation: 'ask'
+    downloadLocation: 'ask',
+    isAdblockEnabled: true,
+    blockSpecialPermissions: true
   }
   Object.keys(prefs).forEach(function (pref) {
-    if (!store.get('prefs.' + pref)) store.set('prefs.' + pref, prefs[pref])
+    if (typeof store.get('prefs.' + pref) === 'undefined')
+      store.set('prefs.' + pref, prefs[pref])
   })
 }
 

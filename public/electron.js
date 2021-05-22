@@ -1,6 +1,8 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const isDev = require('electron-is-dev')
 const { autoUpdater } = require('electron-updater')
+const { ElectronBlocker } = require('@cliqz/adblocker-electron')
+const fetch = require('cross-fetch')
 const contextMenu = require('electron-context-menu')
 const unusedFilename = require('unused-filename')
 const log = require('electron-log')
@@ -111,6 +113,16 @@ app.on('ready', function () {
       })
     }
   )
+  ElectronBlocker.fromPrebuiltAdsAndTracking(fetch).then(blocker => {
+    if (preference.getPreference().isAdblockEnabled)
+      blocker.enableBlockingInSession(mainWindow.webContents.session)
+    ipcMain.on('disableAdblocker', event => {
+      blocker.disableBlockingInSession(mainWindow.webContents.session)
+    })
+    ipcMain.on('enableAdblocker', event => {
+      blocker.enableBlockingInSession(mainWindow.webContents.session)
+    })
+  })
 })
 
 //electron-context-menu options
