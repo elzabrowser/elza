@@ -14,8 +14,7 @@ contextBridge.exposeInMainWorld('preloadAPI', {
       'selectDownloadPath',
       'getDownloads',
       'windowAction',
-      'enableAdblocker',
-      'disableAdblocker',
+      'toggleAdblocker',
       'downloadURL'
     ]
     if (validChannels.includes(channel)) {

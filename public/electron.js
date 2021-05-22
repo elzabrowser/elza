@@ -119,17 +119,15 @@ app.on('ready', function () {
   ElectronBlocker.fromPrebuiltAdsAndTracking(fetch).then(blocker => {
     if (preference.getPreference().isAdblockEnabled)
       blocker.enableBlockingInSession(mainWindow.webContents.session)
-    ipcMain.on('disableAdblocker', event => {
-      blocker.disableBlockingInSession(mainWindow.webContents.session)
-    })
-    ipcMain.on('enableAdblocker', event => {
-      blocker.enableBlockingInSession(mainWindow.webContents.session)
+    ipcMain.on('toggleAdblocker', (event, flag) => {
+      if (flag) blocker.enableBlockingInSession(mainWindow.webContents.session)
+      else blocker.disableBlockingInSession(mainWindow.webContents.session)
     })
   })
 
   mainWindow.webContents.session.setPermissionRequestHandler(
     (webContents, permission, callback) => {
-      if (!preference.getPreference().blockSpecialPermissions) {
+      if (preference.getPreference().blockSpecialPermissions) {
         return callback(false)
       }
       return callback(true)
@@ -138,7 +136,7 @@ app.on('ready', function () {
 
   mainWindow.webContents.session.setPermissionCheckHandler(
     (webContents, permission) => {
-      if (!preference.getPreference().blockSpecialPermissions) {
+      if (preference.getPreference().blockSpecialPermissions) {
         return false
       }
       return false
