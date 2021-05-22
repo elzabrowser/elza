@@ -7,7 +7,6 @@ import parseUrlInput from '../../functions/parseUrlInput'
 import validateElzaProtocol from '../../functions/validateElzaProtocol'
 import Settings from '../nativePages/Settings'
 import loadFavicon from '../../functions/loadFavicon'
-import USER_AGENT from '../../functions/getUserAgent'
 
 class Controls extends React.Component {
   constructor (props) {
@@ -110,10 +109,7 @@ class Controls extends React.Component {
       const url = e.url
       let newtab = this.props.tabGroup.addTab({
         src: url,
-        isNative: false,
-        webviewAttributes: {
-          useragent: USER_AGENT
-        }
+        isNative: false
       })
       newtab.activate()
     })
@@ -196,11 +192,7 @@ class Controls extends React.Component {
           icon: 'fa fa-grip-horizontal',
           iconURL: 'icon.png',
           isNative: true,
-          comp: BlankTab,
-          webviewAttributes: {
-            plugins: null,
-            useragent: USER_AGENT
-          }
+          comp: BlankTab
         })
         newtab.activate()
       }

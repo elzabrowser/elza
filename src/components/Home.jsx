@@ -2,7 +2,6 @@ import React from 'react'
 import '../assets/css/home.css'
 import Controls from './partials/Controls'
 import TabGroup from '../electron-tabs'
-import USER_AGENT from '../functions/getUserAgent'
 import BlankTab from './nativePages/BlankTab'
 
 class Home extends React.Component {
@@ -27,11 +26,7 @@ class Home extends React.Component {
       let tab = this.tabGroup.addTab({
         title: 'Loading...',
         src: url,
-        isNative: false,
-        webviewAttributes: {
-          useragent: USER_AGENT,
-          plugins: null
-        }
+        isNative: false
       })
       tab.activate()
     })
@@ -47,11 +42,7 @@ class Home extends React.Component {
       icon: 'fa fa-grip-horizontal' || icon,
       iconURL: 'icon.png',
       isNative: true,
-      comp: comp || BlankTab,
-      webviewAttributes: {
-        plugins: null,
-        useragent: USER_AGENT
-      }
+      comp: comp || BlankTab
     })
     tab.activate()
   }

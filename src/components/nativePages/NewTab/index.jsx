@@ -4,7 +4,6 @@ import binglogo from './bing.png'
 import googlelogo from './google.png'
 import ducklogo from './duck.png'
 import Sharing from '../Sharing'
-import USER_AGENT from '../../functions/getUserAgent'
 import { Dropdown } from 'react-bootstrap'
 class NewTab extends React.Component {
   constructor (props) {
@@ -21,11 +20,7 @@ class NewTab extends React.Component {
       src: src || 'elza://share',
       icon: 'fa fa-grip-horizontal' || icon,
       isNative: true,
-      comp: comp || Sharing,
-      webviewAttributes: {
-        plugins: null,
-        useragent: USER_AGENT
-      }
+      comp: comp || Sharing
     })
     this.props.tab.close()
     tab.activate()
