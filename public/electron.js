@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain, session } = require('electron')
 const isDev = require('electron-is-dev')
 const { autoUpdater } = require('electron-updater')
 const { ElectronBlocker } = require('@cliqz/adblocker-electron')
@@ -74,9 +74,9 @@ ipcMain.on('getDownloads', event => {
 
 app.on('ready', function () {
   mainWindow = newwindow()
-  mainWindow.webContents.session.on(
-    'will-download',
-    (event, item, webContents) => {
+  session
+    .fromPartition('temp-in-memory')
+    .on('will-download', (event, item, webContents) => {
       if (preference.getPreference().downloadLocation != 'ask') {
         var filepath = unusedFilename.sync(
           path.join(
@@ -111,37 +111,40 @@ app.on('ready', function () {
         }
         updateDownloadList()
       })
-    }
-  )
+    })
   ipcMain.on('downloadURL', (event, url) => {
     mainWindow.webContents.downloadURL(url)
   })
   ElectronBlocker.fromPrebuiltAdsAndTracking(fetch).then(blocker => {
     if (preference.getPreference().isAdblockEnabled)
-      blocker.enableBlockingInSession(mainWindow.webContents.session)
+      blocker.enableBlockingInSession(session.fromPartition('temp-in-memory'))
     ipcMain.on('toggleAdblocker', (event, flag) => {
-      if (flag) blocker.enableBlockingInSession(mainWindow.webContents.session)
-      else blocker.disableBlockingInSession(mainWindow.webContents.session)
+      if (flag)
+        blocker.enableBlockingInSession(session.fromPartition('temp-in-memory'))
+      else
+        blocker.disableBlockingInSession(
+          session.fromPartition('temp-in-memory')
+        )
     })
   })
 
-  mainWindow.webContents.session.setPermissionRequestHandler(
-    (webContents, permission, callback) => {
+  session
+    .fromPartition('temp-in-memory')
+    .setPermissionRequestHandler((webContents, permission, callback) => {
       if (preference.getPreference().blockSpecialPermissions) {
         return callback(false)
       }
       return callback(true)
-    }
-  )
+    })
 
-  mainWindow.webContents.session.setPermissionCheckHandler(
-    (webContents, permission) => {
+  session
+    .fromPartition('temp-in-memory')
+    .setPermissionCheckHandler((webContents, permission) => {
       if (preference.getPreference().blockSpecialPermissions) {
         return false
       }
-      return false
-    }
-  )
+      return true
+    })
 })
 
 //electron-context-menu options
