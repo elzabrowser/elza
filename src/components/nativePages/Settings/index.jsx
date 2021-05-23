@@ -355,6 +355,44 @@ class Settings extends React.Component {
               >
                 Deactivate
               </button>
+              <h5 className='font-weight-light mt-5'>Javascript</h5>
+              <br />
+              <button
+                className={
+                  this.state.pref.javascriptEnabled
+                    ? 'preference-button preference-button-active'
+                    : 'preference-button'
+                }
+                onClick={() => {
+                  var pref = { ...this.state.pref }
+                  if (!pref.javascriptEnabled) {
+                    pref.javascriptEnabled = true
+                    this.setState({ pref }, this.savePreference)
+                  }
+                }}
+              >
+                Enable
+              </button>
+              <button
+                className={
+                  !this.state.pref.javascriptEnabled
+                    ? 'ml-4 preference-button preference-button-active'
+                    : 'ml-4 preference-button'
+                }
+                onClick={() => {
+                  var pref = { ...this.state.pref }
+                  if (pref.javascriptEnabled) {
+                    pref.javascriptEnabled = false
+                    this.setState({ pref }, this.savePreference)
+                  }
+                }}
+              >
+                Disable
+              </button>
+              <p className={'small font-weight-light mt-1'}>
+                <i className='fa fa-info-circle mr-2'></i> Preference will be
+                changed for new tabs.
+              </p>
               <h5 className='font-weight-light mt-5'>Special Permissions</h5>
               <br />
               <button

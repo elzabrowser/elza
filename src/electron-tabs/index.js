@@ -181,7 +181,7 @@ class Tab extends EventEmitter {
     this.badge = args.badge
     this.iconURL = args.iconURL
     this.icon = args.icon
-    this.iconList = [] 
+    this.iconList = []
     this.isNative = args.isNative || false
     this.comp = args.comp
     this.compProps = args.compProps
@@ -190,7 +190,9 @@ class Tab extends EventEmitter {
     this.webviewAttributes.src = args.src
     this.webviewAttributes.partition = 'temp-in-memory'
     this.webviewAttributes.userAgent = getUserAgent
-    this.webviewAttributes.webpreferences = 'sandbox=true'
+    if (window.preloadAPI.send('getPreference', 'javascriptEnabled', true))
+      this.webviewAttributes.webpreferences = 'sandbox=true'
+    else this.webviewAttributes.webpreferences = 'sandbox=true, javascript=no'
     this.src = args.src
     this.tabElements = {}
     TabPrivate.initTab.bind(this)()
@@ -242,7 +244,7 @@ class Tab extends EventEmitter {
     if (this.isClosed) return
     return this.badge
   }
-  setFavicon(iconList) {
+  setFavicon (iconList) {
     this.iconList = iconList
   }
   setIcon (iconURL, icon) {

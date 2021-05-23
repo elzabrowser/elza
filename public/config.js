@@ -30,7 +30,8 @@ function setPrefs () {
     isTorEnabled: false,
     downloadLocation: 'ask',
     isAdblockEnabled: true,
-    blockSpecialPermissions: true
+    blockSpecialPermissions: true,
+    javascriptEnabled: true
   }
   Object.keys(prefs).forEach(function (pref) {
     if (typeof store.get('prefs.' + pref) === 'undefined')
