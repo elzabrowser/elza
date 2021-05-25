@@ -60,6 +60,7 @@ newwindow = type => {
 }
 
 updateDownloadList = () => {
+  if (!downloads) return //downloads are destroyed when elza is restarting
   let sortedDownloads = {}
   Object.keys(downloads)
     .sort((a, b) => b - a)
@@ -84,10 +85,11 @@ app.on('ready', function () {
             item.getFilename()
           )
         )
+        var newFilename = path.basename(filepath)
         item.setSavePath(filepath)
       }
       var downloadItem = {
-        name: item.getFilename(),
+        name: newFilename || item.getFilename(),
         totalBytes: item.getTotalBytes(),
         receivedBytes: 0,
         status: 'started'

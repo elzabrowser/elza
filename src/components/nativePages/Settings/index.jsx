@@ -202,9 +202,27 @@ class Settings extends React.Component {
               <br />
               <br />
               <div className=''>
-                <h5 className='font-weight-light'>Onion Router</h5>
+                <h5 className='mb-4 font-weight-light'>
+                  Onion Router
+                  <img
+                    src={torImg}
+                    alt='tor'
+                    className={
+                      this.state.pref.isTorEnabled
+                        ? 'settings-tor-icon ml-3'
+                        : 'settings-tor-icon settings-tor-icon-inactive ml-3'
+                    }
+                  />
+                  <small className='ml-1 text-muted'>
+                    {this.state.pref.isTorEnabled ? 'Active' : ''}
+                  </small>
+                </h5>
                 <button
-                  className='settings-tor-button mt-3'
+                  className={
+                    this.state.pref.isTorEnabled
+                      ? 'preference-button preference-button-active'
+                      : 'preference-button'
+                  }
                   onClick={() => {
                     var pref = { ...this.state.pref }
                     pref.isTorEnabled = !pref.isTorEnabled
@@ -212,21 +230,26 @@ class Settings extends React.Component {
                     window.preloadAPI.send('torWindow', '', false)
                   }}
                 >
-                  {this.state.pref.isTorEnabled ? 'Deactivate' : 'Activate'}
+                  Activate
                 </button>
-                <img
-                  src={torImg}
-                  alt='tor'
+                <button
                   className={
-                    this.state.pref.isTorEnabled
-                      ? 'settings-tor-icon'
-                      : 'settings-tor-icon settings-tor-icon-inactive'
+                    !this.state.pref.isTorEnabled
+                      ? 'ml-4 preference-button preference-button-active'
+                      : 'ml-4 preference-button'
                   }
-                />
+                  onClick={() => {
+                    var pref = { ...this.state.pref }
+                    if (pref.isTorEnabled) {
+                      pref.isTorEnabled = false
+                      this.setState({ pref }, this.savePreference)
+                      window.preloadAPI.send('torWindow', '', false)
+                    }
+                  }}
+                >
+                  Deactivate
+                </button>
 
-                <small className='ml-3 text-muted'>
-                  {this.state.pref.isTorEnabled ? 'Active' : ''}
-                </small>
                 <br />
                 <p className={'small font-weight-light mt-1'}>
                   <i className='fa fa-info-circle mr-2'></i> This will close
