@@ -5,6 +5,9 @@ setPrefs()
 
 ipcMain.on('getPreference', (event, arg) => {
   if (arg == 'all') event.returnValue = store.get('prefs')
+  else if (arg == 'searchEngine' && store.get('prefs.isTorEnabled'))
+    //force Duckduckgo when tor is enabled
+    event.returnValue = 'ddg'
   else event.returnValue = store.get('prefs.' + arg)
 })
 
@@ -31,7 +34,8 @@ function setPrefs () {
     downloadLocation: 'ask',
     isAdblockEnabled: true,
     blockSpecialPermissions: true,
-    javascriptEnabled: true
+    javascriptEnabled: true,
+    updateMethod: 'auto'
   }
   Object.keys(prefs).forEach(function (pref) {
     if (typeof store.get('prefs.' + pref) === 'undefined')

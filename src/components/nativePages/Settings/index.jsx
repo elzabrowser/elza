@@ -157,49 +157,6 @@ class Settings extends React.Component {
             <div
               className={this.state.active === 'settings' ? 'pl-4' : 'd-none'}
             >
-              <div>
-                <h5 className='font-weight-light'>
-                  How can we improve Elza Browser?
-                </h5>
-                <br />
-                <div className='feedback rounded'>
-                  <form onSubmit={this.submitFeedback}>
-                    <textarea
-                      className='rounded textarea p-3'
-                      rows='2'
-                      name='description'
-                      ref='description'
-                      form='usrform'
-                      onChange={this.onchangeHandler}
-                      placeholder='Congratulations and thanks for being our pre-release tester. Please tell us your thoughts...'
-                      onKeyDown={this.handleKeyDown}
-                      required
-                    ></textarea>
-                    <hr className='mb-0' />
-                    <input
-                      type='text'
-                      name='email'
-                      ref='email'
-                      className='rounded textarea pl-3 feedback-email'
-                      onChange={this.onchangeHandler}
-                      placeholder='email or name'
-                    ></input>
-
-                    <button className='mt-1 mr-2' title='Send' type='submit'>
-                      <i
-                        className={
-                          this.state.sentFeedback === 'no'
-                            ? 'fa fa-chevron-right'
-                            : this.state.sentFeedback === 'yes'
-                            ? 'fa fa-check'
-                            : 'fas fa-circle-notch fa-spin'
-                        }
-                      ></i>
-                    </button>
-                  </form>
-                </div>
-              </div>
-              <br />
               <br />
               <div className=''>
                 <h5 className='mb-4 font-weight-light'>
@@ -342,6 +299,16 @@ class Settings extends React.Component {
                   </div>
                 </div>
               </div>
+              <p
+                className={
+                  this.state.pref.isTorEnabled
+                    ? 'small font-weight-light mt-1'
+                    : 'd-none'
+                }
+              >
+                <i className='fa fa-info-circle mr-2'></i> DuckDuckGo is forced
+                when onion router is enabled.
+              </p>
               <h5 className='font-weight-light mt-5'>Ad Block</h5>
               <br />
               <button
@@ -451,8 +418,8 @@ class Settings extends React.Component {
                 Deny
               </button>
               <p className={'small font-weight-light mt-1'}>
-                <i className='fa fa-info-circle mr-2'></i> Allow or deny access
-                to camera, mic, location etc.
+                <i className='fa fa-info-circle mr-2'></i> Access to camera,
+                mic, location and more.
               </p>
               <h5 className='font-weight-light mt-5'>Download Location</h5>
               <br />
@@ -512,7 +479,50 @@ class Settings extends React.Component {
                 Version: {this.state.version} (Prerelease)
               </p>
               <br />
+              <div>
+                <h5 className='font-weight-light'>
+                  How can we improve Elza Browser?
+                </h5>
+                <br />
+                <div className='feedback rounded'>
+                  <form onSubmit={this.submitFeedback}>
+                    <textarea
+                      className='rounded textarea p-3'
+                      rows='2'
+                      name='description'
+                      ref='description'
+                      form='usrform'
+                      onChange={this.onchangeHandler}
+                      placeholder='Congratulations and thanks for being our pre-release tester. Please tell us your thoughts...'
+                      onKeyDown={this.handleKeyDown}
+                      required
+                    ></textarea>
+                    <hr className='mb-0' />
+                    <input
+                      type='text'
+                      name='email'
+                      ref='email'
+                      className='rounded textarea pl-3 feedback-email'
+                      onChange={this.onchangeHandler}
+                      placeholder='email or name'
+                    ></input>
 
+                    <button className='mt-1 mr-2' title='Send' type='submit'>
+                      <i
+                        className={
+                          this.state.sentFeedback === 'no'
+                            ? 'fa fa-chevron-right'
+                            : this.state.sentFeedback === 'yes'
+                            ? 'fa fa-check'
+                            : 'fas fa-circle-notch fa-spin'
+                        }
+                      ></i>
+                    </button>
+                  </form>
+                </div>
+              </div>
+              <br />
+              <br />
               <button
                 className='preference-button'
                 onClick={() => {
