@@ -1,18 +1,14 @@
 const { app, BrowserWindow, ipcMain, session } = require('electron')
 const isDev = require('electron-is-dev')
-const { autoUpdater } = require('electron-updater')
 const { ElectronBlocker } = require('@cliqz/adblocker-electron')
 const fetch = require('cross-fetch')
 const contextMenu = require('electron-context-menu')
 const unusedFilename = require('unused-filename')
-const log = require('electron-log')
 const path = require('path')
-const preference = require('./config')
-require('./events')
-require('./tor')
+const preference = require('./functions/config')
+require('./functions/events')
+require('./functions/tor')
 
-autoUpdater.logger = log
-autoUpdater.logger.transports.file.level = 'info'
 let downloads = {}
 let mainWindow, newWindow
 
@@ -46,10 +42,6 @@ newwindow = type => {
     newWindow.openDevTools({ mode: 'detach' })
   } else {
     newWindow.loadFile('./build/index.html')
-    autoUpdater.checkForUpdatesAndNotify()
-    autoUpdater.on('error', error => {
-      console.log(error)
-    })
     //newWindow.openDevTools()
   }
   newWindow.once('ready-to-show', () => {
@@ -74,6 +66,7 @@ ipcMain.on('getDownloads', event => {
 })
 
 app.on('ready', function () {
+  require('./functions/autoupdator')
   mainWindow = newwindow()
   session
     .fromPartition('temp-in-memory')
@@ -170,13 +163,6 @@ app.on('web-contents-created', (e, contents) => {
           visible: params.mediaType === 'image',
           click: () => {
             mainWindow.webContents.send('openInNewtab', params.srcURL)
-          }
-        },
-        {
-          label: 'Open New Window',
-          visible: true,
-          click: () => {
-            newwindow()
           }
         }
       ],

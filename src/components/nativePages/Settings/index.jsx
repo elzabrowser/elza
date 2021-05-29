@@ -465,6 +465,53 @@ class Settings extends React.Component {
               >
                 {this.state.pref.downloadLocation}
               </button>
+              <h5 className='font-weight-light mt-5'>
+                When new Elza version is availble
+              </h5>
+              <br />
+              <button
+                className={
+                  this.state.pref.updateMethod === 'auto'
+                    ? 'preference-button preference-button-active'
+                    : 'preference-button'
+                }
+                onClick={() => {
+                  var pref = { ...this.state.pref }
+                  pref.updateMethod = 'auto'
+                  this.setState({ pref }, this.savePreference)
+                }}
+              >
+                Auto Update
+              </button>
+              <button
+                className={
+                  this.state.pref.updateMethod === 'notify'
+                    ? 'ml-4 preference-button preference-button-active'
+                    : 'ml-4 preference-button'
+                }
+                onClick={() => {
+                  var pref = { ...this.state.pref }
+                  pref.updateMethod = 'notify'
+                  this.setState({ pref }, this.savePreference)
+                }}
+              >
+                Notify
+              </button>
+              <button
+                className={
+                  this.state.pref.updateMethod === 'dont-update'
+                    ? 'ml-4 preference-button preference-button-active'
+                    : 'ml-4 preference-button'
+                }
+                onClick={() => {
+                  var pref = { ...this.state.pref }
+                  pref.updateMethod = 'dont-update'
+                  this.setState({ pref }, this.savePreference)
+                }}
+              >
+                Do Nothing
+              </button>
+              <br />
               <br />
               <br />
             </div>
