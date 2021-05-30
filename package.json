@@ -103,6 +103,7 @@
     "electron-store": "^8.0.0",
     "electron-updater": "^4.3.9",
     "font-awesome": "^4.7.0",
+    "get-json": "^1.0.1",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.0",
     "react-dom": "^17.0.2",
