@@ -11,10 +11,8 @@ ipcMain.on('getPreference', (event, arg) => {
   else event.returnValue = store.get('prefs.' + arg)
 })
 
-ipcMain.on('setPreference', (event, prefs, value) => {
-  Object.keys(prefs).forEach(function (pref) {
-    store.set('prefs.' + pref, prefs[pref])
-  })
+ipcMain.on('setPreference', (event, prefs) => {
+  setAllPreference(prefs)
   event.returnValue = true
 })
 
@@ -35,7 +33,8 @@ function setPrefs () {
     isAdblockEnabled: true,
     blockSpecialPermissions: true,
     javascriptEnabled: true,
-    updateMethod: 'auto'
+    updateMethod: 'auto',
+    notifications: []
   }
   Object.keys(prefs).forEach(function (pref) {
     if (typeof store.get('prefs.' + pref) === 'undefined')
@@ -43,8 +42,20 @@ function setPrefs () {
   })
 }
 
+function getPreference () {
+  return store.get('prefs')
+}
+
+function setAllPreference (prefs) {
+  Object.keys(prefs).forEach(function (pref) {
+    store.set('prefs.' + pref, prefs[pref])
+  })
+}
+
+function setPreference (key, value) {
+  store.set('prefs.' + key, value)
+}
 module.exports = {
-  getPreference: () => {
-    return store.get('prefs')
-  }
+  getPreference: getPreference,
+  setPreference: setPreference
 }

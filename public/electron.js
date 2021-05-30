@@ -6,6 +6,7 @@ const contextMenu = require('electron-context-menu')
 const unusedFilename = require('unused-filename')
 const path = require('path')
 const preference = require('./functions/config')
+require('./functions/notifier')
 require('./functions/events')
 require('./functions/tor')
 
