@@ -21,6 +21,9 @@ class About extends React.Component {
       feedbackData: feedback
     })
   }
+  openUrl = url => {
+    window.preloadAPI.send('openNewTab', url, false)
+  }
   submitFeedback = e => {
     this.setState({ sentFeedback: 'sending' })
     e.preventDefault()

@@ -111,6 +111,9 @@ app.on('ready', function () {
   ipcMain.on('downloadURL', (event, url) => {
     mainWindow.webContents.downloadURL(url)
   })
+  ipcMain.on('openNewTab', (event, url) => {
+    mainWindow.webContents.send('openInNewtab', url)
+  })
   ElectronBlocker.fromPrebuiltAdsAndTracking(fetch).then(blocker => {
     if (preference.getPreference().isAdblockEnabled)
       blocker.enableBlockingInSession(session.fromPartition('temp-in-memory'))

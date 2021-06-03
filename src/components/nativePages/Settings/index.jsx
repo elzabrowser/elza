@@ -17,29 +17,15 @@ class Settings extends React.Component {
     super(props)
     this.state = {
       pref: window.preloadAPI.send('getPreference', 'all', true),
-      sentFeedback: 'no',
       active: 'settings',
-      feedbackData: {},
       version: window.preloadAPI.send('appVersion', '', true)
     }
   }
-  privateToggleChange = e => {
-    let pref = this.state.pref
-    pref.privateMode = !pref.privateMode
-    this.setState({ pref })
-  }
+
   searchEngineSelector = e => {
     let pref = this.state.pref
     pref.searchEngine = e
     this.setState({ pref }, this.savePreference)
-  }
-  openUrl = url => {
-    let newtab = this.props.tabGroup.addTab({
-      src: url,
-      title: 'Loading...',
-      isNative: false
-    })
-    newtab.activate()
   }
 
   componentDidMount () {
@@ -52,6 +38,11 @@ class Settings extends React.Component {
     window.preloadAPI.send('setPreference', this.state.pref, true)
     this.props.handleSearchEngineChange(this.state.pref.searchEngine)
   }
+
+  openUrl = url => {
+    window.preloadAPI.send('openNewTab', url, false)
+  }
+
   selectDownloadLocation = async () => {
     var pref = { ...this.state.pref }
     pref.downloadLocation = window.preloadAPI.send(
@@ -322,10 +313,8 @@ class Settings extends React.Component {
                 }
                 onClick={() => {
                   var pref = { ...this.state.pref }
-                  if (pref.blockSpecialPermissions) {
                     pref.blockSpecialPermissions = false
                     this.setState({ pref }, this.savePreference)
-                  }
                 }}
               >
                 Allow
@@ -338,10 +327,8 @@ class Settings extends React.Component {
                 }
                 onClick={() => {
                   var pref = { ...this.state.pref }
-                  if (!pref.blockSpecialPermissions) {
                     pref.blockSpecialPermissions = true
                     this.setState({ pref }, this.savePreference)
-                  }
                 }}
               >
                 Deny
@@ -360,10 +347,8 @@ class Settings extends React.Component {
                 }
                 onClick={() => {
                   var pref = { ...this.state.pref }
-                  if (!pref.javascriptEnabled) {
                     pref.javascriptEnabled = true
                     this.setState({ pref }, this.savePreference)
-                  }
                 }}
               >
                 Enable
@@ -376,10 +361,8 @@ class Settings extends React.Component {
                 }
                 onClick={() => {
                   var pref = { ...this.state.pref }
-                  if (pref.javascriptEnabled) {
                     pref.javascriptEnabled = false
                     this.setState({ pref }, this.savePreference)
-                  }
                 }}
               >
                 Disable
@@ -476,23 +459,16 @@ class Settings extends React.Component {
               >
                 Ignore
               </button>
-              <p className={'small font-weight-light mt-1'}>
+              <p className={'small font-weight-light mt-1 mb-5'}>
                 <i className='fa fa-info-circle mr-2'></i> Highly recommended to
                 keep Elza uptodate.
               </p>
-              <br />
-              <br />
-              <br />
             </div>
             <div className={this.state.active === 'downloads' ? '' : 'd-none'}>
               <Downloads calledBy='settings' />
-              <br />
-              <br />
             </div>
             <div className={this.state.active === 'about' ? 'p-3' : 'd-none'}>
               <About />
-              <br />
-              <br />
             </div>
           </div>
           <div className='sidebar-right col-sm-2 col-xs-2'></div>
