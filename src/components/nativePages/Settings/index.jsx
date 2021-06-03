@@ -10,6 +10,7 @@ import yahooImg from '../../../assets/images/yahoo-icon.png'
 import yandexImg from '../../../assets/images/yandex-icon.png'
 import qwantImg from '../../../assets/images/qwant-icon.png'
 import torImg from '../../../assets/images/tor.png'
+import About from '../../partials/About'
 
 class Settings extends React.Component {
   constructor (props) {
@@ -60,41 +61,7 @@ class Settings extends React.Component {
     )
     this.setState({ pref })
   }
-  handleKeyDown (e) {
-    e.target.style.height = 'inherit'
-    e.target.style.height = `${e.target.scrollHeight}px`
-  }
-  onchangeHandler = e => {
-    let feedback = this.state.feedbackData
-    feedback[e.target.name] = e.target.value
-    this.setState({
-      feedbackData: feedback
-    })
-  }
-  submitFeedback = e => {
-    this.setState({ sentFeedback: 'sending' })
-    e.preventDefault()
-    let feedback = this.state.feedbackData
-    if (feedback) {
-      fetch('https://feedback.api.elzabrowser.com/feedback', {
-        method: 'post',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(feedback)
-      })
-        .then(res => res.json())
-        .then(res => {
-          this.setState({ sentFeedback: 'yes' })
-          this.refs.email.value = ''
-          this.refs.description.value = ''
-          setTimeout(() => {
-            this.setState({ sentFeedback: 'no' })
-          }, 3000)
-        })
-    }
-  }
+  
   render () {
     return (
       <div className='container-fluid settings-container h-100'>
@@ -345,44 +312,6 @@ class Settings extends React.Component {
               >
                 Deactivate
               </button>
-              <h5 className='font-weight-light mt-5'>Javascript</h5>
-              <br />
-              <button
-                className={
-                  this.state.pref.javascriptEnabled
-                    ? 'preference-button preference-button-active'
-                    : 'preference-button'
-                }
-                onClick={() => {
-                  var pref = { ...this.state.pref }
-                  if (!pref.javascriptEnabled) {
-                    pref.javascriptEnabled = true
-                    this.setState({ pref }, this.savePreference)
-                  }
-                }}
-              >
-                Enable
-              </button>
-              <button
-                className={
-                  !this.state.pref.javascriptEnabled
-                    ? 'ml-4 preference-button preference-button-active'
-                    : 'ml-4 preference-button'
-                }
-                onClick={() => {
-                  var pref = { ...this.state.pref }
-                  if (pref.javascriptEnabled) {
-                    pref.javascriptEnabled = false
-                    this.setState({ pref }, this.savePreference)
-                  }
-                }}
-              >
-                Disable
-              </button>
-              <p className={'small font-weight-light mt-1'}>
-                <i className='fa fa-info-circle mr-2'></i> Preference will be
-                changed for new tabs.
-              </p>
               <h5 className='font-weight-light mt-5'>Special Permissions</h5>
               <br />
               <button
@@ -421,6 +350,45 @@ class Settings extends React.Component {
                 <i className='fa fa-info-circle mr-2'></i> Access to camera,
                 mic, location and more.
               </p>
+              <h5 className='font-weight-light mt-5'>Javascript</h5>
+              <br />
+              <button
+                className={
+                  this.state.pref.javascriptEnabled
+                    ? 'preference-button preference-button-active'
+                    : 'preference-button'
+                }
+                onClick={() => {
+                  var pref = { ...this.state.pref }
+                  if (!pref.javascriptEnabled) {
+                    pref.javascriptEnabled = true
+                    this.setState({ pref }, this.savePreference)
+                  }
+                }}
+              >
+                Enable
+              </button>
+              <button
+                className={
+                  !this.state.pref.javascriptEnabled
+                    ? 'ml-4 preference-button preference-button-active'
+                    : 'ml-4 preference-button'
+                }
+                onClick={() => {
+                  var pref = { ...this.state.pref }
+                  if (pref.javascriptEnabled) {
+                    pref.javascriptEnabled = false
+                    this.setState({ pref }, this.savePreference)
+                  }
+                }}
+              >
+                Disable
+              </button>
+              <p className={'small font-weight-light mt-1'}>
+                <i className='fa fa-info-circle mr-2'></i> Preference will be
+                changed for new tabs.
+              </p>
+
               <h5 className='font-weight-light mt-5'>Download Location</h5>
               <br />
               <button
@@ -465,15 +433,12 @@ class Settings extends React.Component {
               >
                 {this.state.pref.downloadLocation}
               </button>
-              <h5 className='font-weight-light mt-5'>
-                When new Elza version is availble
-              </h5>
-              <br />
+              <h5 className='font-weight-light mt-5'>Updates</h5>
               <button
                 className={
                   this.state.pref.updateMethod === 'auto'
-                    ? 'preference-button preference-button-active'
-                    : 'preference-button'
+                    ? 'mt-4 mr-4 preference-button preference-button-active'
+                    : 'mt-4 mr-4 preference-button'
                 }
                 onClick={() => {
                   var pref = { ...this.state.pref }
@@ -486,8 +451,8 @@ class Settings extends React.Component {
               <button
                 className={
                   this.state.pref.updateMethod === 'notify'
-                    ? 'ml-4 preference-button preference-button-active'
-                    : 'ml-4 preference-button'
+                    ? 'mt-4 mr-4 preference-button preference-button-active'
+                    : 'mt-4 mr-4 preference-button'
                 }
                 onClick={() => {
                   var pref = { ...this.state.pref }
@@ -500,8 +465,8 @@ class Settings extends React.Component {
               <button
                 className={
                   this.state.pref.updateMethod === 'dont-update'
-                    ? 'ml-4 preference-button preference-button-active'
-                    : 'ml-4 preference-button'
+                    ? 'mt-4 preference-button preference-button-active'
+                    : 'mt-4 preference-button'
                 }
                 onClick={() => {
                   var pref = { ...this.state.pref }
@@ -509,8 +474,12 @@ class Settings extends React.Component {
                   this.setState({ pref }, this.savePreference)
                 }}
               >
-                Do Nothing
+                Ignore
               </button>
+              <p className={'small font-weight-light mt-1'}>
+                <i className='fa fa-info-circle mr-2'></i> Highly recommended to
+                keep Elza uptodate.
+              </p>
               <br />
               <br />
               <br />
@@ -521,79 +490,7 @@ class Settings extends React.Component {
               <br />
             </div>
             <div className={this.state.active === 'about' ? 'p-3' : 'd-none'}>
-              <h5 className='mb-1'>Elza Browser</h5>
-              <p className='text-color-secondary'>
-                Version: {this.state.version} (Prerelease)
-              </p>
-              <br />
-              <div>
-                <h5 className='font-weight-light'>
-                  How can we improve Elza Browser?
-                </h5>
-                <br />
-                <div className='feedback rounded'>
-                  <form onSubmit={this.submitFeedback}>
-                    <textarea
-                      className='rounded textarea p-3'
-                      rows='2'
-                      name='description'
-                      ref='description'
-                      form='usrform'
-                      onChange={this.onchangeHandler}
-                      placeholder='Congratulations and thanks for being our pre-release tester. Please tell us your thoughts...'
-                      onKeyDown={this.handleKeyDown}
-                      required
-                    ></textarea>
-                    <hr className='mb-0' />
-                    <input
-                      type='text'
-                      name='email'
-                      ref='email'
-                      className='rounded textarea pl-3 feedback-email'
-                      onChange={this.onchangeHandler}
-                      placeholder='email or name'
-                    ></input>
-
-                    <button className='mt-1 mr-2' title='Send' type='submit'>
-                      <i
-                        className={
-                          this.state.sentFeedback === 'no'
-                            ? 'fa fa-chevron-right'
-                            : this.state.sentFeedback === 'yes'
-                            ? 'fa fa-check'
-                            : 'fas fa-circle-notch fa-spin'
-                        }
-                      ></i>
-                    </button>
-                  </form>
-                </div>
-              </div>
-              <br />
-              <br />
-              <button
-                className='preference-button'
-                onClick={() => {
-                  this.openUrl('https://rzp.io/l/elzabrowser')
-                }}
-              >
-                <i className='fa fa-heart mr-3'></i>Donate to keep this project
-                alive
-              </button>
-              <br />
-              <br />
-              <div
-                className='about-contribute'
-                onClick={() => {
-                  this.openUrl(
-                    'https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAANAAQUy0k5UMDAwTVgxUFo3WDBRWlgxR1VaSldVRzNRUi4u'
-                  )
-                }}
-              >
-                <i className='fa fa-laptop-code mr-2' /> Do you speak our
-                language? Join us on devloping Elza!
-              </div>
-              <br />
-              <br />
+              <About />
               <br />
               <br />
             </div>

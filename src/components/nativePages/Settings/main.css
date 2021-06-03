@@ -146,34 +146,6 @@
   font-size: 17px;
 }
 
-.feedback {
-  border: 1px solid var(--font-color-secondary);
-  min-width: 350px;
-  width: 38vw;
-}
-
-.feedback button {
-  background: transparent;
-  border: none;
-  color: #eee;
-  float: right;
-  margin: auto;
-}
-
-.textarea {
-  border: none;
-  overflow: auto;
-  outline: none;
-  background-color: rgb(12, 12, 12);
-  color: rgb(196, 196, 196);
-  font-family: Roboto;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-  resize: none;
-  width: 100%;
-}
-
 .sidebar {
   -ms-flex: 0 0 190px;
   flex: 0 0 190px;
@@ -184,20 +156,11 @@
   flex: 0 0 0px;
 }
 
-.about-contribute {
-  position: absolute;
-  color: var(--font-color-secondary);
-  font-size: 12px;
-  cursor: pointer;
-}
 .right-container {
   height: 90vh;
   overflow: scroll;
 }
-.feedback-email {
-  width: calc(100% - 40px);
-  height: 33px;
-}
+
 .download-location {
   min-width: 350px;
   width: 38vw;
