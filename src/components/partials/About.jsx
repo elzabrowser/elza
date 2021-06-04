@@ -5,7 +5,8 @@ class About extends React.Component {
     super(props)
     this.state = {
       sentFeedback: 'no',
-      feedbackData: {}
+      feedbackData: {},
+      version: window.preloadAPI.send('appVersion', '', true)
     }
   }
 

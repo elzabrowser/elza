@@ -17,8 +17,7 @@ class Settings extends React.Component {
     super(props)
     this.state = {
       pref: window.preloadAPI.send('getPreference', 'all', true),
-      active: 'settings',
-      version: window.preloadAPI.send('appVersion', '', true)
+      active: 'settings'
     }
   }
 
@@ -52,7 +51,7 @@ class Settings extends React.Component {
     )
     this.setState({ pref })
   }
-  
+
   render () {
     return (
       <div className='container-fluid settings-container h-100'>
@@ -313,8 +312,8 @@ class Settings extends React.Component {
                 }
                 onClick={() => {
                   var pref = { ...this.state.pref }
-                    pref.blockSpecialPermissions = false
-                    this.setState({ pref }, this.savePreference)
+                  pref.blockSpecialPermissions = false
+                  this.setState({ pref }, this.savePreference)
                 }}
               >
                 Allow
@@ -327,8 +326,8 @@ class Settings extends React.Component {
                 }
                 onClick={() => {
                   var pref = { ...this.state.pref }
-                    pref.blockSpecialPermissions = true
-                    this.setState({ pref }, this.savePreference)
+                  pref.blockSpecialPermissions = true
+                  this.setState({ pref }, this.savePreference)
                 }}
               >
                 Deny
@@ -347,8 +346,8 @@ class Settings extends React.Component {
                 }
                 onClick={() => {
                   var pref = { ...this.state.pref }
-                    pref.javascriptEnabled = true
-                    this.setState({ pref }, this.savePreference)
+                  pref.javascriptEnabled = true
+                  this.setState({ pref }, this.savePreference)
                 }}
               >
                 Enable
@@ -361,8 +360,8 @@ class Settings extends React.Component {
                 }
                 onClick={() => {
                   var pref = { ...this.state.pref }
-                    pref.javascriptEnabled = false
-                    this.setState({ pref }, this.savePreference)
+                  pref.javascriptEnabled = false
+                  this.setState({ pref }, this.savePreference)
                 }}
               >
                 Disable
