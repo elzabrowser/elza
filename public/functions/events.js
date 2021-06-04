@@ -1,5 +1,5 @@
 const { app, ipcMain, shell, BrowserWindow } = require('electron')
-
+const request = require('request')
 ipcMain.on('torWindow', event => {
   //https://github.com/electron-userland/electron-builder/issues/1727
   if (process.env.APPIMAGE) {
@@ -42,4 +42,20 @@ ipcMain.on('getDownloadsDirectory', (event, arg, value) => {
 
 ipcMain.on('getPlatform', event => {
   event.returnValue = process.platform
+})
+
+ipcMain.on('sendFeedback', (event, data) => {
+  var options = {
+    method: 'POST',
+    url:
+      'https://script.google.com/macros/s/AKfycbyS0EIojx1x0iBIlvia6Jr3gKdPg4bVVIretnHywu-NAm2gWGR2_onqwUVwcZmImW_7Yg/exec',
+    headers: {
+      'content-type':
+        'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW'
+    },
+    formData: data
+  }
+  request(options, function (error, response, body) {
+    if (error) console.log(error)
+  })
 })

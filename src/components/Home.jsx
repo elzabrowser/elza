@@ -23,6 +23,10 @@ class Home extends React.Component {
       this.setState({ isFirstRender: false })
     }
     window.preloadAPI.receive('openInNewtab', url => {
+      if (url.endsWith('.pdf')) {
+        window.preloadAPI.send('downloadURL', url, false)
+        return
+      }
       let tab = this.tabGroup.addTab({
         title: 'Loading...',
         src: url,

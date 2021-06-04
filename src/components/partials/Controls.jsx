@@ -111,6 +111,10 @@ class Controls extends React.Component {
     })
     tab.webview.addEventListener('new-window', e => {
       const url = e.url
+      if (url.endsWith('.pdf')) {
+        window.preloadAPI.send('downloadURL', url, false)
+        return
+      }
       let newtab = this.props.tabGroup.addTab({
         src: url,
         isNative: false

@@ -28,25 +28,13 @@ class About extends React.Component {
     this.setState({ sentFeedback: 'sending' })
     e.preventDefault()
     let feedback = this.state.feedbackData
-    if (feedback) {
-      fetch('https://feedback.api.elzabrowser.com/feedback', {
-        method: 'post',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(feedback)
-      })
-        .then(res => res.json())
-        .then(res => {
-          this.setState({ sentFeedback: 'yes' })
-          this.refs.email.value = ''
-          this.refs.description.value = ''
-          setTimeout(() => {
-            this.setState({ sentFeedback: 'no' })
-          }, 3000)
-        })
-    }
+    window.preloadAPI.send('sendFeedback', feedback, false)
+    setTimeout(() => {
+      this.setState({ sentFeedback: 'yes' })
+      setTimeout(() => {
+        this.setState({ sentFeedback: 'no' })
+      }, 2000)
+    }, 3000)
   }
 
   render () {
@@ -68,7 +56,7 @@ class About extends React.Component {
                 <textarea
                   className='rounded textarea p-3'
                   rows='2'
-                  name='description'
+                  name='feedback'
                   ref='description'
                   form='usrform'
                   onChange={this.onchangeHandler}

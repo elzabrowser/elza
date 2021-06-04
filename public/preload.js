@@ -16,7 +16,8 @@ contextBridge.exposeInMainWorld('preloadAPI', {
       'windowAction',
       'toggleAdblocker',
       'downloadURL',
-      'openNewTab'
+      'openNewTab',
+      'sendFeedback'
     ]
     if (validChannels.includes(channel)) {
       if (sendsync) return ipcRenderer.sendSync(channel, data)
