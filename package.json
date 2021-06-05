@@ -3,7 +3,7 @@
   "description": "Elza incognito web browser",
   "version": "0.5.3",
   "author": {
-    "name": "ElzaBrowserAuthers",
+    "name": "ElzaBrowserAuthors",
     "email": "elzabrowser@gmail.com",
     "url": "https://elzabrowser.com/"
   },
@@ -16,13 +16,8 @@
   },
   "build": {
     "appId": "com.eeo.elzabrowser",
-    "files": [
-      "build/**/*",
-      "node_modules/**/*"
-    ],
-    "publish": [
-      "github"
-    ],
+    "files": ["build/**/*", "node_modules/**/*"],
+    "publish": ["github"],
     "directories": {
       "buildResources": "build"
     },
@@ -31,10 +26,7 @@
       "icon": "build",
       "category": "Network",
       "synopsis": "Elza incognito web browser",
-      "target": [
-        "deb",
-        "appImage"
-      ],
+      "target": ["deb", "appImage"],
       "desktop": {
         "Name": "Elza",
         "Comment": "Elza incognito web browser"
@@ -43,9 +35,7 @@
         {
           "from": "resources/lin/tor",
           "to": "resources/lin/tor",
-          "filter": [
-            "**/*"
-          ]
+          "filter": ["**/*"]
         }
       ]
     },
@@ -54,27 +44,19 @@
         {
           "from": "resources/mac/tor",
           "to": "resources/mac/tor",
-          "filter": [
-            "**/*"
-          ]
+          "filter": ["**/*"]
         }
       ]
     },
     "win": {
       "publisherName": "ExpertEvidence.org",
-      "target": [
-        "nsis",
-        "nsis-web",
-        "msi"
-      ],
+      "target": ["nsis", "nsis-web"],
       "verifyUpdateCodeSignature": false,
       "extraFiles": [
         {
           "from": "resources/win/Tor",
           "to": "resources/win/Tor",
-          "filter": [
-            "**/*"
-          ]
+          "filter": ["**/*"]
         }
       ]
     },
@@ -94,8 +76,8 @@
     }
   },
   "dependencies": {
-    "@cliqz/adblocker-electron": "^1.20.6",
-    "@testing-library/jest-dom": "^5.12.0",
+    "@cliqz/adblocker-electron": "^1.22.1",
+    "@testing-library/jest-dom": "^5.13.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^13.1.9",
     "bootstrap": "^4.6.0",
@@ -109,7 +91,7 @@
     "font-awesome": "^4.7.0",
     "get-json": "^1.0.1",
     "react": "^17.0.2",
-    "react-bootstrap": "^1.6.0",
+    "react-bootstrap": "^1.6.1",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
     "request": "^2.88.2",
@@ -133,11 +115,7 @@
     "extends": "react-app"
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
+    "production": [">0.2%", "not dead", "not op_mini all"],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
