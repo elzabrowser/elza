@@ -7,8 +7,10 @@ autoUpdater.logger.transports.file.level = 'info'
 autoUpdater.autoDownload = false
 let updatePreferene = preference.getPreference('updateMethod').updateMethod
 let updateNotificationShown = false
-if (updatePreferene == 'auto') autoUpdater.checkForUpdatesAndNotify()
-else if (updatePreferene == 'notify') {
+if (updatePreferene == 'auto') {
+  autoUpdater.autoDownload = true
+  autoUpdater.checkForUpdatesAndNotify()
+} else if (updatePreferene == 'notify') {
   autoUpdater.checkForUpdates()
   autoUpdater.on('update-available', info => {
     if (!updateNotificationShown) {
