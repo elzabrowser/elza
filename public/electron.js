@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, session } = require('electron')
+const { app, BrowserWindow, ipcMain, session, Menu } = require('electron')
 const isDev = require('electron-is-dev')
 const { ElectronBlocker } = require('@cliqz/adblocker-electron')
 const fetch = require('cross-fetch')
@@ -32,12 +32,26 @@ newwindow = type => {
     height: 600,
     minWidth: 700,
     minHeight: 350,
-    frame: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       webviewTag: true
     }
   })
+  let menuTtemplate = [
+    {
+      label: 'Menu',
+      submenu: [
+        {
+          label: 'Clear session and Reload',
+          accelerator: 'CommandOrControl+D',
+          click () {
+            newWindow.reload()
+          },
+        }
+      ]
+    }
+  ]
+  Menu.setApplicationMenu(Menu.buildFromTemplate(menuTtemplate))
   if (isDev) {
     newWindow.loadURL('http://localhost:3000')
     newWindow.openDevTools({ mode: 'detach' })
