@@ -20,7 +20,8 @@ ipcMain.on('selectDownloadPath', async (event, arg, value) => {
   let path = await dialog.showOpenDialog({
     properties: ['openDirectory']
   })
-  if (!path.filePaths[0]) return
+  if (!path.filePaths[0])
+    event.returnValue = store.get('prefs.downloadLocation')
   store.set('prefs.downloadLocation', path.filePaths[0])
   event.returnValue = path.filePaths[0]
 })
