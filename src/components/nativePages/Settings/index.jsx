@@ -2,13 +2,12 @@ import React from 'react'
 import Downloads from '../Downloads'
 import './main.css'
 import elzaLogo from '../../../assets/images/icon.png'
-import bingImg from '../../../assets/images/icons8-bing-96.png'
+import bingImg from '../../../assets/images/dark/bing.png'
 import googleImg from '../../../assets/images/dark/google.png'
 import duckImg from '../../../assets/images/dark/ddg.png'
 import ecosiaImg from '../../../assets/images/dark/ecosia.png'
-import yahooImg from '../../../assets/images/yahoo-icon.png'
-import yandexImg from '../../../assets/images/yandex-icon.png'
-import qwantImg from '../../../assets/images/qwant-icon.png'
+import yandexImg from '../../../assets/images/dark/yandex.png'
+import customImg from '../../../assets/images/dark/custom.png'
 import torImg from '../../../assets/images/tor.png'
 import About from '../../partials/About'
 
@@ -17,7 +16,7 @@ class Settings extends React.Component {
     super(props)
     this.state = {
       pref: window.preloadAPI.send('getPreference', 'all', true),
-      active: 'settings'
+      active: 'settings',
     }
   }
 
@@ -25,6 +24,12 @@ class Settings extends React.Component {
     let pref = this.state.pref
     pref.searchEngine = e
     this.setState({ pref }, this.savePreference)
+  }
+
+  onchangeHandler = e => {
+    let pref = this.state.pref
+    pref.customSearchEngine = e.target.value
+    this.setState({ pref })
   }
 
   componentDidMount () {
@@ -166,8 +171,8 @@ class Settings extends React.Component {
 
                 <br />
                 <p className={'small font-weight-light mt-1'}>
-                  <i className='fa fa-info-circle mr-2'></i> This will close
-                  your current window.
+                  <i className='fa fa-info-circle mr-2'></i> Current session
+                  will be lost.
                 </p>
               </div>
               <h5 className='font-weight-light mt-5'>Search Engine</h5>
@@ -190,7 +195,7 @@ class Settings extends React.Component {
                           : null
                       }
                       onClick={() => this.searchEngineSelector('ecosia')}
-                      title='Ecosia: Search engine that donates 80% of its profits to nonprofit organizations that focus on reforestation.'
+                      title='Ecosia: Search engine that plants trees.'
                       src={ecosiaImg}
                       alt='Ecosia'
                     />
@@ -205,20 +210,16 @@ class Settings extends React.Component {
                       src={googleImg}
                       alt='Google'
                     />
-                  </div>
-                </div>
-                <div className='ml-3 p-1 d-none'>
-                  <div className='settings-search-engine-list pt-3'>
                     <img
                       className={
-                        this.state.pref.searchEngine === 'qwant'
+                        this.state.pref.searchEngine === 'bing'
                           ? 'active'
                           : null
                       }
-                      onClick={() => this.searchEngineSelector('qwant')}
-                      title='Qwant'
-                      src={qwantImg}
-                      alt='Qwant'
+                      onClick={() => this.searchEngineSelector('bing')}
+                      title='Bing: Search engine from Microsoft.'
+                      src={bingImg}
+                      alt='Bing'
                     />
                     <img
                       className={
@@ -227,33 +228,27 @@ class Settings extends React.Component {
                           : null
                       }
                       onClick={() => this.searchEngineSelector('yandex')}
-                      title='Yandex'
+                      title="Russia's largest search engine."
                       src={yandexImg}
                       alt='Yandex'
                     />
                     <img
                       className={
-                        this.state.pref.searchEngine === 'bing'
+                        this.state.pref.searchEngine === 'custom'
                           ? 'active'
                           : null
                       }
-                      onClick={() => this.searchEngineSelector('bing')}
-                      title='Bing'
-                      src={bingImg}
-                      alt='Bing'
-                    />
-                    <img
-                      className={
-                        this.state.pref.searchEngine === 'yahoo'
-                          ? 'active'
-                          : null
-                      }
-                      onClick={() => this.searchEngineSelector('yahoo')}
-                      title='Yahoo'
-                      src={yahooImg}
-                      alt='Yahoo'
+                      onClick={() => this.searchEngineSelector('custom')}
+                      src={customImg}
+                      title='Custom search engine'
+                      alt='Custom'
                     />
                   </div>
+                  <input
+                    type='text'
+                    value={this.state.pref.customSearchEngine}
+                    onChange={this.onchangeHandler}
+                  />
                 </div>
               </div>
               <p

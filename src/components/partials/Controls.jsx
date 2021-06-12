@@ -342,13 +342,6 @@ class Controls extends React.Component {
                 defaultValue={'loading'}
               />
             </div>
-            <button id='goButton' type='submit'>
-              {this.state.webvIsLoading ? (
-                <div className='loader'></div>
-              ) : (
-                <i className='fas fa-arrow-right' />
-              )}
-            </button>
           </form>
           <DownloadPopup openDownloadsPage={this.openDownloadsPage} />
           <button

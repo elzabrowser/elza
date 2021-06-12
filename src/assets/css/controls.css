@@ -102,24 +102,6 @@
   transition: border 0ms ease-in-out;
 }
 
-#location:focus > #goButton {
-  color: var(--font-color-primary) !important;
-  background-color: var(--background-color-urlbar) !important;
-  outline: none;
-}
-
-#goButton {
-  display: none;
-  position: relative;
-  left: -33px;
-  border: none;
-  height: 26px !important;
-  margin-top: 0px !important;
-  width: 27px;
-  border-radius: 0 !important;
-  background-color: var(--background-color-secondary);
-}
-
 @keyframes loader {
   to {
     transform: rotate(360deg);

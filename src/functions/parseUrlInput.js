@@ -40,6 +40,11 @@ function parseUrlInput (url, searchEngine = defaultSearchEngine) {
     return addhttp(url)
   }
   searchEngine = searchEngine || defaultSearchEngine
-  return SEurl[searchEngine].replace('SEARCH_KW', url)
+  if (searchEngine in SEurl)
+    return SEurl[searchEngine].replace('SEARCH_KW', url)
+  else {
+    var preference = window.preloadAPI.send('getPreference', 'all', true)
+    return preference.customSearchEngine + url
+  }
 }
 export default parseUrlInput
