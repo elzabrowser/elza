@@ -17,6 +17,7 @@ class Settings extends React.Component {
     this.state = {
       pref: window.preloadAPI.send('getPreference', 'all', true),
       active: 'settings',
+      isCustomSearchEngineValid: true
     }
   }
 
@@ -29,7 +30,22 @@ class Settings extends React.Component {
   onchangeHandler = e => {
     let pref = this.state.pref
     pref.customSearchEngine = e.target.value
-    this.setState({ pref })
+    let pattern = new RegExp(
+      '^(https?:\\/\\/)?' + // protocol
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+        '(\\#[-a-z\\d_]*)?$',
+      'i'
+    ) // fragment locator
+    if (pattern.test(pref.customSearchEngine)) {
+      pref.isCustomSearchEngineValid = true
+      this.setState({ pref }, this.savePreference)
+    } else {
+      pref.isCustomSearchEngineValid = false
+      this.setState({ pref })
+    }
   }
 
   componentDidMount () {
@@ -55,6 +71,13 @@ class Settings extends React.Component {
       true
     )
     this.setState({ pref })
+  }
+  getCustomSearchClass () {
+    if (this.state.pref.searchEngine === 'custom')
+      if (!this.state.pref.isCustomSearchEngineValid)
+        return 'mt-3 preference-button custom-search custom-search-error'
+      else return 'mt-3 preference-button custom-search'
+    return 'd-none'
   }
 
   render () {
@@ -171,8 +194,7 @@ class Settings extends React.Component {
 
                 <br />
                 <p className={'small font-weight-light mt-1'}>
-                  <i className='fa fa-info-circle mr-2'></i> Current session
-                  will be lost.
+                  <i className='fa fa-info-circle mr-2'></i> Current session will be lost.
                 </p>
               </div>
               <h5 className='font-weight-light mt-5'>Search Engine</h5>
@@ -248,6 +270,7 @@ class Settings extends React.Component {
                     type='text'
                     value={this.state.pref.customSearchEngine}
                     onChange={this.onchangeHandler}
+                    className={this.getCustomSearchClass()}
                   />
                 </div>
               </div>
