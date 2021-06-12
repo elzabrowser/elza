@@ -1,0 +1,32 @@
+import React from 'react'
+import '../../assets/css/keyboard.css'
+class Keyboard extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {}
+    this.chars = { a: true, b: false, z: false }
+  }
+
+  render () {
+    return (
+      <div>
+        <div>
+          <button className='key'>Ctrl + C</button> Copy
+        </div>
+        <br />
+        <div>
+          <button className='key'>Ctrl + X</button> Cut
+        </div>
+        <br />
+        <div>
+          <button className='key'>Ctrl + V</button> Paste
+        </div>
+        <br />
+        <div>
+          <button className='key'>Ctrl + A</button> Select All
+        </div>
+      </div>
+    )
+  }
+}
+export default Keyboard

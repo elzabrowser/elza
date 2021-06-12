@@ -1,5 +1,7 @@
 import React from 'react'
 import Downloads from '../Downloads'
+import Keyboard from '../../partials/Keyboard'
+import About from '../../partials/About'
 import './main.css'
 import elzaLogo from '../../../assets/images/icon.png'
 import bingImg from '../../../assets/images/dark/bing.png'
@@ -9,7 +11,6 @@ import ecosiaImg from '../../../assets/images/dark/ecosia.png'
 import yandexImg from '../../../assets/images/dark/yandex.png'
 import customImg from '../../../assets/images/dark/custom.png'
 import torImg from '../../../assets/images/tor.png'
-import About from '../../partials/About'
 
 class Settings extends React.Component {
   constructor (props) {
@@ -113,6 +114,19 @@ class Settings extends React.Component {
             </p>
             <p
               className={
+                this.state.active === 'keyboard'
+                  ? 'h5 pt-4 scalefont'
+                  : 'font-weight-light h5 pt-4 scalefont'
+              }
+              onClick={() => {
+                this.setState({ active: 'keyboard' })
+              }}
+              role='button'
+            >
+              Shortcuts
+            </p>
+            <p
+              className={
                 this.state.active === 'about'
                   ? 'h5 pt-4 scalefont'
                   : 'font-weight-light h5 pt-4 scalefont'
@@ -194,7 +208,8 @@ class Settings extends React.Component {
 
                 <br />
                 <p className={'small font-weight-light mt-1'}>
-                  <i className='fa fa-info-circle mr-2'></i> Current session will be lost.
+                  <i className='fa fa-info-circle mr-2'></i> Current session
+                  will be lost.
                 </p>
               </div>
               <h5 className='font-weight-light mt-5'>Search Engine</h5>
@@ -206,7 +221,7 @@ class Settings extends React.Component {
                         this.state.pref.searchEngine === 'ddg' ? 'active' : null
                       }
                       onClick={() => this.searchEngineSelector('ddg')}
-                      title='DuckDuckGo: Search engine that emphasizes protecting searchers privacy.'
+                      title='DuckDuckGo: Search engine that emphasizes protecting searchers privacy'
                       src={duckImg}
                       alt='DuckDuckGo'
                     />
@@ -217,7 +232,7 @@ class Settings extends React.Component {
                           : null
                       }
                       onClick={() => this.searchEngineSelector('ecosia')}
-                      title='Ecosia: Search engine that plants trees.'
+                      title='Ecosia: Search engine that plants trees'
                       src={ecosiaImg}
                       alt='Ecosia'
                     />
@@ -228,7 +243,7 @@ class Settings extends React.Component {
                           : null
                       }
                       onClick={() => this.searchEngineSelector('google')}
-                      title='Google: Most used search engine on the World Wide Web.'
+                      title='Google: Most used search engine on the World Wide Web'
                       src={googleImg}
                       alt='Google'
                     />
@@ -239,7 +254,7 @@ class Settings extends React.Component {
                           : null
                       }
                       onClick={() => this.searchEngineSelector('bing')}
-                      title='Bing: Search engine from Microsoft.'
+                      title='Bing: Search engine from Microsoft'
                       src={bingImg}
                       alt='Bing'
                     />
@@ -250,7 +265,7 @@ class Settings extends React.Component {
                           : null
                       }
                       onClick={() => this.searchEngineSelector('yandex')}
-                      title="Russia's largest search engine."
+                      title="Yandex: Russia's largest search engine"
                       src={yandexImg}
                       alt='Yandex'
                     />
@@ -483,6 +498,9 @@ class Settings extends React.Component {
             </div>
             <div className={this.state.active === 'downloads' ? '' : 'd-none'}>
               <Downloads calledBy='settings' />
+            </div>
+            <div className={this.state.active === 'keyboard' ? 'p-3' : 'd-none'}>
+              <Keyboard />
             </div>
             <div className={this.state.active === 'about' ? 'p-3' : 'd-none'}>
               <About />

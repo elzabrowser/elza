@@ -7,7 +7,8 @@ function open (tabGroup, tab, title, src, comp, icon) {
     src: src,
     icon: icon,
     isNative: true,
-    comp: comp
+    comp: comp,
+    compProps: { calledBy: 'urlbar' }
   })
   tab.close()
   ntab.activate()
