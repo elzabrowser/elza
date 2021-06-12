@@ -11,6 +11,15 @@ class Keyboard extends React.Component {
     return (
       <div>
         <div>
+          <button className='key'>Ctrl + D</button> Clear
+          current session
+        </div>
+        <br />
+        <div>
+          <button className='key'>Ctrl + L</button> Focus URL bar
+        </div>
+        <br />
+        <div>
           <button className='key'>Ctrl + C</button> Copy
         </div>
         <br />

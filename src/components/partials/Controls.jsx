@@ -40,6 +40,9 @@ class Controls extends React.Component {
       this.setState({ tabGroup: this.props.tabGroup })
       this.tabGroupEvents(this.state.tabGroup)
     }
+    window.preloadAPI.receive('focusURLbar', () => {
+      this.inputField.focus()
+    })
   }
   handleOutsideClick (e) {
     if (this.node.contains(e.target)) {

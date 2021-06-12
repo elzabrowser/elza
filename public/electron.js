@@ -37,7 +37,7 @@ newwindow = type => {
       webviewTag: true
     }
   })
-  let menuTtemplate = [
+  let menuTemplate = [
     {
       label: 'Menu',
       submenu: [
@@ -45,13 +45,22 @@ newwindow = type => {
           label: 'Clear session and Reload',
           accelerator: 'CommandOrControl+D',
           click () {
+            session.fromPartition('temp-in-memory').clearCache()
+            session.fromPartition('temp-in-memory').clearStorageData()
             newWindow.reload()
-          },
+          }
+        },
+        {
+          label: 'Focus URLbar',
+          accelerator: 'CommandOrControl+L',
+          click () {
+            mainWindow.webContents.send('focusURLbar', {})
+          }
         }
       ]
     }
   ]
-  Menu.setApplicationMenu(Menu.buildFromTemplate(menuTtemplate))
+  Menu.setApplicationMenu(Menu.buildFromTemplate(menuTemplate))
   if (isDev) {
     newWindow.loadURL('http://localhost:3000')
     newWindow.openDevTools({ mode: 'detach' })

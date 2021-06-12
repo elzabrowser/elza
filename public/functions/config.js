@@ -29,7 +29,7 @@ ipcMain.on('selectDownloadPath', async (event, arg, value) => {
 function setPrefs () {
   prefs = {
     searchEngine: 'ddg',
-    customSearchEngine: 'https://www.qwant.com/?q=',
+    customSearchEngine: 'https://www.baidu.com/s?wd=',
     isTorEnabled: false,
     downloadLocation: 'ask',
     isAdblockEnabled: true,
