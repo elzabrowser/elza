@@ -32,10 +32,10 @@ newwindow = type => {
     height: 600,
     minWidth: 700,
     minHeight: 350,
-    frame:false,
+    frame: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      webviewTag: true
+      webviewTag: true,
     }
   })
   let menuTemplate = [
@@ -72,6 +72,15 @@ newwindow = type => {
   newWindow.once('ready-to-show', () => {
     newWindow.show()
     newWindow.maximize()
+  })
+  
+  newWindow.webContents.on('did-attach-webview', (event, contents) => {
+    contents.on('new-window', (event, url) => {
+      mainWindow.webContents.send('openInNewtab', url)
+    })
+    contents.setWindowOpenHandler(({ url }) => {
+      console.log(url)
+    })
   })
   return newWindow
 }
@@ -138,6 +147,7 @@ app.on('ready', function () {
   ipcMain.on('openNewTab', (event, url) => {
     mainWindow.webContents.send('openInNewtab', url)
   })
+
   ElectronBlocker.fromPrebuiltAdsAndTracking(fetch).then(blocker => {
     if (preference.getPreference().isAdblockEnabled)
       blocker.enableBlockingInSession(session.fromPartition('temp-in-memory'))

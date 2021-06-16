@@ -35,14 +35,16 @@ class Controls extends React.Component {
     }
     return null
   }
+  componentDidMount () {
+    window.preloadAPI.receive('focusURLbar', () => {
+      this.inputField.focus()
+    })
+  }
   componentDidUpdate (prevProps) {
     if (prevProps.tabGroup !== this.props.tabGroup) {
       this.setState({ tabGroup: this.props.tabGroup })
       this.tabGroupEvents(this.state.tabGroup)
     }
-    window.preloadAPI.receive('focusURLbar', () => {
-      this.inputField.focus()
-    })
   }
   handleOutsideClick (e) {
     if (this.node.contains(e.target)) {
@@ -111,18 +113,6 @@ class Controls extends React.Component {
           this.secureSiteCheck()
         }
       })
-    })
-    tab.webview.addEventListener('new-window', e => {
-      const url = e.url
-      if (url.endsWith('.pdf')) {
-        window.preloadAPI.send('downloadURL', url, false)
-        return
-      }
-      let newtab = this.props.tabGroup.addTab({
-        src: url,
-        isNative: false
-      })
-      newtab.activate()
     })
     tab.webview.addEventListener('enter-html-full-screen', e => {
       this.setState({ isfullScreen: true })
