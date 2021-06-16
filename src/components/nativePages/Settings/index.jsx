@@ -181,9 +181,11 @@ class Settings extends React.Component {
                   }
                   onClick={() => {
                     var pref = { ...this.state.pref }
-                    pref.isTorEnabled = !pref.isTorEnabled
-                    this.setState({ pref }, this.savePreference)
-                    window.preloadAPI.send('torWindow', '', false)
+                    if (!pref.isTorEnabled) {
+                      pref.isTorEnabled = true
+                      this.setState({ pref })
+                      window.preloadAPI.send('torWindow', '', true)
+                    }
                   }}
                 >
                   Activate
@@ -198,8 +200,8 @@ class Settings extends React.Component {
                     var pref = { ...this.state.pref }
                     if (pref.isTorEnabled) {
                       pref.isTorEnabled = false
-                      this.setState({ pref }, this.savePreference)
-                      window.preloadAPI.send('torWindow', '', false)
+                      this.setState({ pref })
+                      window.preloadAPI.send('torWindow', '', true)
                     }
                   }}
                 >
@@ -499,7 +501,9 @@ class Settings extends React.Component {
             <div className={this.state.active === 'downloads' ? '' : 'd-none'}>
               <Downloads calledBy='settings' />
             </div>
-            <div className={this.state.active === 'keyboard' ? 'p-3' : 'd-none'}>
+            <div
+              className={this.state.active === 'keyboard' ? 'p-3' : 'd-none'}
+            >
               <Keyboard />
             </div>
             <div className={this.state.active === 'about' ? 'p-3' : 'd-none'}>

@@ -1,6 +1,11 @@
 const { app, ipcMain, shell, BrowserWindow } = require('electron')
 const request = require('request')
+const preference = require('./config')
 ipcMain.on('torWindow', event => {
+  if (preference.getPreference().isTorEnabled) {
+    preference.setPreference('isTorEnabled', false)
+  } else preference.setPreference('isTorEnabled', true)
+
   //https://github.com/electron-userland/electron-builder/issues/1727
   if (process.env.APPIMAGE) {
     app.relaunch({
