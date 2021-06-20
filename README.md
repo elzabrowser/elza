@@ -1,6 +1,6 @@
 
 <div align="center">
-<img src="https://elzabrowser.com/assets/icon.webp" height="80" length="80">
+<img src="https://elzabrowser.com/assets/icon.png" height="80" length="80">
 
 # Elza Browser
 <img src="https://elzabrowser.com/assets/elza.webp" />
