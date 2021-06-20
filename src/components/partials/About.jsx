@@ -10,7 +10,6 @@ class About extends React.Component {
     }
   }
 
-  componentDidMount () {}
   handleKeyDown (e) {
     e.target.style.height = 'inherit'
     e.target.style.height = `${e.target.scrollHeight}px`
@@ -25,6 +24,8 @@ class About extends React.Component {
   openUrl = url => {
     window.preloadAPI.send('openNewTab', url, false)
   }
+
+  /*Send the feedback to main process. Sending the feedback directly from renderer will cause CORS*/
   submitFeedback = e => {
     this.setState({ sentFeedback: 'sending' })
     e.preventDefault()

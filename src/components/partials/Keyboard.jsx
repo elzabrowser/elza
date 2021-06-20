@@ -4,7 +4,6 @@ class Keyboard extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}
-    this.chars = { a: true, b: false, z: false }
   }
 
   render () {

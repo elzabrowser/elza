@@ -13,6 +13,7 @@ class Home extends React.Component {
       theme: 'dark-theme',
       isFullScreen: false,
       isFirstRender: true,
+      /* Get os platform from the main process*/
       platfom: window.preloadAPI.send('getPlatform', '', true)
     }
   }
@@ -23,6 +24,7 @@ class Home extends React.Component {
       this.setState({ isFirstRender: false })
     }
     window.preloadAPI.receive('openInNewtab', url => {
+      /* If the URI is a pdf, download the pdf as pdf won't be loading in an in memory session */
       if (url.endsWith('.pdf')) {
         window.preloadAPI.send('downloadURL', url, false)
         return

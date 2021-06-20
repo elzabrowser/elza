@@ -4,7 +4,10 @@ const notifier = require('./notifier')
 const log = require('electron-log')
 autoUpdater.logger = log
 autoUpdater.logger.transports.file.level = 'info'
+/*Disable autodownload of updates if updates are found*/
 autoUpdater.autoDownload = false
+
+/*Autupdate/notify/ignore updates based on user preference*/
 let updatePreferene = preference.getPreference('updateMethod').updateMethod
 let updateNotificationShown = false
 if (updatePreferene == 'auto') {

@@ -1,6 +1,7 @@
 const { app } = require('electron')
 const path = require('path')
 
+/*spawn the tor process by executing the tor binary bundled with elza*/
 async function connect_tor () {
   const root = process.cwd()
   const { isPackaged } = app

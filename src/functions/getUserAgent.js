@@ -1,3 +1,5 @@
+/*We are using the latest Firefox useragent for the platform*/
+
 var USER_AGENT =
   'Mozilla/5.0 (X11; Linux x86_64; rv:VERSION) Gecko/20100101 Firefox/VERSION'
 var currentVersion = '90.0'

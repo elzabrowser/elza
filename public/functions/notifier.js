@@ -1,3 +1,18 @@
+/* Notify users regarding critical security issues, elza updates, broken updates etc.
+Notification json is having following structure
+{
+    "ID": {
+        "title": "Important Update",
+        "message": "Version X.x is available",
+        "versions": [
+            "5.4"
+        ],
+        "olderthan": "",
+        "url": ""
+    }
+  }
+
+*/
 const { app } = require('electron')
 const { Notification } = require('electron')
 const semver = require('semver')
@@ -6,7 +21,7 @@ const getJSON = require('get-json')
 const path = require('path')
 const notificationURL = 'https://elzabrowser.com/notifications.json'
 
-//declare globally to avoid garbage collection
+/*declare globally to avoid garbage collection*/
 let notification
 function showNotification (title, message, callback) {
   //https://stackoverflow.com/questions/65859634/notification-from-electron-shows-electron-app-electron
@@ -30,8 +45,15 @@ function checkMessages () {
     let notificationShown = false
     getJSON(notificationURL, function (error, notifications) {
       if (error) return
+      /* Get list of visited notifications, so that we don't have to show them again*/
       let visitedNotifications = preference.getPreference().notifications
       for (let notification in notifications) {
+        /*Show the notification if
+        - its not visited 
+        - notification is for all versions
+        - notification is for this specific version
+        - current version is lesser than the one specified in the notification
+        */
         if (
           !notificationShown &&
           !visitedNotifications.includes(notification) &&
@@ -45,6 +67,7 @@ function checkMessages () {
             notifications[notification].title,
             notifications[notification].message,
             () => {
+              /*Treat the notification as visited once the user clicks on it*/
               preference.setPreference(
                 'notifications',
                 visitedNotifications.concat(notification)

@@ -99,6 +99,7 @@ class Controls extends React.Component {
       let tabs = [...this.state.tabs]
       let url = tab.webview.src
       tabs[tab.id].url = url
+      /* If the URI is a pdf, download the pdf as pdf won't be loading in an in memory session */
       if (url.endsWith('.pdf')) {
         window.preloadAPI.send('downloadURL', url, false)
       }

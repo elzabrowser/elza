@@ -21,7 +21,7 @@ app.on('window-all-closed', function () {
   app.quit()
 })
 
-newwindow = type => {
+newwindow = () => {
   newWindow = new BrowserWindow({
     title: 'Elza Browser',
     titleBarStyle: 'hiddenInset',
@@ -35,7 +35,7 @@ newwindow = type => {
     frame: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      webviewTag: true,
+      webviewTag: true
     }
   })
   let menuTemplate = [
@@ -73,11 +73,14 @@ newwindow = type => {
     newWindow.show()
     newWindow.maximize()
   })
-  
+
   newWindow.webContents.on('did-attach-webview', (event, contents) => {
+    /* Capture new-window events from webview and open a new tab with the url
+    Not working on electron versions>9 */
     contents.on('new-window', (event, url) => {
       mainWindow.webContents.send('openInNewtab', url)
     })
+    /*Recommended method as the above method is deprecated. Not getting triggered*/
     contents.setWindowOpenHandler(({ url }) => {
       console.log(url)
     })
@@ -86,7 +89,8 @@ newwindow = type => {
 }
 
 updateDownloadList = () => {
-  if (!downloads) return //downloads are destroyed when elza is restarting
+  /*downloads gets destroyed when elza is restarting*/
+  if (!downloads) return 
   let sortedDownloads = {}
   Object.keys(downloads)
     .sort((a, b) => b - a)
@@ -100,8 +104,10 @@ ipcMain.on('getDownloads', event => {
 })
 
 app.on('ready', function () {
+  /*Start check for elza updates*/
   require('./functions/autoupdator')
   mainWindow = newwindow()
+  /*Handle file download events from webview*/
   session
     .fromPartition('temp-in-memory')
     .on('will-download', (event, item, webContents) => {
@@ -148,6 +154,7 @@ app.on('ready', function () {
     mainWindow.webContents.send('openInNewtab', url)
   })
 
+  /*Enable or disable adblocker based on user preference*/
   ElectronBlocker.fromPrebuiltAdsAndTracking(fetch).then(blocker => {
     if (preference.getPreference().isAdblockEnabled)
       blocker.enableBlockingInSession(session.fromPartition('temp-in-memory'))
@@ -161,6 +168,7 @@ app.on('ready', function () {
     })
   })
 
+  /* Allow or deny special permissions like camera,mic,location etc. based on user preference*/
   session
     .fromPartition('temp-in-memory')
     .setPermissionRequestHandler((webContents, permission, callback) => {
@@ -180,7 +188,7 @@ app.on('ready', function () {
     })
 })
 
-//electron-context-menu options
+/*electron-context-menu options*/
 app.on('web-contents-created', (e, contents) => {
   if (contents.getType() == 'webview') {
     contextMenu({

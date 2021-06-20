@@ -16,6 +16,7 @@ ipcMain.on('setPreference', (event, prefs) => {
   event.returnValue = true
 })
 
+/*Select file download location*/
 ipcMain.on('selectDownloadPath', async (event, arg, value) => {
   let path = await dialog.showOpenDialog({
     properties: ['openDirectory']
@@ -26,6 +27,7 @@ ipcMain.on('selectDownloadPath', async (event, arg, value) => {
   event.returnValue = path.filePaths[0]
 })
 
+/*Set default preference if it's not already set*/
 function setPrefs () {
   prefs = {
     searchEngine: 'ddg',
@@ -44,19 +46,23 @@ function setPrefs () {
   })
 }
 
+/* Get the complete preference object*/
 function getPreference () {
   return store.get('prefs')
 }
 
+/* Set the complete preference object*/
 function setAllPreference (prefs) {
   Object.keys(prefs).forEach(function (pref) {
     store.set('prefs.' + pref, prefs[pref])
   })
 }
 
+/* Get individual preference*/
 function setPreference (key, value) {
   store.set('prefs.' + key, value)
 }
+
 module.exports = {
   getPreference: getPreference,
   setPreference: setPreference
