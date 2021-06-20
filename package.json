@@ -48,8 +48,8 @@
           ]
         },
         {
-          "from": "/usr/lib/x86_64-linux-gnu/libevent.so",
-          "to": "usr/lib/libevent.so"
+          "from": "/usr/lib/x86_64-linux-gnu/libevent-2.1.so.7",
+          "to": "usr/lib/x86_64-linux-gnu/libevent-2.1.so.7"
         }
       ]
     },
