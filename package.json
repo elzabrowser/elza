@@ -49,7 +49,7 @@
         },
         {
           "from": "/usr/lib/x86_64-linux-gnu/libevent-2.1.so.7",
-          "to": "usr/lib/x86_64-linux-gnu/libevent-2.1.so.7"
+          "to": "usr/lib/libevent-2.1.so.7"
         }
       ]
     },
@@ -90,6 +90,7 @@
       "artifactName": "ElzaBrowser.WebSetup.${version}.${ext}"
     },
     "deb": {
+      "artifactName": "ElzaBrowser.Setup.${version}.Ubuntu20.04.${ext}",
       "icon": "public/icon32x32.png",
       "depends": [
         "gconf2",
