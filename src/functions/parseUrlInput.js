@@ -4,7 +4,7 @@ var SEurl = {
   ddg: 'https://duckduckgo.com/?q=SEARCH_KW',
   ecosia: 'https://www.ecosia.org/search?q=SEARCH_KW',
   yandex: 'https://yandex.com/search/?text=SEARCH_KW',
-  bing: 'https://www.bing.com/search?q=SEARCH_KW',
+  baidu: 'https://www.baidu.com/s?wd=SEARCH_KW',
   yahoo: 'https://search.yahoo.com/search?p=SEARCH_KW'
 }
 function isValidURL (str) {

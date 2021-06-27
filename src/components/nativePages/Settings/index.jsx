@@ -4,7 +4,7 @@ import Keyboard from '../../partials/Keyboard'
 import About from '../../partials/About'
 import './main.css'
 import elzaLogo from '../../../assets/images/icon.png'
-import bingImg from '../../../assets/images/dark/bing.png'
+import baiduImg from '../../../assets/images/dark/baidu.png'
 import googleImg from '../../../assets/images/dark/google.png'
 import duckImg from '../../../assets/images/dark/ddg.png'
 import ecosiaImg from '../../../assets/images/dark/ecosia.png'
@@ -251,14 +251,14 @@ class Settings extends React.Component {
                     />
                     <img
                       className={
-                        this.state.pref.searchEngine === 'bing'
+                        this.state.pref.searchEngine === 'baidu'
                           ? 'active'
                           : null
                       }
-                      onClick={() => this.searchEngineSelector('bing')}
-                      title='Bing: Search engine from Microsoft'
-                      src={bingImg}
-                      alt='Bing'
+                      onClick={() => this.searchEngineSelector('baidu')}
+                      title='Baidu: Dominant Chinese internet search engine'
+                      src={baiduImg}
+                      alt='Baidu'
                     />
                     <img
                       className={
