@@ -25,7 +25,12 @@ contextBridge.exposeInMainWorld('preloadAPI', {
     } else console.log('channel not whitelisted ', channel)
   },
   receive: (channel, func) => {
-    let validChannels = ['downloadsChanged', 'openInNewtab', 'focusURLbar']
+    let validChannels = [
+      'downloadsChanged',
+      'openInNewtab',
+      'focusURLbar',
+      'newTab'
+    ]
     if (validChannels.includes(channel)) {
       ipcRenderer.on(channel, (event, ...args) => {
         func(...args)

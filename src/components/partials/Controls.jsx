@@ -39,6 +39,17 @@ class Controls extends React.Component {
     window.preloadAPI.receive('focusURLbar', () => {
       this.inputField.focus()
     })
+    window.preloadAPI.receive('newTab', () => {
+      let newtab = this.state.tabGroup.addTab({
+        title: 'Home',
+        src: '',
+        icon: 'fa fa-grip-horizontal',
+        iconURL: 'icon.png',
+        isNative: true,
+        comp: BlankTab
+      })
+      newtab.activate()
+    })
   }
   componentDidUpdate (prevProps) {
     if (prevProps.tabGroup !== this.props.tabGroup) {

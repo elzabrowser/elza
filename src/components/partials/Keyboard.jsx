@@ -10,8 +10,11 @@ class Keyboard extends React.Component {
     return (
       <div>
         <div>
-          <button className='key'>Ctrl + D</button> Clear
-          current session
+          <button className='key'>Ctrl + D</button> Clear current session
+        </div>
+        <br />
+        <div>
+          <button className='key'>Ctrl + T</button> Add new tab
         </div>
         <br />
         <div>

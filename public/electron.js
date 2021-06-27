@@ -57,7 +57,14 @@ newwindow = () => {
           click () {
             mainWindow.webContents.send('focusURLbar', {})
           }
-        }
+        },
+        {
+          label: 'Add a new tab',
+          accelerator: 'CommandOrControl+T',
+          click () {
+            mainWindow.webContents.send('newTab', {})
+          }
+        },
       ]
     }
   ]

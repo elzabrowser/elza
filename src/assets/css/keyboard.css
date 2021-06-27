@@ -16,3 +16,7 @@
   cursor: default !important;
   margin-right: 30px;
 }
+div{
+  font-weight: 300;
+  font-size: 15px;
+}
