@@ -107,14 +107,14 @@
     }
   },
   "dependencies": {
-    "@cliqz/adblocker-electron": "^1.22.1",
-    "@testing-library/jest-dom": "^5.13.0",
-    "@testing-library/react": "^11.2.7",
+    "@cliqz/adblocker-electron": "^1.22.2",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^13.1.9",
     "bootstrap": "^4.6.0",
     "cross-env": "^7.0.3",
     "cross-fetch": "^3.1.4",
-    "electron-context-menu": "^3.1.0",
+    "electron-context-menu": "^3.1.1",
     "electron-is-dev": "^2.0.0",
     "electron-log": "^4.3.5",
     "electron-store": "^8.0.0",
@@ -131,10 +131,10 @@
   },
   "devDependencies": {
     "concurrently": "^6.2.0",
-    "electron": "13.1.2",
+    "electron": "13.1.4",
     "electron-builder": "^22.11.7",
     "electron-packager": "^15.2.0",
-    "wait-on": "^5.3.0"
+    "wait-on": "^6.0.0"
   },
   "scripts": {
     "electron-dev": "cross-env BROWSER=none concurrently \"react-scripts start\" \"wait-on http://localhost:3000 && electron .\"",
