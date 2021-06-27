@@ -191,9 +191,8 @@ class Tab extends EventEmitter {
     this.webviewAttributes.partition = 'temp-in-memory'
     this.webviewAttributes.userAgent = getUserAgent
     /* Enable or disable javascript on the webview based on the current user preference*/
-    if (window.preloadAPI.send('getPreference', 'javascriptEnabled', true))
-      this.webviewAttributes.webpreferences = 'sandbox=true'
-    else this.webviewAttributes.webpreferences = 'sandbox=true, javascript=no'
+    if (!window.preloadAPI.send('getPreference', 'javascriptEnabled', true))
+      this.webviewAttributes.webpreferences = 'javascript=no'
     this.src = args.src
     this.tabElements = {}
     TabPrivate.initTab.bind(this)()

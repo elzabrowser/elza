@@ -75,14 +75,15 @@ newwindow = () => {
   })
 
   newWindow.webContents.on('did-attach-webview', (event, contents) => {
-    /* Capture new-window events from webview and open a new tab with the url
-    Not working on electron versions>9 */
-    contents.on('new-window', (event, url) => {
-      mainWindow.webContents.send('openInNewtab', url)
-    })
-    /*Recommended method as the above method is deprecated. Not getting triggered*/
     contents.setWindowOpenHandler(({ url }) => {
-      console.log(url)
+      /*Remove urlencoded characters from url. If bing search engine is used, 
+      it adds 'https://www.bing.com/newtabredir?url=' infront of the the url 
+      in new-window event, remove it.*/
+      url = decodeURIComponent(
+        url.replace('https://www.bing.com/newtabredir?url=', '')
+      )
+      mainWindow.webContents.send('openInNewtab', url)
+      return { action: 'deny' }
     })
   })
   return newWindow
@@ -90,7 +91,7 @@ newwindow = () => {
 
 updateDownloadList = () => {
   /*downloads gets destroyed when elza is restarting*/
-  if (!downloads) return 
+  if (!downloads) return
   let sortedDownloads = {}
   Object.keys(downloads)
     .sort((a, b) => b - a)
